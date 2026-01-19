@@ -8,7 +8,8 @@ import { PieceComparisonTable } from "./components/PieceComparisonTable"
 import { SearchHistory } from "./components/SearchHistory"
 import { PieceSearchCriteria, PieceResult, PieceSearch } from "@/lib/fournisseur/types"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Search, History, TrendingDown } from "lucide-react"
+import { Search, History, TrendingDown, FileText } from "lucide-react"
+import { QapterUpload } from "./components/QapterUpload"
 
 export default function FournisseurPage() {
   const [results, setResults] = useState<PieceResult[]>([])
@@ -80,34 +81,38 @@ export default function FournisseurPage() {
     <AuthenticatedLayout>
       <div className="space-y-6 relative z-0">
         <div className="space-y-2">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-bordeaux-400 via-bordeaux-300 to-bordeaux-500 bg-clip-text text-transparent drop-shadow-sm">
+          <h1 className="page-title">
             Fournisseurs
           </h1>
-          <p className="text-gray-400 text-lg">
+          <p className="text-gray-900 text-lg">
             Recherche et comparaison de pièces de rechange sur 6 sites fournisseurs
           </p>
         </div>
 
         <Tabs defaultValue="search" className="space-y-6">
-          <TabsList className="bg-white/10 backdrop-blur-lg border border-white/20 border-bordeaux-500/30 shadow-xl">
-            <TabsTrigger value="search" className="flex items-center space-x-2 text-white data-[state=active]:text-white data-[state=active]:bg-bordeaux-500/30">
+          <TabsList className="bg-white border border-gray-300 border-bordeaux-500/30 shadow-md">
+            <TabsTrigger value="search" className="flex items-center space-x-2 text-gray-900 data-[state=active]:text-white data-[state=active]:bg-bordeaux-600">
               <Search className="h-4 w-4" />
               <span>Recherche</span>
             </TabsTrigger>
-            <TabsTrigger value="comparison" className="flex items-center space-x-2 text-white data-[state=active]:text-white data-[state=active]:bg-bordeaux-500/30">
+            <TabsTrigger value="comparison" className="flex items-center space-x-2 text-gray-900 data-[state=active]:text-white data-[state=active]:bg-bordeaux-600">
               <TrendingDown className="h-4 w-4" />
               <span>Comparaison</span>
             </TabsTrigger>
-            <TabsTrigger value="history" className="flex items-center space-x-2 text-white data-[state=active]:text-white data-[state=active]:bg-bordeaux-500/30">
+            <TabsTrigger value="history" className="flex items-center space-x-2 text-gray-900 data-[state=active]:text-white data-[state=active]:bg-bordeaux-600">
               <History className="h-4 w-4" />
               <span>Historique</span>
+            </TabsTrigger>
+            <TabsTrigger value="qapter" className="flex items-center space-x-2 text-gray-900 data-[state=active]:text-white data-[state=active]:bg-bordeaux-600">
+              <FileText className="h-4 w-4" />
+              <span>Qapter</span>
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="search" className="space-y-6">
-            <div className="bg-white/10 backdrop-blur-lg border border-white/20 border-bordeaux-500/30 rounded-lg p-4 shadow-xl">
-              <h3 className="font-bold text-white mb-2">Recherche de pièces</h3>
-              <p className="text-sm text-gray-300">
+            <div className="bg-white border border-bordeaux-200 rounded-lg p-4 shadow-md">
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Recherche de pièces</h3>
+              <p className="text-sm text-gray-900">
                 Recherchez des pièces de rechange sur jusqu'à 6 sites fournisseurs différents. 
                 Comparez les prix, disponibilités et délais de livraison.
               </p>
@@ -128,7 +133,7 @@ export default function FournisseurPage() {
               <PieceComparisonTable results={foundResults} />
             ) : (
               <div className="text-center py-12">
-                <p className="text-gray-400">
+                <p className="text-gray-900">
                   Effectuez une recherche pour voir la comparaison des prix
                 </p>
               </div>
@@ -137,6 +142,17 @@ export default function FournisseurPage() {
 
           <TabsContent value="history">
             <SearchHistory onReloadSearch={handleReloadSearch} />
+          </TabsContent>
+
+          <TabsContent value="qapter" className="space-y-6">
+            <div className="bg-white border border-bordeaux-200 rounded-lg p-4 shadow-md">
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Import Qapter</h3>
+              <p className="text-sm text-gray-900">
+                Importez un dossier Qapter et l'IA identifiera automatiquement les pièces à rechercher 
+                sur les 6 sites fournisseurs configurés.
+              </p>
+            </div>
+            <QapterUpload />
           </TabsContent>
         </Tabs>
       </div>

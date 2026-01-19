@@ -176,7 +176,7 @@ export default async function DossierDetailPage({
     return (
       <AuthenticatedLayout>
         <div className="text-center py-12">
-          <p className="text-gray-300">Dossier introuvable</p>
+          <p className="text-gray-900">Dossier introuvable</p>
           <Link href="/dossiers">
             <Button className="mt-4">Retour à la liste</Button>
           </Link>
@@ -207,7 +207,7 @@ export default async function DossierDetailPage({
             </Link>
             <div>
               <h1 className="text-3xl font-bold">{dossier.dossier_id}</h1>
-              <p className="text-gray-300 mt-1">
+              <p className="text-gray-900 mt-1">
                 {dossier.clients?.nom} - {dossier.vehicules?.marque}{" "}
                 {dossier.vehicules?.modele}
               </p>
@@ -231,52 +231,52 @@ export default async function DossierDetailPage({
             </CardHeader>
             <CardContent className="space-y-3">
               <div>
-                <p className="text-sm text-gray-300">Client</p>
+                <p className="text-sm text-gray-900">Client</p>
                 <p className="font-medium">{dossier.clients?.nom || "-"}</p>
                 {dossier.clients?.telephone && (
-                  <p className="text-sm text-gray-300">
+                  <p className="text-sm text-gray-900">
                     {dossier.clients.telephone}
                   </p>
                 )}
                 {dossier.clients?.email && (
-                  <p className="text-sm text-gray-300">{dossier.clients.email}</p>
+                  <p className="text-sm text-gray-900">{dossier.clients.email}</p>
                 )}
               </div>
               <div>
-                <p className="text-sm text-gray-300">Véhicule</p>
+                <p className="text-sm text-gray-900">Véhicule</p>
                 <p className="font-medium">
                   {dossier.vehicules?.marque} {dossier.vehicules?.modele}
                 </p>
                 {dossier.vehicules?.immatriculation && (
-                  <p className="text-sm text-gray-300">
+                  <p className="text-sm text-gray-900">
                     {dossier.vehicules.immatriculation}
                   </p>
                 )}
               </div>
               <div>
-                <p className="text-sm text-gray-300">Assureur</p>
+                <p className="text-sm text-gray-900">Assureur</p>
                 <p className="font-medium">{dossier.assureur || "-"}</p>
               </div>
               <div>
-                <p className="text-sm text-gray-300">Expert</p>
+                <p className="text-sm text-gray-900">Expert</p>
                 <p className="font-medium">{dossier.expert || "-"}</p>
                 {dossier.expert_email && (
-                  <p className="text-sm text-gray-300">{dossier.expert_email}</p>
+                  <p className="text-sm text-gray-900">{dossier.expert_email}</p>
                 )}
               </div>
               <div>
-                <p className="text-sm text-gray-300">Montant estimé</p>
+                <p className="text-sm text-gray-900">Montant estimé</p>
                 <p className="font-medium text-lg">
                   {formatCurrency(dossier.montant_estime)}
                 </p>
               </div>
               <div>
-                <p className="text-sm text-gray-300">Date d'entrée</p>
+                <p className="text-sm text-gray-900">Date d'entrée</p>
                 <p className="font-medium">{formatDate(dossier.date_entree)}</p>
               </div>
               {dossier.notes && (
                 <div>
-                  <p className="text-sm text-gray-300">Notes</p>
+                  <p className="text-sm text-gray-900">Notes</p>
                   <p className="text-sm">{dossier.notes}</p>
                 </div>
               )}
@@ -290,7 +290,7 @@ export default async function DossierDetailPage({
             </CardHeader>
             <CardContent>
               {checklist.length === 0 ? (
-                <p className="text-sm text-gray-300">Aucun élément de checklist</p>
+                <p className="text-sm text-gray-900">Aucun élément de checklist</p>
               ) : (
                 <div className="space-y-2">
                   {checklist.map((item: any) => (
@@ -301,12 +301,12 @@ export default async function DossierDetailPage({
                       {item.est_coche ? (
                         <CheckCircle2 className="h-5 w-5 text-green-600" />
                       ) : (
-                        <Circle className="h-5 w-5 text-gray-400" />
+                        <Circle className="h-5 w-5 text-gray-900" />
                       )}
                       <div className="flex-1">
                         <p className="text-sm font-medium">{item.libelle}</p>
                         {item.document_requis && (
-                          <p className="text-xs text-gray-300">
+                          <p className="text-xs text-gray-900">
                             Document requis: {item.document_requis}
                           </p>
                         )}
@@ -337,7 +337,7 @@ export default async function DossierDetailPage({
           </CardHeader>
           <CardContent>
             {documents.length === 0 ? (
-              <p className="text-sm text-gray-300">Aucun document</p>
+              <p className="text-sm text-gray-900">Aucun document</p>
             ) : (
               <div className="space-y-2">
                 {documents.map((doc: any) => (
@@ -347,7 +347,7 @@ export default async function DossierDetailPage({
                   >
                     <div>
                       <p className="font-medium">{doc.nom_fichier}</p>
-                      <p className="text-sm text-gray-300">
+                      <p className="text-sm text-gray-900">
                         {doc.type} • {formatDate(doc.created_at)}
                       </p>
                     </div>
@@ -380,7 +380,7 @@ export default async function DossierDetailPage({
           </CardHeader>
           <CardContent>
             {communications.length === 0 ? (
-              <p className="text-sm text-gray-300">Aucune communication</p>
+              <p className="text-sm text-gray-900">Aucune communication</p>
             ) : (
               <div className="space-y-3">
                 {communications.map((comm: any) => (
@@ -391,11 +391,11 @@ export default async function DossierDetailPage({
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center space-x-2">
                         <Badge variant="outline">{comm.type}</Badge>
-                        <span className="text-sm text-gray-300">
+                        <span className="text-sm text-gray-900">
                           {comm.destinataire}
                         </span>
                       </div>
-                      <span className="text-xs text-gray-300">
+                      <span className="text-xs text-gray-900">
                         {formatDateTime(comm.sent_at)}
                       </span>
                     </div>
@@ -427,7 +427,7 @@ export default async function DossierDetailPage({
                       <p className="font-medium">
                         {formatCurrency(payment.montant)}
                       </p>
-                      <p className="text-sm text-gray-300">
+                      <p className="text-sm text-gray-900">
                         Statut: {payment.statut} •{" "}
                         {payment.date_facture && formatDate(payment.date_facture)}
                       </p>

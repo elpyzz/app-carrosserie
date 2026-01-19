@@ -23,7 +23,7 @@ export function Navbar() {
       {/* Mobile menu button */}
       <button
         onClick={() => setIsMobileOpen(!isMobileOpen)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-white/10 backdrop-blur-lg border border-white/20 border-bordeaux-500/30 rounded-lg text-white hover:bg-white/20 transition-all"
+        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-white border border-bordeaux-300 rounded-lg text-gray-900 hover:bg-gray-50 transition-all shadow-md"
       >
         {isMobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
       </button>
@@ -33,19 +33,19 @@ export function Navbar() {
         isMobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
       }`}>
       {/* Logo */}
-      <div className="p-6 border-b border-white/20 border-bordeaux-500/30">
+      <div className="p-6 border-b border-bordeaux-200">
         <Link 
           href="/dashboard" 
           className="flex items-center space-x-3 group"
         >
-          <div className="bg-gradient-to-br from-bordeaux-600 via-bordeaux-700 to-bordeaux-800 p-3 rounded-xl shadow-xl shadow-bordeaux-900/30 group-hover:shadow-2xl group-hover:shadow-bordeaux-900/40 transition-all duration-300 transform group-hover:scale-105">
-            <Car className="h-6 w-6 text-white drop-shadow-lg" />
+          <div className="bg-bordeaux-600 p-3 rounded-xl shadow-md group-hover:shadow-lg transition-all duration-300">
+            <Car className="h-6 w-6 text-white" />
           </div>
           <div>
-            <div className="text-xl font-bold text-white tracking-tight">
+            <div className="text-xl font-bold text-gray-900 tracking-tight">
               Garage Rousseau
             </div>
-            <div className="text-xs text-gray-400 font-medium">
+            <div className="text-xs text-gray-900 font-medium">
               Gestion Sinistres
             </div>
           </div>
@@ -64,11 +64,11 @@ export function Navbar() {
               onClick={() => setIsMobileOpen(false)}
               className={`flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-300 relative group ${
                 isActive
-                  ? "bg-gradient-to-r from-bordeaux-700 to-bordeaux-800 text-white shadow-xl shadow-bordeaux-900/40 border border-bordeaux-600/30"
-                  : "text-gray-300 hover:bg-white/10 hover:text-white border border-transparent hover:border-white/20"
+                  ? "bg-bordeaux-600 text-white shadow-md border border-bordeaux-700"
+                  : "text-gray-900 hover:bg-gray-100 hover:text-gray-900 border border-transparent hover:border-bordeaux-200"
               }`}
             >
-              <Icon className={`h-5 w-5 ${isActive ? "text-white" : "text-gray-400 group-hover:text-white"}`} />
+              <Icon className={`h-5 w-5 ${isActive ? "text-white" : "text-gray-900 group-hover:text-gray-900"}`} />
               <span>{item.label}</span>
               {isActive && (
                 <div className="absolute right-2 w-2 h-2 bg-white rounded-full"></div>
@@ -79,13 +79,13 @@ export function Navbar() {
       </nav>
 
       {/* Bottom section */}
-      <div className="p-4 border-t border-white/20 border-bordeaux-500/30 space-y-2">
+      <div className="p-4 border-t border-bordeaux-200 space-y-2">
         <Link
           href="/settings"
           className={`flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${
             pathname === "/settings"
-              ? "bg-gradient-to-r from-bordeaux-700 to-bordeaux-800 text-white shadow-xl shadow-bordeaux-900/40"
-              : "text-gray-300 hover:bg-white/10 hover:text-white"
+              ? "bg-bordeaux-600 text-white shadow-md border border-bordeaux-700"
+              : "text-gray-900 hover:bg-gray-100 hover:text-gray-900"
           }`}
         >
           <Settings className="h-5 w-5" />
@@ -95,7 +95,7 @@ export function Navbar() {
           <Button 
             type="submit" 
             variant="ghost" 
-            className="w-full justify-start text-gray-300 hover:text-white hover:bg-white/10 border border-transparent hover:border-white/20 transition-all duration-300"
+            className="w-full justify-start text-gray-900 hover:text-gray-900 hover:bg-gray-100 border border-transparent hover:border-bordeaux-200 transition-all duration-300"
           >
             <LogOut className="h-5 w-5 mr-3" />
             Déconnexion
@@ -107,7 +107,7 @@ export function Navbar() {
     {/* Mobile overlay */}
     {isMobileOpen && (
       <div
-        className="lg:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+        className="lg:hidden fixed inset-0 bg-black/20 z-40"
         onClick={() => setIsMobileOpen(false)}
       />
     )}

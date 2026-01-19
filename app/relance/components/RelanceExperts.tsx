@@ -86,7 +86,7 @@ export function RelanceExperts() {
     <Card className="card-gradient">
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center space-x-2 text-white">
+          <CardTitle className="flex items-center space-x-2 text-primary drop-shadow-[0_2px_8px_rgba(0,0,0,0.25)]">
             <UserCheck className="h-5 w-5 text-bordeaux-400" />
             <span>Relances experts</span>
           </CardTitle>
@@ -105,7 +105,7 @@ export function RelanceExperts() {
         {/* Filtres */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-300" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-900" />
             <Input
               placeholder="Rechercher (dossier, client, expert)..."
               value={search}
@@ -139,12 +139,12 @@ export function RelanceExperts() {
         {loading ? (
           <div className="text-center py-12">
             <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-bordeaux-400"></div>
-            <p className="text-gray-300 mt-2">Chargement...</p>
+            <p className="text-gray-900 mt-2">Chargement...</p>
           </div>
         ) : filteredRelances.length === 0 ? (
           <div className="text-center py-12">
-            <UserCheck className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <p className="text-gray-300">Aucune relance expert nécessaire</p>
+            <UserCheck className="h-12 w-12 text-gray-900 mx-auto mb-4" />
+            <p className="text-gray-900">Aucune relance expert nécessaire</p>
           </div>
         ) : (
           <div className="space-y-3">
@@ -158,25 +158,25 @@ export function RelanceExperts() {
                     <div className="flex items-center space-x-3 mb-2">
                       <Link
                         href={`/dossiers/${relance.dossier_id}`}
-                        className="font-bold text-lg text-bordeaux-300 hover:text-bordeaux-200 hover:underline"
+                        className="font-bold text-lg text-bordeaux-700 hover:text-bordeaux-800 hover:underline"
                       >
                         {relance.dossier?.dossier_id || "N/A"}
                       </Link>
                       {relance.jours_depuis_entree > 15 && (
-                        <Badge className="bg-bordeaux-500/30 text-bordeaux-200 border border-bordeaux-500/50 backdrop-blur-sm">
+                        <Badge className="bg-bordeaux-500/30 text-bordeaux-800 border border-bordeaux-500/50 backdrop-blur-sm">
                           Retard > 15 jours
                         </Badge>
                       )}
-                      <Badge className="bg-white/15 text-gray-200 border border-white/30 backdrop-blur-sm">
+                      <Badge className="bg-gray-100 text-gray-900 border border-gray-300">
                         {relance.jours_depuis_relance} jour{relance.jours_depuis_relance > 1 ? "s" : ""} depuis dernière relance
                       </Badge>
                       {relance.nombre_relances > 0 && (
-                        <Badge className="bg-white/15 text-gray-200 border border-white/30 backdrop-blur-sm">
+                        <Badge className="bg-gray-100 text-gray-900 border border-gray-300">
                           {relance.nombre_relances} relance{relance.nombre_relances > 1 ? "s" : ""}
                         </Badge>
                       )}
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-sm text-gray-300 mb-2">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-sm text-gray-900 mb-2">
                       <div>
                         <span className="font-medium">Client:</span> {relance.dossier?.clients?.nom || "-"}
                       </div>
@@ -188,7 +188,7 @@ export function RelanceExperts() {
                         <span className="font-medium">Expert:</span> {relance.dossier?.expert || "-"}
                       </div>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-300 mb-2">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-900 mb-2">
                       <div>
                         <span className="font-medium">Email expert:</span> {relance.dossier?.expert_email || "-"}
                       </div>
@@ -203,7 +203,7 @@ export function RelanceExperts() {
                       </Badge>
                     </div>
                     {relance.dossier?.date_derniere_relance_expert && (
-                      <div className="mt-2 text-sm text-gray-400">
+                      <div className="mt-2 text-sm text-gray-900">
                         Dernière relance: {formatDate(relance.dossier.date_derniere_relance_expert)}
                       </div>
                     )}
@@ -249,7 +249,7 @@ export function RelanceExperts() {
         {/* Résumé */}
         {!loading && filteredRelances.length > 0 && (
           <div className="pt-4 border-t border-white/30">
-            <p className="text-sm text-gray-300">
+            <p className="text-sm text-gray-900">
               {filteredRelances.length} dossier{filteredRelances.length > 1 ? "s" : ""} nécessitant une relance expert
             </p>
           </div>

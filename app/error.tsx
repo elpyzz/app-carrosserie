@@ -7,18 +7,14 @@ export default function Error({
   error: Error & { digest?: string }
   reset: () => void
 }) {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 via-rose-50/40 to-gray-50">
-      <div className="text-center space-y-4 p-8 bg-white rounded-xl shadow-lg border-2 border-gray-200">
-        <h2 className="text-2xl font-bold text-red-700">Une erreur est survenue</h2>
-        <p className="text-gray-600">{error.message || "Erreur inconnue"}</p>
-        <button
-          onClick={reset}
-          className="px-6 py-3 bg-gradient-to-r from-red-700 to-red-800 text-white rounded-lg hover:from-red-800 hover:to-red-900 transition-colors"
-        >
-          Réessayer
-        </button>
-      </div>
-    </div>
-  )
+  // #region agent log
+  fetch('http://127.0.0.1:7242/ingest/dd01c13f-3adb-44dd-ab15-9d28649f71ca',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'app/error.tsx:7',message:'Error boundary rendered',data:{errorMessage:error?.message,errorStack:error?.stack?.substring(0,200),digest:error?.digest},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+  fetch('http://127.0.0.1:7242/ingest/dd01c13f-3adb-44dd-ab15-9d28649f71ca',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'app/error.tsx:8',message:'Error component rendering',data:{hasError:!!error,errorType:error?.constructor?.name},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
+  // #endregion
+
+  // Ne rien afficher - l'erreur sera loggée dans la console uniquement
+  console.error("Error boundary caught:", error)
+  
+  // Retourner null pour ne rien afficher
+  return null
 }

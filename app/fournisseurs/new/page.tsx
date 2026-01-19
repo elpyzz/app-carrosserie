@@ -77,7 +77,7 @@ export default function NewSupplierPage() {
           </Link>
           <div>
             <h1 className="text-3xl font-bold">Nouveau fournisseur</h1>
-            <p className="text-gray-600 mt-2">Ajouter un fournisseur au répertoire</p>
+            <p className="text-gray-900 mt-2">Ajouter un fournisseur au répertoire</p>
           </div>
         </div>
 

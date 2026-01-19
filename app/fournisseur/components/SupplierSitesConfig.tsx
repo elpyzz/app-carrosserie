@@ -75,7 +75,7 @@ export function SupplierSitesConfig() {
             <Settings className="h-5 w-5 text- param($m) $m -replace 'blue', 'red' " />
             <span>Configuration des sites fournisseurs</span>
           </CardTitle>
-          <p className="text-sm text-gray-600 mt-1">
+          <p className="text-sm text-gray-900 mt-1">
             Maximum 6 sites fournisseurs (actuellement: {sites.filter((s) => s.actif).length}/6)
           </p>
         </div>
@@ -107,8 +107,8 @@ export function SupplierSitesConfig() {
 
         {sites.length === 0 ? (
           <div className="text-center py-8">
-            <p className="text-gray-500">Aucun site configuré</p>
-            <p className="text-sm text-gray-400 mt-2">
+            <p className="text-gray-900">Aucun site configuré</p>
+            <p className="text-sm text-gray-900 mt-2">
               Ajoutez jusqu'à 6 sites fournisseurs pour commencer
             </p>
           </div>
@@ -134,8 +134,8 @@ export function SupplierSitesConfig() {
                       </Badge>
                     )}
                   </div>
-                  <p className="text-sm text-gray-600 mt-1">{site.url_recherche}</p>
-                  <p className="text-xs text-gray-500 mt-1">Auth: {site.type_auth}</p>
+                  <p className="text-sm text-gray-900 mt-1">{site.url_recherche}</p>
+                  <p className="text-xs text-gray-900 mt-1">Auth: {site.type_auth}</p>
                 </div>
                 <div className="flex space-x-2">
                   <Button

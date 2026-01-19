@@ -11,11 +11,11 @@ const buttonVariants = cva(
         destructive:
           "bg-gradient-to-r from-bordeaux-800 to-bordeaux-900 text-white hover:from-bordeaux-900 hover:to-bordeaux-950 shadow-lg shadow-bordeaux-900/40 hover:shadow-xl hover:shadow-bordeaux-900/50 transition-all duration-300",
         outline:
-          "border-2 border-bordeaux-500/30 bg-white/10 backdrop-blur-sm hover:bg-white/20 hover:border-bordeaux-400/50 text-bordeaux-300 hover:text-bordeaux-200 hover:shadow-md transition-all duration-300",
+          "border-2 border-bordeaux-500 bg-white hover:bg-gray-50 hover:border-bordeaux-600 text-bordeaux-700 hover:text-bordeaux-800 hover:shadow-md transition-all duration-300",
         secondary:
-          "bg-bordeaux-500/20 text-bordeaux-300 hover:bg-bordeaux-500/30 border border-bordeaux-500/30 backdrop-blur-sm transition-all duration-300",
-        ghost: "hover:bg-white/10 hover:text-bordeaux-300 text-gray-300 transition-all duration-300",
-        link: "text-bordeaux-400 underline-offset-4 hover:underline hover:text-bordeaux-300 transition-colors",
+          "bg-bordeaux-100 text-bordeaux-700 hover:bg-bordeaux-200 border border-bordeaux-300 transition-all duration-300",
+        ghost: "hover:bg-gray-100 hover:text-bordeaux-700 text-gray-900 transition-all duration-300",
+        link: "text-bordeaux-600 underline-offset-4 hover:underline hover:text-bordeaux-700 transition-colors",
       },
       size: {
         default: "h-11 px-6 py-2",

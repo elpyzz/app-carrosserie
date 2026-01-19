@@ -112,7 +112,7 @@ export function ExpertSitesConfig() {
       <CardContent>
         {sites.length === 0 ? (
           <div className="text-center py-8">
-            <p className="text-gray-500">Aucun site configuré</p>
+            <p className="text-gray-900">Aucun site configuré</p>
           </div>
         ) : (
           <div className="space-y-3">
@@ -131,8 +131,8 @@ export function ExpertSitesConfig() {
                       {site.actif ? "Actif" : "Inactif"}
                     </Badge>
                   </div>
-                  <p className="text-sm text-gray-600 mt-1">{site.url_recherche}</p>
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="text-sm text-gray-900 mt-1">{site.url_recherche}</p>
+                  <p className="text-xs text-gray-900 mt-1">
                     Auth: {site.type_auth}
                   </p>
                 </div>

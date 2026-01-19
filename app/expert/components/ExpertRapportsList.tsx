@@ -138,17 +138,17 @@ export function ExpertRapportsList() {
 
   const getTypeBadgeColor = (type: RapportType) => {
     const colors = {
-      rapport_expert: "bg-bordeaux-500/30 text-bordeaux-200 border border-bordeaux-500/50 backdrop-blur-sm",
-      proces_verbal: "bg-purple-500/20 text-purple-300 border border-purple-500/30 backdrop-blur-sm",
-      reglement_direct: "bg-green-500/20 text-green-300 border border-green-500/30 backdrop-blur-sm",
+      rapport_expert: "bg-bordeaux-100 text-bordeaux-800 border border-bordeaux-300",
+      proces_verbal: "bg-purple-100 text-purple-800 border border-purple-300",
+      reglement_direct: "bg-green-100 text-green-800 border border-green-300",
     }
-    return colors[type] || "bg-white/15 text-gray-200 border border-white/30 backdrop-blur-sm"
+    return colors[type] || "bg-gray-100 text-gray-900 border border-gray-300"
   }
 
   return (
     <Card className="card-gradient">
       <CardHeader>
-        <CardTitle className="flex items-center space-x-2 text-white">
+        <CardTitle className="flex items-center space-x-2 text-primary drop-shadow-[0_2px_8px_rgba(0,0,0,0.25)]">
           <FileText className="h-5 w-5 text-bordeaux-400" />
           <span>Rapports d'experts reçus</span>
         </CardTitle>
@@ -157,7 +157,7 @@ export function ExpertRapportsList() {
         {/* Filtres */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-300" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-900" />
             <Input
               placeholder="Rechercher (dossier, client, fichier)..."
               value={search}
@@ -181,19 +181,19 @@ export function ExpertRapportsList() {
         {loading ? (
           <div className="text-center py-12">
             <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-bordeaux-400"></div>
-            <p className="text-gray-300 mt-2">Chargement...</p>
+            <p className="text-gray-900 mt-2">Chargement...</p>
           </div>
         ) : filteredRapports.length === 0 ? (
           <div className="text-center py-12">
-            <FileText className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <p className="text-gray-300">Aucun rapport trouvé</p>
+            <FileText className="h-12 w-12 text-gray-900 mx-auto mb-4" />
+            <p className="text-gray-900">Aucun rapport trouvé</p>
           </div>
         ) : (
           <div className="space-y-3">
             {filteredRapports.map((rapport) => (
               <div
                 key={rapport.id}
-                className="p-4 bg-white/20 backdrop-blur-sm border border-white/30 border-bordeaux-500/40 rounded-xl hover:border-bordeaux-500/60 hover:bg-white/30 hover:shadow-md transition-all"
+                className="p-4 bg-white border border-gray-300 border-bordeaux-200 rounded-xl hover:border-bordeaux-300 hover:shadow-md hover:shadow-md transition-all"
               >
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
@@ -201,7 +201,7 @@ export function ExpertRapportsList() {
                       <CheckCircle2 className="h-5 w-5 text-green-400" />
                       <Link
                         href={`/dossiers/${rapport.dossier_id}`}
-                        className="font-bold text-lg text-bordeaux-300 hover:text-bordeaux-200 hover:underline"
+                        className="font-bold text-lg text-bordeaux-700 hover:text-bordeaux-800 hover:underline"
                       >
                         {rapport.dossier?.dossier_id || "N/A"}
                       </Link>
@@ -209,7 +209,7 @@ export function ExpertRapportsList() {
                         {getTypeLabel(rapport.type)}
                       </Badge>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-sm text-gray-300">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-sm text-gray-900">
                       <div>
                         <span className="font-medium">Client:</span>{" "}
                         {rapport.dossier?.clients?.nom || "-"}
@@ -226,7 +226,7 @@ export function ExpertRapportsList() {
                       </div>
                     </div>
                     <div className="mt-2">
-                      <p className="text-sm font-medium text-white">
+                      <p className="text-sm font-medium text-gray-900">
                         📄 {rapport.nom_fichier}
                       </p>
                     </div>
@@ -257,7 +257,7 @@ export function ExpertRapportsList() {
         {/* Résumé */}
         {!loading && filteredRapports.length > 0 && (
           <div className="pt-4 border-t border-white/30">
-            <p className="text-sm text-gray-300">
+            <p className="text-sm text-gray-900">
               {filteredRapports.length} rapport{filteredRapports.length > 1 ? "s" : ""} affiché{filteredRapports.length > 1 ? "s" : ""}
             </p>
           </div>

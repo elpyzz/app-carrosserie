@@ -49,10 +49,10 @@ export default async function FournisseursPage() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-bordeaux-400 via-bordeaux-300 to-bordeaux-500 bg-clip-text text-transparent">
+            <h1 className="page-title">
               Fournisseurs
             </h1>
-            <p className="text-gray-400 mt-2">Répertoire des fournisseurs de pièces</p>
+            <p className="text-gray-900 mt-2">Répertoire des fournisseurs de pièces</p>
           </div>
           <Link href="/fournisseurs/new">
             <Button className="btn-primary">
@@ -67,18 +67,18 @@ export default async function FournisseursPage() {
           {suppliers.map((supplier: any) => (
             <Card key={supplier.id} className="card-gradient">
               <CardHeader>
-                <CardTitle className="text-white">{supplier.nom}</CardTitle>
+                <CardTitle className="text-gray-900">{supplier.nom}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
                 {supplier.contact && (
-                  <p className="text-sm text-gray-300">Contact: {supplier.contact}</p>
+                  <p className="text-sm text-gray-900">Contact: {supplier.contact}</p>
                 )}
                 {supplier.telephone && (
                   <div className="flex items-center space-x-2 text-sm">
-                    <Phone className="h-4 w-4 text-gray-400" />
+                    <Phone className="h-4 w-4 text-gray-900" />
                     <a
                       href={`tel:${supplier.telephone}`}
-                      className="text-bordeaux-300 hover:text-bordeaux-200 hover:underline"
+                      className="text-bordeaux-700 hover:text-bordeaux-800 hover:underline"
                     >
                       {supplier.telephone}
                     </a>
@@ -86,10 +86,10 @@ export default async function FournisseursPage() {
                 )}
                 {supplier.email && (
                   <div className="flex items-center space-x-2 text-sm">
-                    <Mail className="h-4 w-4 text-gray-400" />
+                    <Mail className="h-4 w-4 text-gray-900" />
                     <a
                       href={`mailto:${supplier.email}`}
-                      className="text-bordeaux-300 hover:text-bordeaux-200 hover:underline"
+                      className="text-bordeaux-700 hover:text-bordeaux-800 hover:underline"
                     >
                       {supplier.email}
                     </a>
@@ -97,19 +97,19 @@ export default async function FournisseursPage() {
                 )}
                 {supplier.site_web && (
                   <div className="flex items-center space-x-2 text-sm">
-                    <Globe className="h-4 w-4 text-gray-400" />
+                    <Globe className="h-4 w-4 text-gray-900" />
                     <a
                       href={supplier.site_web}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-bordeaux-300 hover:text-bordeaux-200 hover:underline"
+                      className="text-bordeaux-700 hover:text-bordeaux-800 hover:underline"
                     >
                       Site web
                     </a>
                   </div>
                 )}
                 {supplier.notes && (
-                  <p className="text-sm text-gray-300 mt-2">{supplier.notes}</p>
+                  <p className="text-sm text-gray-900 mt-2">{supplier.notes}</p>
                 )}
                 <Link href={`/fournisseurs/recherche?supplier=${supplier.id}`}>
                   <Button size="sm" variant="outline" className="w-full mt-4">
@@ -124,7 +124,7 @@ export default async function FournisseursPage() {
         {suppliers.length === 0 && (
           <Card className="card-gradient">
             <CardContent className="py-12 text-center">
-              <p className="text-gray-400">Aucun fournisseur enregistré</p>
+              <p className="text-gray-900">Aucun fournisseur enregistré</p>
               <Link href="/fournisseurs/new">
                 <Button className="btn-primary mt-4">Ajouter le premier fournisseur</Button>
               </Link>

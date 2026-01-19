@@ -32,6 +32,9 @@ export interface ExpertSearchResult {
   pdf_taille?: number
   pdf_date?: string
   erreur?: string
+  pdf_stored?: boolean
+  pdf_stored_id?: string
+  pdf_download_url?: string
 }
 
 export interface ExpertSearch {

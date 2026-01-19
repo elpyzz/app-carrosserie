@@ -56,7 +56,7 @@ export default async function ImpayesPage() {
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold">Impayés</h1>
-          <p className="text-gray-600 mt-2">Suivi des factures en attente de paiement</p>
+          <p className="text-gray-900 mt-2">Suivi des factures en attente de paiement</p>
         </div>
 
         {/* Résumé */}
@@ -64,11 +64,11 @@ export default async function ImpayesPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total impayés</CardTitle>
-              <DollarSign className="h-4 w-4 text-muted-foreground" />
+              <DollarSign className="h-4 w-4 text-gray-900" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{impayes.length}</div>
-              <p className="text-xs text-muted-foreground mt-1">
+              <p className="text-xs text-gray-900 mt-1">
                 {formatCurrency(montantTotal)}
               </p>
             </CardContent>
@@ -104,7 +104,7 @@ export default async function ImpayesPage() {
           </CardHeader>
           <CardContent>
             {impayes.length === 0 ? (
-              <p className="text-center text-gray-500 py-8">Aucun impayé</p>
+              <p className="text-center text-gray-900 py-8">Aucun impayé</p>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full">
@@ -152,7 +152,7 @@ export default async function ImpayesPage() {
                             {jours > 0 ? (
                               <Badge variant="destructive">{jours} jours</Badge>
                             ) : (
-                              <span className="text-gray-500">-</span>
+                              <span className="text-gray-900">-</span>
                             )}
                           </td>
                           <td className="p-2">{payment.nombre_relances}</td>

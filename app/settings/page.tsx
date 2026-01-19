@@ -84,7 +84,7 @@ export default function SettingsPage() {
     return (
       <AuthenticatedLayout>
         <div className="text-center py-12">
-          <p className="text-gray-500">Accès réservé aux administrateurs</p>
+          <p className="text-gray-900">Accès réservé aux administrateurs</p>
         </div>
       </AuthenticatedLayout>
     )
@@ -133,7 +133,7 @@ export default function SettingsPage() {
       <div className="max-w-4xl mx-auto space-y-6">
         <div>
           <h1 className="text-3xl font-bold">Paramètres</h1>
-          <p className="text-gray-600 mt-2">Configuration de l'application</p>
+          <p className="text-gray-900 mt-2">Configuration de l'application</p>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -244,7 +244,7 @@ export default function SettingsPage() {
                     placeholder="Bonjour, nous relançons concernant le dossier {dossier_id}..."
                     rows={3}
                   />
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="text-xs text-gray-900 mt-1">
                     Variables disponibles: {"{dossier_id}"}
                   </p>
                   {errors.modele_message_expert && (
@@ -263,7 +263,7 @@ export default function SettingsPage() {
                     placeholder="Bonjour, nous avons relancé l'expert concernant votre dossier {dossier_id}..."
                     rows={3}
                   />
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="text-xs text-gray-900 mt-1">
                     Variables disponibles: {"{dossier_id}"}
                   </p>
                   {errors.modele_message_client && (
@@ -282,7 +282,7 @@ export default function SettingsPage() {
                     placeholder="Bonjour, votre facture {dossier_id} d'un montant de {montant}€ est en attente..."
                     rows={3}
                   />
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="text-xs text-gray-900 mt-1">
                     Variables disponibles: {"{dossier_id}"}, {"{montant}"}, {"{jours}"}
                   </p>
                   {errors.modele_message_impaye && (

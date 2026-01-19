@@ -78,6 +78,90 @@ export async function POST(request: Request) {
       searchId = search.id
     }
 
+    // Fonction pour télécharger automatiquement un PDF
+    const downloadAndStorePDF = async (
+      result: ExpertSearchResult,
+      site: any
+    ): Promise<ExpertSearchResult> => {
+      if (result.statut === "trouve" && result.pdf_url) {
+        try {
+          // Vérifier si c'est une URL absolue ou relative
+          const pdfUrl = result.pdf_url.startsWith("http")
+            ? result.pdf_url
+            : `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}${result.pdf_url}`
+
+          // Télécharger le PDF
+          const pdfResponse = await fetch(pdfUrl)
+          if (!pdfResponse.ok) {
+            throw new Error(`Erreur téléchargement PDF: ${pdfResponse.status}`)
+          }
+
+          const pdfBuffer = await pdfResponse.arrayBuffer()
+          const pdfBlob = new Blob([pdfBuffer], { type: "application/pdf" })
+
+          // Générer un nom de fichier unique
+          const fileName = result.pdf_nom || `rapport_${Date.now()}.pdf`
+          const sanitizedFileName = fileName.replace(/[^a-zA-Z0-9._-]/g, "_")
+          const filePath = `expert-reports/${criteria.dossier_id || "general"}/${Date.now()}-${sanitizedFileName}`
+
+          // Upload vers Supabase Storage
+          const { data: uploadData, error: uploadError } = await supabase.storage
+            .from("documents")
+            .upload(filePath, pdfBlob, {
+              contentType: "application/pdf",
+              upsert: false,
+            })
+
+          if (!uploadError && uploadData) {
+            // Récupérer l'utilisateur pour uploaded_by
+            const {
+              data: { user },
+            } = await supabase.auth.getUser()
+
+            // Créer l'enregistrement dans la table documents
+            const { data: docData, error: docError } = await supabase
+              .from("documents")
+              .insert({
+                dossier_id: criteria.dossier_id || null,
+                type: "rapport_expert",
+                nom_fichier: result.pdf_nom || sanitizedFileName,
+                chemin_storage: filePath,
+                taille_bytes: pdfBlob.size,
+                mime_type: "application/pdf",
+                uploaded_by: user?.id || null,
+              })
+              .select()
+              .single()
+
+            if (!docError && docData) {
+              // Mettre à jour le résultat avec les infos de stockage
+              result.pdf_stored_id = docData.id
+              result.pdf_download_url = `/api/documents/${docData.id}/download`
+              result.pdf_stored = true
+              result.message = "Rapport téléchargé et stocké automatiquement"
+            } else {
+              console.error("Erreur création document:", docError)
+              result.pdf_stored = false
+            }
+          } else {
+            console.error("Erreur upload storage:", uploadError)
+            result.pdf_stored = false
+          }
+        } catch (error: any) {
+          console.error("Erreur téléchargement automatique:", error)
+          // Continuer avec pdf_url original
+          result.pdf_stored = false
+          if (!result.message || result.message === "Rapport trouvé avec succès") {
+            result.message = "Rapport trouvé (téléchargement automatique échoué)"
+          }
+        }
+      } else {
+        result.pdf_stored = false
+      }
+
+      return result
+    }
+
     // Simuler la recherche sur chaque site (mock pour l'instant)
     const results: ExpertSearchResult[] = await Promise.all(
       sites.map(async (site: any) => {
@@ -86,9 +170,11 @@ export async function POST(request: Request) {
 
         // Simuler différents résultats
         const random = Math.random()
+        let result: ExpertSearchResult
+
         if (random > 0.6) {
           // Rapport trouvé
-          return {
+          result = {
             site_id: site.id,
             site_nom: site.nom,
             statut: "trouve",
@@ -98,24 +184,31 @@ export async function POST(request: Request) {
             pdf_taille: 250000 + Math.random() * 500000,
             pdf_date: new Date().toISOString(),
           } as ExpertSearchResult
+
+          // Télécharger automatiquement le PDF
+          result = await downloadAndStorePDF(result, site)
         } else if (random > 0.3) {
           // Non trouvé
-          return {
+          result = {
             site_id: site.id,
             site_nom: site.nom,
             statut: "non_trouve",
             message: "Aucun rapport trouvé pour ces critères",
+            pdf_stored: false,
           } as ExpertSearchResult
         } else {
           // Erreur
-          return {
+          result = {
             site_id: site.id,
             site_nom: site.nom,
             statut: "erreur",
             message: "Erreur lors de la recherche",
             erreur: "Site temporairement indisponible",
+            pdf_stored: false,
           } as ExpertSearchResult
         }
+
+        return result
       })
     )
 

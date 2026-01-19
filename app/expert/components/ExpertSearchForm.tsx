@@ -143,7 +143,7 @@ export function ExpertSearchForm({ onSearch, loading }: ExpertSearchFormProps) {
   return (
     <Card className="card-gradient">
       <CardHeader>
-        <CardTitle className="flex items-center space-x-2 text-white">
+        <CardTitle className="flex items-center space-x-2 text-primary drop-shadow-[0_2px_8px_rgba(0,0,0,0.25)]">
           <Search className="h-5 w-5 text-bordeaux-400" />
           <span>Recherche de rapports d'experts</span>
         </CardTitle>
@@ -152,7 +152,7 @@ export function ExpertSearchForm({ onSearch, loading }: ExpertSearchFormProps) {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <Label htmlFor="numero_dossier">Numéro de dossier</Label>
+              <Label htmlFor="numero_dossier">Numéro de sinistre</Label>
               <Input
                 id="numero_dossier"
                 {...register("numero_dossier")}
@@ -181,19 +181,19 @@ export function ExpertSearchForm({ onSearch, loading }: ExpertSearchFormProps) {
           </div>
 
           {errors.numero_dossier && (
-            <p className="text-sm text-bordeaux-300">{errors.numero_dossier.message}</p>
+            <p className="text-sm text-bordeaux-700">{errors.numero_dossier.message}</p>
           )}
 
           <div>
             <Label className="mb-3 block font-semibold">Sites à interroger</Label>
             <div className="space-y-2">
               {sites.length === 0 ? (
-                <p className="text-sm text-gray-400">Aucun site configuré</p>
+                <p className="text-sm text-gray-900">Aucun site configuré</p>
               ) : (
                 sites.map((site) => (
                   <div
                     key={site.id}
-                    className="flex items-center space-x-3 p-3 border border-white/30 rounded-lg hover:bg-white/20 transition-colors backdrop-blur-sm"
+                    className="flex items-center space-x-3 p-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
                   >
                     <Checkbox
                       id={`site-${site.id}`}
@@ -206,13 +206,13 @@ export function ExpertSearchForm({ onSearch, loading }: ExpertSearchFormProps) {
                     >
                       {site.nom}
                     </Label>
-                    <span className="text-xs text-gray-400">{site.type_auth}</span>
+                    <span className="text-xs text-gray-900">{site.type_auth}</span>
                   </div>
                 ))
               )}
             </div>
             {errors.sites_ids && (
-              <p className="text-sm text-bordeaux-300 mt-2">{errors.sites_ids.message}</p>
+              <p className="text-sm text-bordeaux-700 mt-2">{errors.sites_ids.message}</p>
             )}
           </div>
 

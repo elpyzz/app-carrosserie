@@ -4,24 +4,24 @@
 
 @layer base {
   :root {
-    --background: 222 47% 11%;
-    --foreground: 0 0% 98%;
+    --background: 0 0% 100%;
+    --foreground: 0 0% 15%;
     --card: 0 0% 100%;
     --card-foreground: 0 0% 10%;
-    --popover: 222 47% 11%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 15%;
     --primary: 350 85% 45%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 222 47% 20%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 222 47% 20%;
-    --muted-foreground: 0 0% 70%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 15%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 10%;
     --accent: 350 30% 96%;
     --accent-foreground: 350 85% 45%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    --border: 222 47% 25%;
-    --input: 222 47% 20%;
+    --border: 0 0% 90%;
+    --input: 0 0% 100%;
     --ring: 350 85% 45%;
     --radius: 0.875rem;
   }
@@ -32,17 +32,17 @@
     @apply border-border;
   }
   body {
-    @apply bg-[#1a1f3a] text-foreground;
+    @apply bg-gray-50 text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
-    background-image: 
-      radial-gradient(at 0% 0%, rgba(185, 28, 28, 0.08) 0px, transparent 50%),
-      radial-gradient(at 100% 100%, rgba(127, 29, 29, 0.08) 0px, transparent 50%),
-      radial-gradient(at 50% 50%, rgba(153, 27, 27, 0.05) 0px, transparent 50%),
-      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23b91c1c' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
     min-height: 100vh;
     position: relative;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   
+  /* Arrière-plan animé - Gradients radiaux */
   body::before {
     content: '';
     position: fixed;
@@ -50,74 +50,177 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: 
-      radial-gradient(circle at 20% 50%, rgba(185, 28, 28, 0.06) 0%, transparent 50%),
-      radial-gradient(circle at 80% 80%, rgba(127, 29, 29, 0.06) 0%, transparent 50%);
+    background-image: 
+      radial-gradient(circle at 20% 30%, rgba(139, 21, 56, 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(139, 21, 56, 0.03) 0%, transparent 50%),
+      linear-gradient(135deg, rgba(139, 21, 56, 0.02) 0%, transparent 50%);
     pointer-events: none;
     z-index: 0;
+    animation: backgroundShift 20s ease-in-out infinite;
+  }
+  
+  /* Arrière-plan animé - Motifs géométriques */
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+      repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 2px,
+        rgba(139, 21, 56, 0.015) 2px,
+        rgba(139, 21, 56, 0.015) 4px
+      ),
+      repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 2px,
+        rgba(139, 21, 56, 0.015) 2px,
+        rgba(139, 21, 56, 0.015) 4px
+      );
+    pointer-events: none;
+    z-index: 0;
+    animation: patternMove 30s linear infinite;
+    opacity: 0.4;
+  }
+  
+  /* Animations */
+  @keyframes backgroundShift {
+    0%, 100% {
+      transform: translate(0, 0) scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: translate(-10px, -10px) scale(1.05);
+      opacity: 0.8;
+    }
+  }
+  
+  @keyframes patternMove {
+    0% {
+      transform: translate(0, 0);
+    }
+    100% {
+      transform: translate(50px, 50px);
+    }
+  }
+  
+  @keyframes float {
+    0%, 100% {
+      transform: translate(0, 0) scale(1);
+      opacity: 0.5;
+    }
+    33% {
+      transform: translate(30px, -30px) scale(1.1);
+      opacity: 0.7;
+    }
+    66% {
+      transform: translate(-20px, 20px) scale(0.9);
+      opacity: 0.6;
+    }
   }
 }
 
 @layer components {
   .card-gradient {
-    @apply bg-white/20 backdrop-blur-lg shadow-2xl border border-white/30 border-bordeaux-500/40;
-    @apply hover:shadow-2xl hover:border-bordeaux-500/60 hover:bg-white/30 transition-all duration-300;
-    @apply relative overflow-hidden;
-  }
-  
-  .card-gradient::before {
-    content: '';
-    @apply absolute inset-0 opacity-0 transition-opacity duration-300;
-    background: linear-gradient(to bottom right, rgba(185, 28, 28, 0.15), transparent, rgba(127, 29, 29, 0.08));
-  }
-  
-  .card-gradient:hover::before {
-    @apply opacity-100;
+    @apply bg-white border border-bordeaux-500 shadow-md;
+    @apply hover:shadow-lg hover:border-bordeaux-600 transition-all duration-300;
+    @apply relative overflow-hidden rounded-xl;
   }
   
   .btn-primary {
-    @apply bg-gradient-to-r from-bordeaux-800 via-bordeaux-700 to-bordeaux-800 text-white;
-    @apply hover:from-bordeaux-900 hover:via-bordeaux-800 hover:to-bordeaux-900;
-    @apply shadow-lg shadow-bordeaux-500/30 hover:shadow-xl hover:shadow-bordeaux-500/40;
-    @apply transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98];
-    @apply border border-bordeaux-500/20 rounded-lg px-6 py-2.5 font-semibold;
+    @apply bg-bordeaux-600 hover:bg-bordeaux-700 text-white;
+    @apply shadow-md hover:shadow-lg;
+    @apply transition-all duration-300;
+    @apply border border-bordeaux-700 rounded-lg px-6 py-2.5 font-semibold;
   }
   
   .stat-card {
-    @apply bg-white/15 backdrop-blur-lg border border-white/30 border-bordeaux-500/40;
-    @apply shadow-xl hover:shadow-2xl hover:shadow-bordeaux-500/20 transition-all duration-300;
-    @apply hover:border-bordeaux-500/60 hover:bg-white/25;
+    @apply bg-white border border-bordeaux-200 shadow-sm;
+    @apply hover:shadow-md hover:border-bordeaux-300 transition-all duration-300;
     @apply relative overflow-hidden;
-    background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.15));
+  }
+  
+  /* Classes utilitaires pour système de design uniforme */
+  .page-title {
+    @apply text-4xl font-bold text-bordeaux-900;
+    letter-spacing: -0.02em;
+  }
+  
+  .section-title {
+    @apply text-2xl font-bold text-gray-900 mb-6 flex items-center space-x-2;
+    letter-spacing: -0.01em;
+  }
+  
+  .kpi-number {
+    @apply text-5xl font-bold;
+  }
+  
+  .kpi-number-bordeaux {
+    @apply text-bordeaux-700;
+  }
+  
+  .kpi-number-orange {
+    @apply text-orange-600;
+  }
+  
+  .kpi-number-blue {
+    @apply text-blue-600;
+  }
+  
+  .kpi-number-green {
+    @apply text-green-600;
+  }
+  
+  .kpi-number-amber {
+    @apply text-amber-600;
+  }
+  
+  .text-primary {
+    @apply text-gray-900 font-medium;
+  }
+  
+  .text-secondary {
+    @apply text-gray-900 font-medium;
+  }
+  
+  .text-tertiary {
+    @apply text-gray-900;
+  }
+  
+  .icon-primary {
+    @apply text-bordeaux-600;
+  }
+  
+  .mini-kpi-number {
+    @apply text-4xl font-bold;
   }
   
   .navbar-gradient {
-    @apply bg-white/15 backdrop-blur-lg border-b border-white/30 border-bordeaux-500/40;
-    @apply shadow-2xl;
+    @apply bg-white border-b border-bordeaux-500 shadow-sm;
     @apply relative;
   }
   
   .sidebar-glass {
-    @apply bg-white/15 backdrop-blur-lg border-r border-white/30 border-bordeaux-500/40;
-    @apply shadow-2xl;
+    @apply bg-white border-r border-bordeaux-500 shadow-sm;
     @apply fixed left-0 top-0 h-screen z-50;
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.15));
   }
   
   .gradient-text {
-    @apply bg-gradient-to-r from-bordeaux-400 via-bordeaux-300 to-bordeaux-500 bg-clip-text text-transparent;
+    @apply text-bordeaux-700;
     @apply font-bold;
   }
   
   .glass-effect {
-    @apply bg-white/15 backdrop-blur-lg border border-white/30 border-bordeaux-500/40;
-    @apply shadow-2xl;
+    @apply bg-white border border-bordeaux-200 shadow-md;
   }
   
   .glass-card {
-    @apply bg-gradient-to-br from-white/20 via-white/15 to-white/20 backdrop-blur-lg;
-    @apply border border-white/30 border-bordeaux-500/40;
-    @apply shadow-2xl shadow-bordeaux-500/20;
+    @apply bg-white border border-bordeaux-200 shadow-md;
     @apply rounded-xl;
   }
   
@@ -171,5 +274,66 @@
     pointer-events: auto !important;
     z-index: 9999 !important;
     cursor: pointer !important;
+  }
+  
+  /* Amélioration de la lisibilité des tableaux */
+  table th {
+    @apply text-gray-900 font-semibold;
+  }
+  
+  table td {
+    @apply text-gray-900 font-medium;
+  }
+  
+  /* Amélioration des badges */
+  .badge-text {
+    @apply font-semibold;
+  }
+  
+  /* Amélioration des labels */
+  label {
+    @apply text-gray-900 font-medium;
+  }
+  
+  /* Amélioration des inputs */
+  input, textarea, select {
+    @apply text-gray-900;
+  }
+  
+  /* Particules flottantes */
+  .floating-particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  
+  .floating-particles::before,
+  .floating-particles::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(139, 21, 56, 0.08) 0%, transparent 70%);
+    animation: float 15s ease-in-out infinite;
+  }
+  
+  .floating-particles::before {
+    top: 20%;
+    left: 10%;
+    width: 200px;
+    height: 200px;
+    animation-delay: 0s;
+  }
+  
+  .floating-particles::after {
+    top: 60%;
+    right: 15%;
+    width: 150px;
+    height: 150px;
+    animation-delay: 7.5s;
   }
 }

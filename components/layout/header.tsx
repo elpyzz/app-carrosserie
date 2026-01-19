@@ -34,13 +34,13 @@ export function Header() {
       <div className="flex items-center space-x-2 text-xs lg:text-sm flex-wrap">
         {breadcrumbs.map((crumb, index) => (
           <div key={index} className="flex items-center space-x-2">
-            {index > 0 && <span className="text-gray-500">/</span>}
-            <span className={index === breadcrumbs.length - 1 ? "text-white font-semibold" : "text-gray-400"}>
+            {index > 0 && <span className="text-gray-900">/</span>}
+            <span className={index === breadcrumbs.length - 1 ? "text-gray-900 font-semibold" : "text-gray-900"}>
               {crumb}
             </span>
           </div>
         ))}
-        <span className="text-gray-500 ml-2">/ {currentDate}</span>
+        <span className="text-gray-900 ml-2">/ {currentDate}</span>
       </div>
 
       {/* Actions à droite */}
@@ -49,7 +49,7 @@ export function Header() {
         <Button
           variant="ghost"
           size="icon"
-          className="text-gray-300 hover:text-white hover:bg-white/10 border border-transparent hover:border-white/20 transition-all duration-300"
+          className="text-gray-900 hover:text-gray-900 hover:bg-gray-100 border border-transparent hover:border-bordeaux-200 transition-all duration-300"
         >
           <Search className="h-5 w-5" />
         </Button>
@@ -58,15 +58,15 @@ export function Header() {
         <Button
           variant="ghost"
           size="icon"
-          className="text-gray-300 hover:text-white hover:bg-white/10 border border-transparent hover:border-white/20 transition-all duration-300 relative"
+          className="text-gray-900 hover:text-gray-900 hover:bg-gray-100 border border-transparent hover:border-bordeaux-200 transition-all duration-300 relative"
         >
           <Bell className="h-5 w-5" />
-          <span className="absolute top-1 right-1 w-2 h-2 bg-bordeaux-500 rounded-full"></span>
+          <span className="absolute top-1 right-1 w-2 h-2 bg-bordeaux-600 rounded-full"></span>
         </Button>
 
         {/* Avatar utilisateur */}
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-bordeaux-600 to-bordeaux-800 flex items-center justify-center border-2 border-bordeaux-500/50 shadow-lg shadow-bordeaux-500/20">
+          <div className="w-10 h-10 rounded-full bg-bordeaux-600 flex items-center justify-center border-2 border-bordeaux-700 shadow-md">
             <User className="h-5 w-5 text-white" />
           </div>
         </div>

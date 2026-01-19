@@ -82,7 +82,7 @@ export function SearchHistory({ onReloadSearch }: SearchHistoryProps) {
         </CardHeader>
         <CardContent>
           <div className="text-center py-8">
-            <p className="text-gray-500">Aucune recherche effectuée</p>
+            <p className="text-gray-900">Aucune recherche effectuée</p>
           </div>
         </CardContent>
       </Card>
@@ -107,7 +107,7 @@ export function SearchHistory({ onReloadSearch }: SearchHistoryProps) {
               <div className="flex-1">
                 <p className="font-medium">{getSearchSummary(search)}</p>
                 <div className="flex items-center space-x-4 mt-1">
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-gray-900">
                     {formatDate(search.created_at)}
                   </p>
                   <Badge className="bg-blue-100 text-blue-700">

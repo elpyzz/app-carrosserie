@@ -150,7 +150,7 @@ export function PieceSearchForm({ onSearch, loading }: PieceSearchFormProps) {
   return (
     <Card className="card-gradient">
       <CardHeader>
-        <CardTitle className="flex items-center space-x-2 text-white">
+        <CardTitle className="flex items-center space-x-2 text-primary drop-shadow-[0_2px_8px_rgba(0,0,0,0.25)]">
           <Package className="h-5 w-5 text-bordeaux-400" />
           <span>Recherche de pièces de rechange</span>
         </CardTitle>
@@ -168,7 +168,7 @@ export function PieceSearchForm({ onSearch, loading }: PieceSearchFormProps) {
                   placeholder="Ex: 123456789"
                   className="mt-1"
                 />
-                <p className="text-xs text-gray-400 mt-1">
+                <p className="text-xs text-gray-900 mt-1">
                   Référence constructeur ou fournisseur
                 </p>
               </div>
@@ -226,14 +226,14 @@ export function PieceSearchForm({ onSearch, loading }: PieceSearchFormProps) {
                 placeholder="DOS-2024-001"
                 className="mt-1"
               />
-              <p className="text-xs text-gray-400 mt-1">
+              <p className="text-xs text-gray-900 mt-1">
                 Pour associer la recherche à un dossier
               </p>
             </div>
           </div>
 
           {errors.reference_piece && (
-            <div className="text-sm text-bordeaux-200 bg-bordeaux-500/30 border border-bordeaux-500/50 backdrop-blur-sm p-3 rounded-md">
+            <div className="text-sm text-bordeaux-800 bg-bordeaux-100 border border-bordeaux-300 p-3 rounded-md">
               {errors.reference_piece.message}
             </div>
           )}
@@ -245,15 +245,15 @@ export function PieceSearchForm({ onSearch, loading }: PieceSearchFormProps) {
             </Label>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {sites.length === 0 ? (
-                <p className="text-sm text-gray-400">Aucun site configuré</p>
+                <p className="text-sm text-gray-900">Aucun site configuré</p>
               ) : (
                 sites.map((site) => (
                   <div
                     key={site.id}
                     className={`flex items-center space-x-3 p-3 border rounded-lg transition-all backdrop-blur-sm ${
                       selectedSites.includes(site.id)
-                        ? "border-bordeaux-500/50 bg-bordeaux-500/20"
-                        : "border-white/30 hover:bg-white/20"
+                        ? "border-bordeaux-500/50 bg-bordeaux-100"
+                        : "border-gray-300 hover:bg-gray-50"
                     }`}
                   >
                     <Checkbox
@@ -269,7 +269,7 @@ export function PieceSearchForm({ onSearch, loading }: PieceSearchFormProps) {
                       {site.nom}
                     </Label>
                     {site.ordre && (
-                      <span className="text-xs text-gray-200 bg-white/15 border border-white/30 px-2 py-1 rounded backdrop-blur-sm">
+                      <span className="text-xs text-gray-900 bg-gray-100 border border-gray-300 px-2 py-1 rounded backdrop-blur-sm">
                         #{site.ordre}
                       </span>
                     )}
@@ -283,7 +283,7 @@ export function PieceSearchForm({ onSearch, loading }: PieceSearchFormProps) {
               </p>
             )}
             {errors.sites_ids && (
-              <p className="text-sm text-bordeaux-300 mt-2">{errors.sites_ids.message}</p>
+              <p className="text-sm text-bordeaux-700 mt-2">{errors.sites_ids.message}</p>
             )}
           </div>
 

@@ -102,8 +102,8 @@ export function RelanceImpayes() {
     <Card className="card-gradient">
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center space-x-2 text-white">
-            <AlertCircle className="h-5 w-5 text-bordeaux-400" />
+          <CardTitle className="flex items-center space-x-2 text-primary drop-shadow-[0_2px_8px_rgba(0,0,0,0.25)]">
+            <AlertCircle className="h-5 w-5 icon-primary" />
             <span>Relances clients - Impayés</span>
           </CardTitle>
           <Button
@@ -121,7 +121,7 @@ export function RelanceImpayes() {
         {/* Filtres */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-300" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-900" />
             <Input
               placeholder="Rechercher (dossier, client, immatriculation)..."
               value={search}
@@ -152,12 +152,12 @@ export function RelanceImpayes() {
         {loading ? (
           <div className="text-center py-12">
             <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-bordeaux-400"></div>
-            <p className="text-gray-300 mt-2">Chargement...</p>
+            <p className="text-gray-900 mt-2">Chargement...</p>
           </div>
         ) : filteredImpayes.length === 0 ? (
           <div className="text-center py-12">
-            <AlertCircle className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <p className="text-gray-300">Aucun impayé trouvé</p>
+            <AlertCircle className="h-12 w-12 text-gray-900 mx-auto mb-4" />
+            <p className="text-gray-900">Aucun impayé trouvé</p>
           </div>
         ) : (
           <div className="space-y-3">
@@ -171,31 +171,31 @@ export function RelanceImpayes() {
                     <div className="flex items-center space-x-3 mb-2">
                       <Link
                         href={`/dossiers/${impaye.dossier_id}`}
-                        className="font-bold text-lg text-bordeaux-300 hover:text-bordeaux-200 hover:underline"
+                        className="font-bold text-lg text-bordeaux-700 hover:text-bordeaux-800 hover:underline"
                       >
                         {impaye.dossier?.dossier_id || "N/A"}
                       </Link>
                       <Badge
                         className={
                           impaye.statut === "EN_RETARD"
-                            ? "bg-bordeaux-500/30 text-bordeaux-200 border border-bordeaux-500/50 backdrop-blur-sm"
-                            : "bg-amber-500/20 text-amber-300 border border-amber-500/30 backdrop-blur-sm"
+                            ? "bg-bordeaux-100 text-bordeaux-800 border border-bordeaux-300"
+                            : "bg-amber-100 text-amber-800 border border-amber-300"
                         }
                       >
                         {impaye.statut === "EN_RETARD" ? "En retard" : "En attente"}
                       </Badge>
                       {impaye.jours_retard > 0 && (
-                        <Badge className="bg-bordeaux-500/30 text-bordeaux-200 border border-bordeaux-500/50 backdrop-blur-sm">
+                        <Badge className="bg-bordeaux-100 text-bordeaux-800 border border-bordeaux-300">
                           {impaye.jours_retard} jour{impaye.jours_retard > 1 ? "s" : ""} de retard
                         </Badge>
                       )}
                       {impaye.nombre_relances > 0 && (
-                        <Badge className="bg-white/15 text-gray-200 border border-white/30 backdrop-blur-sm">
+                        <Badge className="bg-gray-100 text-gray-900 border border-gray-300">
                           {impaye.nombre_relances} relance{impaye.nombre_relances > 1 ? "s" : ""}
                         </Badge>
                       )}
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-sm text-gray-300 mb-2">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-sm text-gray-900 mb-2">
                       <div>
                         <span className="font-medium">Client:</span> {impaye.dossier?.clients?.nom || "-"}
                       </div>
@@ -208,7 +208,7 @@ export function RelanceImpayes() {
                         {impaye.date_echeance ? formatDate(impaye.date_echeance) : "-"}
                       </div>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-300">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-900">
                       <div>
                         <span className="font-medium">Email:</span> {impaye.dossier?.clients?.email || "-"}
                       </div>
@@ -217,11 +217,11 @@ export function RelanceImpayes() {
                       </div>
                     </div>
                     <div className="mt-3 flex items-center space-x-4">
-                      <div className="text-xl font-bold text-bordeaux-300">
+                      <div className="text-xl font-bold text-bordeaux-700">
                         {formatCurrency(impaye.montant)}
                       </div>
                       {impaye.date_derniere_relance && (
-                        <div className="text-sm text-gray-400">
+                        <div className="text-sm text-gray-900">
                           Dernière relance: {formatDate(impaye.date_derniere_relance)}
                         </div>
                       )}
@@ -268,7 +268,7 @@ export function RelanceImpayes() {
         {/* Résumé */}
         {!loading && filteredImpayes.length > 0 && (
           <div className="pt-4 border-t border-white/30">
-            <p className="text-sm text-gray-300">
+            <p className="text-sm text-gray-900">
               {filteredImpayes.length} impayé{filteredImpayes.length > 1 ? "s" : ""} affiché{filteredImpayes.length > 1 ? "s" : ""}
             </p>
           </div>

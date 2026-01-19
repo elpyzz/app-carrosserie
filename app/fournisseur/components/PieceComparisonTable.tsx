@@ -82,7 +82,7 @@ export function PieceComparisonTable({ results }: PieceComparisonTableProps) {
     <Card className="card-gradient">
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center space-x-2">
+          <CardTitle className="flex items-center space-x-2 text-primary ">
             <TrendingDown className="h-5 w-5 text-blue-600" />
             <span>Comparaison des prix</span>
           </CardTitle>
@@ -103,12 +103,12 @@ export function PieceComparisonTable({ results }: PieceComparisonTableProps) {
       <CardContent>
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-white/15 backdrop-blur-sm border-b border-white/30">
+            <thead className="bg-gray-100 border-b border-gray-300">
               <tr>
-                <th className="text-left p-3 font-semibold text-white">Site</th>
-                <th className="text-left p-3 font-semibold text-white">Référence</th>
+                <th className="text-left p-3 font-semibold text-gray-900 ">Site</th>
+                <th className="text-left p-3 font-semibold text-gray-900 ">Référence</th>
                 <th
-                  className="text-left p-3 font-semibold text-white cursor-pointer hover:text-bordeaux-300"
+                  className="text-left p-3 font-semibold text-gray-900 cursor-pointer hover:text-bordeaux-700 "
                   onClick={() => toggleSort("prix")}
                 >
                   <div className="flex items-center space-x-2">
@@ -116,9 +116,9 @@ export function PieceComparisonTable({ results }: PieceComparisonTableProps) {
                     <ArrowUpDown className="h-4 w-4" />
                   </div>
                 </th>
-                <th className="text-left p-3 font-semibold text-white">Disponibilité</th>
+                <th className="text-left p-3 font-semibold text-gray-900 ">Disponibilité</th>
                 <th
-                  className="text-left p-3 font-semibold text-white cursor-pointer hover:text-bordeaux-300"
+                  className="text-left p-3 font-semibold text-gray-900 cursor-pointer hover:text-bordeaux-700 "
                   onClick={() => toggleSort("delai")}
                 >
                   <div className="flex items-center space-x-2">
@@ -127,10 +127,10 @@ export function PieceComparisonTable({ results }: PieceComparisonTableProps) {
                     <ArrowUpDown className="h-4 w-4" />
                   </div>
                 </th>
-                <th className="text-left p-3 font-semibold text-white">Actions</th>
+                <th className="text-left p-3 font-semibold text-gray-900 ">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/10">
+            <tbody className="divide-y divide-gray-200">
               {filteredResults.map((result, index) => {
                 const isBestPrice = result.prix === bestPrice
                 const isBestDelai = result.delai_jours === bestDelai
@@ -138,23 +138,23 @@ export function PieceComparisonTable({ results }: PieceComparisonTableProps) {
                 return (
                   <tr
                     key={`${result.site_id}-${index}`}
-                    className="hover:bg-white/20 transition-colors"
+                    className="hover:bg-gray-50 transition-colors"
                   >
-                    <td className="p-3 font-medium text-gray-200">{result.site_nom}</td>
+                    <td className="p-3 font-medium text-gray-900">{result.site_nom}</td>
                     <td className="p-3">
-                      <span className="font-mono text-sm text-gray-300">{result.reference || "-"}</span>
+                      <span className="font-mono text-sm text-gray-900">{result.reference || "-"}</span>
                     </td>
                     <td className="p-3">
                       <div className="flex items-center space-x-2">
                         <span
                           className={`font-bold ${
-                            isBestPrice ? "text-green-400 text-lg" : "text-white"
+                            isBestPrice ? "text-green-700 text-lg " : "text-gray-900"
                           }`}
                         >
                           {formatCurrency(result.prix)} {result.devise || "EUR"}
                         </span>
                         {isBestPrice && (
-                          <Badge className="bg-green-500/20 text-green-300 border border-green-500/30 backdrop-blur-sm text-xs">
+                          <Badge className="bg-green-100 text-green-800 border border-green-300 text-xs">
                             Meilleur prix
                           </Badge>
                         )}
@@ -165,13 +165,13 @@ export function PieceComparisonTable({ results }: PieceComparisonTableProps) {
                     </td>
                     <td className="p-3">
                       <div className="flex items-center space-x-2">
-                        <span className={isBestDelai ? "font-bold text-green-400" : "text-gray-200"}>
+                        <span className={isBestDelai ? "font-bold text-green-700 " : "text-gray-900"}>
                           {result.delai_jours !== undefined
                             ? `${result.delai_jours} jour${result.delai_jours > 1 ? "s" : ""}`
                             : "-"}
                         </span>
                         {isBestDelai && (
-                          <Badge className="bg-green-500/20 text-green-300 border border-green-500/30 backdrop-blur-sm text-xs">
+                          <Badge className="bg-green-100 text-green-800 border border-green-300 text-xs">
                             Plus rapide
                           </Badge>
                         )}
@@ -212,7 +212,7 @@ export function PieceComparisonTable({ results }: PieceComparisonTableProps) {
 
         {filteredResults.length === 0 && filterStock && (
           <div className="text-center py-8">
-            <p className="text-gray-300">Aucune pièce en stock trouvée</p>
+            <p className="text-gray-900">Aucune pièce en stock trouvée</p>
           </div>
         )}
       </CardContent>

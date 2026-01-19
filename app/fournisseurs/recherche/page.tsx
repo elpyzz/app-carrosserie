@@ -136,7 +136,7 @@ export default function RecherchePiecePage() {
           </Link>
           <div>
             <h1 className="text-3xl font-bold">Recherche de pièce</h1>
-            <p className="text-gray-600 mt-2">
+            <p className="text-gray-900 mt-2">
               Enregistrer une recherche de pièce chez un fournisseur
             </p>
           </div>
@@ -273,7 +273,7 @@ export default function RecherchePiecePage() {
                     >
                       <p className="font-medium">{search.piece}</p>
                       {search.suppliers && (
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm text-gray-900">
                           {search.suppliers.nom}
                         </p>
                       )}

@@ -26,7 +26,7 @@ export function PieceResults({
         <CardContent className="py-12">
           <div className="text-center">
             <Loader2 className="h-12 w-12 text-bordeaux-400 animate-spin mx-auto mb-4" />
-            <p className="text-gray-300">Recherche en cours sur les sites fournisseurs...</p>
+            <p className="text-gray-900">Recherche en cours sur les sites fournisseurs...</p>
           </div>
         </CardContent>
       </Card>
@@ -42,7 +42,7 @@ export function PieceResults({
       case "trouve":
         return <CheckCircle2 className="h-5 w-5 text-green-600" />
       case "non_trouve":
-        return <XCircle className="h-5 w-5 text-gray-400" />
+        return <XCircle className="h-5 w-5 text-gray-900" />
       case "erreur":
         return <AlertCircle className="h-5 w-5 text-red-600" />
       case "en_cours":
@@ -56,25 +56,25 @@ export function PieceResults({
     switch (statut) {
       case "trouve":
         return (
-          <Badge className="bg-green-500/20 text-green-300 border border-green-500/30 backdrop-blur-sm">
+          <Badge className="bg-green-100 text-green-800 border border-green-300">
             Pièce trouvée ✅
           </Badge>
         )
       case "non_trouve":
         return (
-          <Badge className="bg-white/15 text-gray-200 border border-white/30 backdrop-blur-sm">
+          <Badge className="bg-gray-100 text-gray-900 border border-gray-300">
             Non trouvée ❌
           </Badge>
         )
       case "erreur":
         return (
-          <Badge className="bg-bordeaux-500/30 text-bordeaux-200 border border-bordeaux-500/50 backdrop-blur-sm">
+          <Badge className="bg-bordeaux-100 text-bordeaux-800 border border-bordeaux-300">
             Erreur ⚠️
           </Badge>
         )
       case "en_cours":
         return (
-          <Badge className="bg-blue-500/20 text-blue-300 border border-blue-500/30 backdrop-blur-sm">
+          <Badge className="bg-blue-100 text-blue-800 border border-blue-300">
             En cours...
           </Badge>
         )
@@ -88,17 +88,17 @@ export function PieceResults({
 
     const badges = {
       en_stock: (
-        <Badge className="bg-green-500/20 text-green-300 border border-green-500/30 backdrop-blur-sm">
+        <Badge className="bg-green-100 text-green-800 border border-green-300">
           En stock
         </Badge>
       ),
       sur_commande: (
-        <Badge className="bg-orange-500/20 text-orange-300 border border-orange-500/30 backdrop-blur-sm">
+        <Badge className="bg-orange-100 text-orange-800 border border-orange-300">
           Sur commande
         </Badge>
       ),
       indisponible: (
-        <Badge className="bg-bordeaux-500/20 text-bordeaux-300 border border-bordeaux-500/30 backdrop-blur-sm">
+        <Badge className="bg-bordeaux-100 text-bordeaux-700 border border-bordeaux-300">
           Indisponible
         </Badge>
       ),
@@ -120,9 +120,9 @@ export function PieceResults({
                 <div className="flex items-center space-x-3">
                   {getStatusIcon(result.statut)}
                   <div>
-                    <h3 className="font-bold text-lg text-white">{result.site_nom}</h3>
+                    <h3 className="font-bold text-lg text-gray-900">{result.site_nom}</h3>
                     {result.message && (
-                      <p className="text-sm text-gray-300 mt-1">{result.message}</p>
+                      <p className="text-sm text-gray-900 mt-1">{result.message}</p>
                     )}
                   </div>
                 </div>
@@ -145,7 +145,7 @@ export function PieceResults({
                     <div className="space-y-2">
                       {result.prix !== undefined && (
                         <div className="flex items-center justify-between">
-                          <span className="text-sm text-gray-300">Prix:</span>
+                          <span className="text-sm text-gray-900">Prix:</span>
                           <span className="font-bold text-lg text-green-300">
                             {formatCurrency(result.prix)} {result.devise || "EUR"}
                           </span>
@@ -153,14 +153,14 @@ export function PieceResults({
                       )}
                       {result.disponibilite && (
                         <div className="flex items-center justify-between">
-                          <span className="text-sm text-gray-300">Disponibilité:</span>
+                          <span className="text-sm text-gray-900">Disponibilité:</span>
                           {getDisponibiliteBadge(result.disponibilite)}
                         </div>
                       )}
                       {result.delai_jours !== undefined && (
                         <div className="flex items-center justify-between">
-                          <span className="text-sm text-gray-300">Délai:</span>
-                          <span className="font-medium text-white">
+                          <span className="text-sm text-gray-900">Délai:</span>
+                          <span className="font-medium text-gray-900">
                             {result.delai_jours} jour{result.delai_jours > 1 ? "s" : ""}
                           </span>
                         </div>
