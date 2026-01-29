@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Select } from "@/components/ui/select"
 import { formatCurrency, formatDate, getDaysSince } from "@/lib/utils"
 import Link from "next/link"
-import { Plus, Search } from "lucide-react"
+import { Plus, Search, FileText } from "lucide-react"
 import { DossierStatut } from "@/lib/types"
 
 const STATUTS: DossierStatut[] = [

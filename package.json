@@ -24,7 +24,9 @@
     "lucide-react": "^0.344.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
-    "tailwind-merge": "^2.2.1"
+    "tailwind-merge": "^2.2.1",
+    "puppeteer-core": "^21.6.1",
+    "@sparticuz/chromium": "^119.0.2"
   },
   "devDependencies": {
     "typescript": "^5.4.3",

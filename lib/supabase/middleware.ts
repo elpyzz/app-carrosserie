@@ -2,6 +2,11 @@ import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function updateSession(request: NextRequest) {
+  // Redirect root to login
+  if (request.nextUrl.pathname === '/') {
+    return NextResponse.redirect(new URL('/login', request.url))
+  }
+  
   let response = NextResponse.next({
     request: {
       headers: request.headers,

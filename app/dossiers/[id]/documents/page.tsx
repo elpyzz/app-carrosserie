@@ -23,6 +23,8 @@ const documentSchema = z.object({
     "photos_apres",
     "carte_grise",
     "rapport_expert",
+    "pv",
+    "reglement_direct",
     "facture",
     "autres",
   ]),
@@ -79,17 +81,22 @@ export default function UploadDocumentPage({
       if (uploadError) throw uploadError
 
       // Enregistrer dans la base de données
-      const { error: dbError } = await supabase.from("documents").insert({
-        dossier_id: params.id,
-        type: data.type,
-        nom_fichier: file.name,
-        chemin_storage: filePath,
-        taille_bytes: file.size,
-        mime_type: file.type,
-        uploaded_by: user.id,
-      })
+      const { data: document, error: dbError } = await supabase
+        .from("documents")
+        .insert({
+          dossier_id: params.id,
+          type: data.type,
+          nom_fichier: file.name,
+          chemin_storage: filePath,
+          taille_bytes: file.size,
+          mime_type: file.type,
+          uploaded_by: user.id,
+        })
+        .select("id")
+        .single()
 
       if (dbError) throw dbError
+      if (!document) throw new Error("Erreur lors de la création du document")
 
       // Vérifier si cela complète un élément de checklist
       const { data: checklistItems } = await supabase
@@ -121,6 +128,37 @@ export default function UploadDocumentPage({
         user_id: user.id,
         details: { type: data.type, nom_fichier: file.name },
       })
+
+      // Arrêter les relances si document rapport_expert, pv ou reglement_direct
+      if (
+        data.type === "rapport_expert" ||
+        data.type === "pv" ||
+        data.type === "reglement_direct"
+      ) {
+        try {
+          await fetch("/api/relance/stop", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              dossier_id: params.id,
+              document_type: data.type,
+              document_id: document.id,
+            }),
+          })
+
+          // Mettre à jour le dossier
+          await supabase
+            .from("dossiers")
+            .update({
+              statut: "RAPPORT_RECU",
+              date_rapport_recu: new Date().toISOString(),
+            })
+            .eq("id", params.id)
+        } catch (relanceError) {
+          console.error("Error stopping relances:", relanceError)
+          // Ne pas bloquer l'upload si l'arrêt des relances échoue
+        }
+      }
 
       setSuccess(true)
       reset()
@@ -164,6 +202,8 @@ export default function UploadDocumentPage({
                   <option value="photos_apres">Photos après</option>
                   <option value="carte_grise">Carte grise</option>
                   <option value="rapport_expert">Rapport expert</option>
+                  <option value="pv">PV</option>
+                  <option value="reglement_direct">Règlement direct</option>
                   <option value="facture">Facture</option>
                   <option value="autres">Autres</option>
                 </Select>

@@ -1,11 +1,10 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
-import { useForm } from "react-hook-form"
+import React, { useState, useEffect, useRef } from "react"
+import { useForm, Controller } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import AuthenticatedLayout from "@/components/layout/authenticated-layout"
+import ClientAuthenticatedLayout from "@/components/layout/client-authenticated-layout"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -13,149 +12,327 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Checkbox } from "@/components/ui/checkbox"
 import { createClient } from "@/lib/supabase/client"
-import { Save } from "lucide-react"
+import { 
+  Settings, 
+  Mail, 
+  Clock, 
+  MessageSquare, 
+  Phone, 
+  Building2, 
+  Save, 
+  Loader2, 
+  CheckCircle2, 
+  AlertCircle,
+} from "lucide-react"
+
+// Helper pour email optionnel (vide OU email valide)
+const optionalEmail = z.string().refine(
+  (val) => val === "" || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val),
+  { message: "Email invalide" }
+)
+
+// Helper pour nombre positif en string
+const positiveNumberString = z.string().refine(
+  (val) => /^\d+$/.test(val) && parseInt(val) > 0,
+  { message: "Doit être un nombre supérieur à 0" }
+)
 
 const settingsSchema = z.object({
-  email_expediteur: z.string().email(),
-  email_paiements: z.string().email(),
-  frequence_relance_expert_jours: z.string().min(1),
-  delai_alerte_rapport_jours: z.string().min(1),
+  // Emails (peuvent être vides)
+  email_expediteur: optionalEmail,
+  email_paiements: optionalEmail,
+  assurance_email_expediteur: optionalEmail,
+  
+  // Fréquences (doivent être des nombres > 0)
+  frequence_relance_expert_jours: positiveNumberString,
+  frequence_relance_client_jours: positiveNumberString,
+  delai_alerte_rapport_jours: positiveNumberString,
+  frequence_relance_assurance_mois: positiveNumberString,
+  
+  // Boolean (activations)
   sms_enabled: z.boolean(),
-  modele_message_expert: z.string().min(1),
-  modele_message_client: z.string().min(1),
-  modele_message_impaye: z.string().min(1),
+  relance_expert_portail_enabled: z.boolean(),
+  relance_client_sms_enabled: z.boolean(),
+  relance_assurance_auto_enabled: z.boolean(),
+  
+  // Modèles de messages (peuvent être vides)
+  modele_message_expert: z.string(),
+  modele_message_expert_portail: z.string(),
+  modele_message_client: z.string(),
+  modele_message_client_sms: z.string(),
+  modele_message_assurance: z.string(),
+  modele_message_impaye: z.string(),
+  
+  // Twilio (peuvent être vides)
+  twilio_account_sid: z.string(),
+  twilio_auth_token: z.string(),
+  twilio_phone_number: z.string(),
+  
+  // Avancé
+  relance_max_retries: positiveNumberString,
+  relance_retry_delay_minutes: positiveNumberString,
 })
 
 type SettingsFormData = z.infer<typeof settingsSchema>
 
-export default function SettingsPage() {
-  const router = useRouter()
-  const supabase = createClient()
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState("")
-  const [success, setSuccess] = useState(false)
-  const [isAdmin, setIsAdmin] = useState(false)
+const defaultValues: SettingsFormData = {
+  // Emails
+  email_expediteur: "",
+  email_paiements: "",
+  assurance_email_expediteur: "",
+  
+  // Fréquences
+  frequence_relance_expert_jours: "7",
+  frequence_relance_client_jours: "14",
+  delai_alerte_rapport_jours: "15",
+  frequence_relance_assurance_mois: "2",
+  
+  // Boolean
+  sms_enabled: false,
+  relance_expert_portail_enabled: true,
+  relance_client_sms_enabled: false,
+  relance_assurance_auto_enabled: true,
+  
+  // Modèles
+  modele_message_expert: "Bonjour, nous vous relançons concernant le dossier {dossier_id}. Merci de nous transmettre votre rapport d'expertise. Cordialement.",
+  modele_message_expert_portail: "Demande de rapport pour le dossier {dossier_id}, véhicule {immatriculation}.",
+  modele_message_client: "Bonjour {nom_client}, nous vous informons que votre dossier {dossier_id} est en attente de documents. Merci de nous les transmettre. Cordialement.",
+  modele_message_client_sms: "Bonjour, votre dossier {dossier_id} est en attente. Merci de nous contacter.",
+  modele_message_assurance: "Bonjour, nous relançons concernant la facture {numero_facture} d'un montant de {montant}€ pour le dossier {dossier_id}. Merci de procéder au règlement. Cordialement.",
+  modele_message_impaye: "Bonjour, nous vous relançons concernant le paiement en attente pour le dossier {dossier_id}. Cordialement.",
+  
+  // Twilio
+  twilio_account_sid: "",
+  twilio_auth_token: "",
+  twilio_phone_number: "",
+  
+  // Avancé
+  relance_max_retries: "3",
+  relance_retry_delay_minutes: "60",
+}
 
+export default function SettingsPage() {
+  // ========== STATES ==========
+  const [initialLoading, setInitialLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [success, setSuccess] = useState(false)
+  
+  // Ref pour éviter chargements multiples
+  const hasLoadedRef = useRef(false)
+  
+  // ========== FORM ==========
   const {
     register,
     handleSubmit,
-    formState: { errors },
-    setValue,
+    control,  // IMPORTANT pour Controller
+    reset,
     watch,
+    formState: { errors, isDirty },
   } = useForm<SettingsFormData>({
     resolver: zodResolver(settingsSchema),
+    defaultValues,
   })
-
+  
+  // Watcher pour affichage conditionnel
   const smsEnabled = watch("sms_enabled")
-
-  useEffect(() => {
-    // Vérifier si l'utilisateur est admin
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      if (user) {
-        supabase
-          .from("users")
-          .select("role")
-          .eq("id", user.id)
-          .single()
-          .then(({ data }) => {
-            setIsAdmin(data?.role === "admin")
-          })
+  
+  // ========== CHARGEMENT (UNE SEULE FOIS) ==========
+  const loadSettings = async () => {
+    try {
+      const supabase = createClient()
+      
+      const { data: settings, error: fetchError } = await supabase
+        .from("settings")
+        .select("key, value")
+      
+      // Ignorer erreur PGRST116 (table vide ou pas de résultats)
+      if (fetchError && fetchError.code !== "PGRST116") {
+        console.error("[Settings] Load error:", fetchError)
+        setError("Erreur lors du chargement des paramètres")
+        setInitialLoading(false)
+        return
       }
-    })
-
-    // Charger les settings
-    supabase
-      .from("settings")
-      .select("key, value")
-      .then(({ data }) => {
-        if (data) {
-          data.forEach((setting) => {
-            if (setting.key === "sms_enabled") {
-              setValue("sms_enabled", setting.value === "true")
-            } else {
-              setValue(setting.key as keyof SettingsFormData, setting.value)
-            }
-          })
+      
+      // Si pas de settings, garder les valeurs par défaut
+      if (!settings || settings.length === 0) {
+        setInitialLoading(false)
+        return
+      }
+      
+      // Mapper les settings vers les valeurs du formulaire
+      const formValues: Partial<SettingsFormData> = { ...defaultValues }
+      
+      settings.forEach((setting) => {
+        const key = setting.key as keyof SettingsFormData
+        const value = setting.value
+        
+        // Convertir les boolean stockés en string
+        if (key in defaultValues) {
+          if (typeof defaultValues[key] === "boolean") {
+            (formValues as any)[key] = (value === "true" || value === true)
+          } else {
+            (formValues as any)[key] = value
+          }
         }
       })
-  }, [supabase, setValue])
-
-  if (!isAdmin) {
-    return (
-      <AuthenticatedLayout>
-        <div className="text-center py-12">
-          <p className="text-gray-900">Accès réservé aux administrateurs</p>
-        </div>
-      </AuthenticatedLayout>
-    )
-  }
-
-  const onSubmit = async (data: SettingsFormData) => {
-    setLoading(true)
-    setError("")
-    setSuccess(false)
-
-    try {
-      const settings = [
-        { key: "email_expediteur", value: data.email_expediteur },
-        { key: "email_paiements", value: data.email_paiements },
-        { key: "frequence_relance_expert_jours", value: data.frequence_relance_expert_jours },
-        { key: "delai_alerte_rapport_jours", value: data.delai_alerte_rapport_jours },
-        { key: "sms_enabled", value: data.sms_enabled.toString() },
-        { key: "modele_message_expert", value: data.modele_message_expert },
-        { key: "modele_message_client", value: data.modele_message_client },
-        { key: "modele_message_impaye", value: data.modele_message_impaye },
-      ]
-
-      for (const setting of settings) {
-        const { error } = await supabase
-          .from("settings")
-          .upsert({
-            key: setting.key,
-            value: setting.value,
-            updated_at: new Date().toISOString(),
-          })
-
-        if (error) throw error
-      }
-
-      setSuccess(true)
-      setTimeout(() => setSuccess(false), 3000)
+      
+      // Reset UNE SEULE FOIS avec les valeurs chargées
+      reset(formValues as SettingsFormData, {
+        keepDefaultValues: false,
+      })
+      
     } catch (err: any) {
-      setError(err.message || "Une erreur est survenue")
+      console.error("[Settings] Load error:", err)
+      setError("Erreur lors du chargement des paramètres")
     } finally {
-      setLoading(false)
+      setInitialLoading(false)
     }
   }
-
-  return (
-    <AuthenticatedLayout>
-      <div className="max-w-4xl mx-auto space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold">Paramètres</h1>
-          <p className="text-gray-900 mt-2">Configuration de l'application</p>
+  
+  useEffect(() => {
+    if (hasLoadedRef.current) return
+    hasLoadedRef.current = true
+    loadSettings()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []) // Dépendances vides - CRITIQUE pour éviter boucles infinies
+  
+  // ========== SAUVEGARDE ==========
+  const onSubmit = async (data: SettingsFormData) => {
+    setSaving(true)
+    setError(null)
+    setSuccess(false)
+    
+    try {
+      const supabase = createClient()
+      
+      // Convertir les données pour la sauvegarde
+      const settingsToSave: { key: string; value: string }[] = []
+      
+      Object.entries(data).forEach(([key, value]) => {
+        // Ne pas sauvegarder twilio_auth_token si vide (sécurité)
+        if (key === "twilio_auth_token" && !value) {
+          return
+        }
+        
+        // Convertir boolean en string
+        const stringValue = typeof value === "boolean" 
+          ? value.toString() 
+          : value
+        
+        settingsToSave.push({ key, value: stringValue })
+      })
+      
+      // Sauvegarder chaque setting avec upsert
+      for (const setting of settingsToSave) {
+        const { error: upsertError } = await supabase
+          .from("settings")
+          .upsert(
+            { key: setting.key, value: setting.value },
+            { onConflict: "key" }
+          )
+        
+        if (upsertError) {
+          throw new Error(`Erreur sauvegarde ${setting.key}: ${upsertError.message}`)
+        }
+      }
+      
+      setSuccess(true)
+      
+      // Reset isDirty après sauvegarde réussie
+      reset(data, { keepValues: true })
+      
+      // Masquer le message de succès après 3 secondes
+      setTimeout(() => setSuccess(false), 3000)
+      
+    } catch (err: any) {
+      console.error("[Settings] Save error:", err)
+      setError(err.message || "Erreur lors de la sauvegarde")
+    } finally {
+      setSaving(false)
+    }
+  }
+  
+  // ========== RENDER ==========
+  if (initialLoading) {
+    return (
+      <ClientAuthenticatedLayout>
+        <div className="flex items-center justify-center min-h-[400px]">
+          <Loader2 className="h-8 w-8 animate-spin text-bordeaux-500" />
         </div>
-
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="space-y-6">
-            {/* Emails */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Configuration emails</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
+      </ClientAuthenticatedLayout>
+    )
+  }
+  
+  return (
+    <ClientAuthenticatedLayout>
+      <div className="space-y-6">
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="page-title flex items-center gap-2">
+              <Settings className="h-6 w-6" />
+              Paramètres
+            </h1>
+            <p className="text-gray-600">Configuration des relances et notifications</p>
+          </div>
+          
+          <Button
+            onClick={handleSubmit(onSubmit)}
+            disabled={saving || !isDirty}
+            className="btn-primary"
+          >
+            {saving ? (
+              <>
+                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                Enregistrement...
+              </>
+            ) : (
+              <>
+                <Save className="h-4 w-4 mr-2" />
+                Enregistrer
+              </>
+            )}
+          </Button>
+        </div>
+        
+        {/* Messages feedback */}
+        {error && (
+          <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-center gap-2 text-red-700">
+            <AlertCircle className="h-5 w-5 flex-shrink-0" />
+            <span>{error}</span>
+          </div>
+        )}
+        
+        {success && (
+          <div className="bg-green-50 border border-green-200 rounded-lg p-4 flex items-center gap-2 text-green-700">
+            <CheckCircle2 className="h-5 w-5 flex-shrink-0" />
+            <span>Paramètres enregistrés avec succès</span>
+          </div>
+        )}
+        
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          {/* Section 1 : Configuration des emails */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Mail className="h-5 w-5 text-bordeaux-500" />
+                Configuration des emails
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="email_expediteur">Email expéditeur</Label>
+                  <Label htmlFor="email_expediteur">Email expéditeur (relances)</Label>
                   <Input
                     id="email_expediteur"
                     type="email"
+                    placeholder="relances@votredomaine.com"
                     {...register("email_expediteur")}
-                    placeholder="noreply@carrosserie.local"
+                    className="mt-1"
                   />
                   {errors.email_expediteur && (
-                    <p className="text-sm text-red-600 mt-1">
-                      {errors.email_expediteur.message}
-                    </p>
+                    <p className="text-sm text-red-600 mt-1">{errors.email_expediteur.message}</p>
                   )}
                 </div>
                 <div>
@@ -163,158 +340,374 @@ export default function SettingsPage() {
                   <Input
                     id="email_paiements"
                     type="email"
+                    placeholder="paiements@votredomaine.com"
                     {...register("email_paiements")}
-                    placeholder="paiements@carrosserie.local"
+                    className="mt-1"
                   />
                   {errors.email_paiements && (
-                    <p className="text-sm text-red-600 mt-1">
-                      {errors.email_paiements.message}
-                    </p>
+                    <p className="text-sm text-red-600 mt-1">{errors.email_paiements.message}</p>
                   )}
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+              <div>
+                <Label htmlFor="assurance_email_expediteur">Email expéditeur (relances assurances)</Label>
+                <Input
+                  id="assurance_email_expediteur"
+                  type="email"
+                  placeholder="assurances@votredomaine.com"
+                  {...register("assurance_email_expediteur")}
+                  className="mt-1"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  Si vide, l'email expéditeur principal sera utilisé
+                </p>
+                {errors.assurance_email_expediteur && (
+                  <p className="text-sm text-red-600 mt-1">{errors.assurance_email_expediteur.message}</p>
+                )}
+              </div>
+            </CardContent>
+          </Card>
 
-            {/* Relances */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Configuration relances</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="frequence_relance_expert_jours">
-                      Fréquence relance expert (jours)
-                    </Label>
-                    <Input
-                      id="frequence_relance_expert_jours"
-                      type="number"
-                      {...register("frequence_relance_expert_jours")}
-                      placeholder="3"
+          {/* Section 2 : Relances experts */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Clock className="h-5 w-5 text-bordeaux-500" />
+                Relances experts
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="frequence_relance_expert_jours">Fréquence relance (jours)</Label>
+                  <Input
+                    id="frequence_relance_expert_jours"
+                    type="number"
+                    min="1"
+                    {...register("frequence_relance_expert_jours")}
+                    className="mt-1"
+                  />
+                  {errors.frequence_relance_expert_jours && (
+                    <p className="text-sm text-red-600 mt-1">{errors.frequence_relance_expert_jours.message}</p>
+                  )}
+                </div>
+                <div>
+                  <Label htmlFor="delai_alerte_rapport_jours">Délai alerte rapport (jours)</Label>
+                  <Input
+                    id="delai_alerte_rapport_jours"
+                    type="number"
+                    min="1"
+                    {...register("delai_alerte_rapport_jours")}
+                    className="mt-1"
+                  />
+                  {errors.delai_alerte_rapport_jours && (
+                    <p className="text-sm text-red-600 mt-1">{errors.delai_alerte_rapport_jours.message}</p>
+                  )}
+                </div>
+              </div>
+              
+              {/* Checkbox avec Controller - CRITIQUE */}
+              <div className="flex items-center space-x-2">
+                <Controller
+                  name="relance_expert_portail_enabled"
+                  control={control}
+                  render={({ field }) => (
+                    <Checkbox
+                      id="relance_expert_portail_enabled"
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
                     />
-                    {errors.frequence_relance_expert_jours && (
-                      <p className="text-sm text-red-600 mt-1">
-                        {errors.frequence_relance_expert_jours.message}
-                      </p>
-                    )}
+                  )}
+                />
+                <Label htmlFor="relance_expert_portail_enabled" className="cursor-pointer">
+                  Activer la relance via portail expert
+                </Label>
+              </div>
+              
+              <div>
+                <Label htmlFor="modele_message_expert">Modèle email expert</Label>
+                <Textarea
+                  id="modele_message_expert"
+                  rows={3}
+                  placeholder="Bonjour, nous vous relançons..."
+                  {...register("modele_message_expert")}
+                  className="mt-1"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  Variables : {"{dossier_id}"}, {"{immatriculation}"}, {"{nom_client}"}
+                </p>
+              </div>
+              
+              <div>
+                <Label htmlFor="modele_message_expert_portail">Modèle message portail</Label>
+                <Textarea
+                  id="modele_message_expert_portail"
+                  rows={2}
+                  placeholder="Demande de rapport pour le dossier..."
+                  {...register("modele_message_expert_portail")}
+                  className="mt-1"
+                />
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Section 3 : Relances clients */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <MessageSquare className="h-5 w-5 text-bordeaux-500" />
+                Relances clients
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <Label htmlFor="frequence_relance_client_jours">Fréquence relance (jours)</Label>
+                <Input
+                  id="frequence_relance_client_jours"
+                  type="number"
+                  min="1"
+                  {...register("frequence_relance_client_jours")}
+                  className="mt-1 max-w-xs"
+                />
+                {errors.frequence_relance_client_jours && (
+                  <p className="text-sm text-red-600 mt-1">{errors.frequence_relance_client_jours.message}</p>
+                )}
+              </div>
+              
+              {/* Checkbox avec Controller */}
+              <div className="flex items-center space-x-2">
+                <Controller
+                  name="relance_client_sms_enabled"
+                  control={control}
+                  render={({ field }) => (
+                    <Checkbox
+                      id="relance_client_sms_enabled"
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  )}
+                />
+                <Label htmlFor="relance_client_sms_enabled" className="cursor-pointer">
+                  Activer les relances par SMS
+                </Label>
+              </div>
+              
+              <div>
+                <Label htmlFor="modele_message_client">Modèle email client</Label>
+                <Textarea
+                  id="modele_message_client"
+                  rows={3}
+                  placeholder="Bonjour, votre dossier..."
+                  {...register("modele_message_client")}
+                  className="mt-1"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  Variables : {"{nom_client}"}, {"{dossier_id}"}, {"{immatriculation}"}
+                </p>
+              </div>
+              
+              <div>
+                <Label htmlFor="modele_message_client_sms">Modèle SMS client</Label>
+                <Textarea
+                  id="modele_message_client_sms"
+                  rows={2}
+                  maxLength={160}
+                  placeholder="Bonjour, votre dossier..."
+                  {...register("modele_message_client_sms")}
+                  className="mt-1"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  Maximum 160 caractères pour un SMS
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Section 4 : Relances assurances */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Building2 className="h-5 w-5 text-bordeaux-500" />
+                Relances assurances
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <Label htmlFor="frequence_relance_assurance_mois">Fréquence relance (mois)</Label>
+                <Input
+                  id="frequence_relance_assurance_mois"
+                  type="number"
+                  min="1"
+                  {...register("frequence_relance_assurance_mois")}
+                  className="mt-1 max-w-xs"
+                />
+                {errors.frequence_relance_assurance_mois && (
+                  <p className="text-sm text-red-600 mt-1">{errors.frequence_relance_assurance_mois.message}</p>
+                )}
+              </div>
+              
+              {/* Checkbox avec Controller */}
+              <div className="flex items-center space-x-2">
+                <Controller
+                  name="relance_assurance_auto_enabled"
+                  control={control}
+                  render={({ field }) => (
+                    <Checkbox
+                      id="relance_assurance_auto_enabled"
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  )}
+                />
+                <Label htmlFor="relance_assurance_auto_enabled" className="cursor-pointer">
+                  Activer les relances automatiques des assurances
+                </Label>
+              </div>
+              
+              <div>
+                <Label htmlFor="modele_message_assurance">Modèle email assurance</Label>
+                <Textarea
+                  id="modele_message_assurance"
+                  rows={3}
+                  placeholder="Bonjour, nous relançons concernant la facture..."
+                  {...register("modele_message_assurance")}
+                  className="mt-1"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  Variables : {"{numero_facture}"}, {"{montant}"}, {"{dossier_id}"}, {"{nom_assurance}"}
+                </p>
+              </div>
+              
+              <div>
+                <Label htmlFor="modele_message_impaye">Modèle email impayé</Label>
+                <Textarea
+                  id="modele_message_impaye"
+                  rows={3}
+                  placeholder="Bonjour, nous vous relançons concernant le paiement..."
+                  {...register("modele_message_impaye")}
+                  className="mt-1"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  Variables : {"{dossier_id}"}, {"{montant}"}, {"{jours}"}
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Section 5 : Configuration SMS (Twilio) - Conditionnel */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Phone className="h-5 w-5 text-bordeaux-500" />
+                Configuration SMS (Twilio)
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {/* Checkbox global SMS avec Controller */}
+              <div className="flex items-center space-x-2">
+                <Controller
+                  name="sms_enabled"
+                  control={control}
+                  render={({ field }) => (
+                    <Checkbox
+                      id="sms_enabled"
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  )}
+                />
+                <Label htmlFor="sms_enabled" className="cursor-pointer">
+                  Activer l'envoi de SMS (nécessite un compte Twilio)
+                </Label>
+              </div>
+              
+              {/* Affichage conditionnel si SMS activés */}
+              {smsEnabled && (
+                <div className="space-y-4 pt-4 border-t">
+                  <div>
+                    <Label htmlFor="twilio_account_sid">Account SID</Label>
+                    <Input
+                      id="twilio_account_sid"
+                      placeholder="ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+                      {...register("twilio_account_sid")}
+                      className="mt-1"
+                    />
                   </div>
                   <div>
-                    <Label htmlFor="delai_alerte_rapport_jours">
-                      Délai alerte rapport (jours)
-                    </Label>
+                    <Label htmlFor="twilio_auth_token">Auth Token</Label>
                     <Input
-                      id="delai_alerte_rapport_jours"
-                      type="number"
-                      {...register("delai_alerte_rapport_jours")}
-                      placeholder="15"
+                      id="twilio_auth_token"
+                      type="password"
+                      placeholder="••••••••••••••••"
+                      {...register("twilio_auth_token")}
+                      className="mt-1"
                     />
-                    {errors.delai_alerte_rapport_jours && (
-                      <p className="text-sm text-red-600 mt-1">
-                        {errors.delai_alerte_rapport_jours.message}
-                      </p>
-                    )}
+                    <p className="text-xs text-gray-500 mt-1">
+                      Laissez vide pour conserver la valeur actuelle
+                    </p>
+                  </div>
+                  <div>
+                    <Label htmlFor="twilio_phone_number">Numéro Twilio</Label>
+                    <Input
+                      id="twilio_phone_number"
+                      placeholder="+33612345678"
+                      {...register("twilio_phone_number")}
+                      className="mt-1"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Format E.164 (ex: +33612345678)
+                    </p>
                   </div>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <Checkbox
-                    id="sms_enabled"
-                    checked={smsEnabled}
-                    onCheckedChange={(checked) =>
-                      setValue("sms_enabled", checked === true)
-                    }
-                  />
-                  <Label htmlFor="sms_enabled">Activer les SMS (Twilio)</Label>
-                </div>
-              </CardContent>
-            </Card>
+              )}
+            </CardContent>
+          </Card>
 
-            {/* Modèles de messages */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Modèles de messages</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
+          {/* Section 6 : Configuration avancée */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Settings className="h-5 w-5 text-bordeaux-500" />
+                Configuration avancée
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="modele_message_expert">
-                    Message relance expert
-                  </Label>
-                  <Textarea
-                    id="modele_message_expert"
-                    {...register("modele_message_expert")}
-                    placeholder="Bonjour, nous relançons concernant le dossier {dossier_id}..."
-                    rows={3}
+                  <Label htmlFor="relance_max_retries">Nombre max de tentatives</Label>
+                  <Input
+                    id="relance_max_retries"
+                    type="number"
+                    min="1"
+                    max="10"
+                    {...register("relance_max_retries")}
+                    className="mt-1"
                   />
-                  <p className="text-xs text-gray-900 mt-1">
-                    Variables disponibles: {"{dossier_id}"}
+                  <p className="text-xs text-gray-500 mt-1">
+                    Nombre de tentatives avant abandon
                   </p>
-                  {errors.modele_message_expert && (
-                    <p className="text-sm text-red-600 mt-1">
-                      {errors.modele_message_expert.message}
-                    </p>
+                  {errors.relance_max_retries && (
+                    <p className="text-sm text-red-600 mt-1">{errors.relance_max_retries.message}</p>
                   )}
                 </div>
                 <div>
-                  <Label htmlFor="modele_message_client">
-                    Message notification client
-                  </Label>
-                  <Textarea
-                    id="modele_message_client"
-                    {...register("modele_message_client")}
-                    placeholder="Bonjour, nous avons relancé l'expert concernant votre dossier {dossier_id}..."
-                    rows={3}
+                  <Label htmlFor="relance_retry_delay_minutes">Délai entre tentatives (minutes)</Label>
+                  <Input
+                    id="relance_retry_delay_minutes"
+                    type="number"
+                    min="1"
+                    {...register("relance_retry_delay_minutes")}
+                    className="mt-1"
                   />
-                  <p className="text-xs text-gray-900 mt-1">
-                    Variables disponibles: {"{dossier_id}"}
-                  </p>
-                  {errors.modele_message_client && (
-                    <p className="text-sm text-red-600 mt-1">
-                      {errors.modele_message_client.message}
-                    </p>
+                  {errors.relance_retry_delay_minutes && (
+                    <p className="text-sm text-red-600 mt-1">{errors.relance_retry_delay_minutes.message}</p>
                   )}
                 </div>
-                <div>
-                  <Label htmlFor="modele_message_impaye">
-                    Message relance impayé
-                  </Label>
-                  <Textarea
-                    id="modele_message_impaye"
-                    {...register("modele_message_impaye")}
-                    placeholder="Bonjour, votre facture {dossier_id} d'un montant de {montant}€ est en attente..."
-                    rows={3}
-                  />
-                  <p className="text-xs text-gray-900 mt-1">
-                    Variables disponibles: {"{dossier_id}"}, {"{montant}"}, {"{jours}"}
-                  </p>
-                  {errors.modele_message_impaye && (
-                    <p className="text-sm text-red-600 mt-1">
-                      {errors.modele_message_impaye.message}
-                    </p>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-
-            {error && (
-              <div className="text-sm text-red-600 bg-red-50 p-3 rounded-md">
-                {error}
               </div>
-            )}
-
-            {success && (
-              <div className="text-sm text-green-600 bg-green-50 p-3 rounded-md">
-                Paramètres enregistrés avec succès !
-              </div>
-            )}
-
-            <div className="flex justify-end">
-              <Button type="submit" disabled={loading}>
-                <Save className="h-4 w-4 mr-2" />
-                {loading ? "Enregistrement..." : "Enregistrer"}
-              </Button>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
         </form>
       </div>
-    </AuthenticatedLayout>
+    </ClientAuthenticatedLayout>
   )
 }

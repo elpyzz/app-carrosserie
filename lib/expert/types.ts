@@ -50,3 +50,28 @@ export interface ExpertSearch {
   created_at: string
   updated_at: string
 }
+
+// === Types pour la création de dossier Expert ===
+
+export interface ExpertCreateDossierInput {
+  numero_sinistre: string
+  immatriculation: string
+  site_expert_id: string
+  numero_client: string
+  client_nom?: string
+  client_telephone?: string
+}
+
+export interface ExpertCreateDossierResponse {
+  success: boolean
+  dossier_id?: string
+  dossier_uuid?: string
+  error?: string
+  details?: {
+    client_id: string
+    vehicule_id: string
+    client_created: boolean
+    vehicule_created: boolean
+  }
+  existing_dossier_id?: string  // En cas de doublon
+}

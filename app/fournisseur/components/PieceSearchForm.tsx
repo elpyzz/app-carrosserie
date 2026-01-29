@@ -10,7 +10,6 @@ import { Label } from "@/components/ui/label"
 import { Select } from "@/components/ui/select"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
-import { createClient } from "@/lib/supabase/client"
 import { SupplierSite } from "@/lib/fournisseur/types"
 import { Search, Loader2, Package } from "lucide-react"
 
@@ -44,7 +43,6 @@ const MARQUES = [
 ]
 
 export function PieceSearchForm({ onSearch, loading }: PieceSearchFormProps) {
-  const supabase = createClient()
   const [sites, setSites] = useState<SupplierSite[]>([])
   const [selectedSites, setSelectedSites] = useState<string[]>([])
 
@@ -67,67 +65,25 @@ export function PieceSearchForm({ onSearch, loading }: PieceSearchFormProps) {
 
   const loadSites = async () => {
     try {
-      const { data, error } = await supabase
-        .from("supplier_sites")
-        .select("*")
-        .eq("actif", true)
-        .order("ordre", { ascending: true })
-        .limit(6)
-
-      if (data && !error) {
-        setSites(data as SupplierSite[])
-        const activeSiteIds = data.map((s) => s.id)
+      const response = await fetch('/api/fournisseur/sites')
+      const data = await response.json()
+      
+      if (data.success && data.sites) {
+        const activeSites = data.sites.filter((s: SupplierSite) => s.actif).slice(0, 6)
+        setSites(activeSites)
+        const activeSiteIds = activeSites.map((s) => s.id)
         setSelectedSites(activeSiteIds)
         setValue("sites_ids", activeSiteIds)
       } else {
-        // Mode mock : 6 sites de démonstration
-        const mockSites = [
-          { id: "mock-1", nom: "Pièces Auto Pro", ordre: 1, actif: true },
-          { id: "mock-2", nom: "Carrosserie Express", ordre: 2, actif: true },
-          { id: "mock-3", nom: "OEM Parts Direct", ordre: 3, actif: true },
-          { id: "mock-4", nom: "Auto Pièces 24", ordre: 4, actif: true },
-          { id: "mock-5", nom: "Pièces Discount", ordre: 5, actif: true },
-          { id: "mock-6", nom: "Expert Carrosserie", ordre: 6, actif: true },
-        ].map((s, idx) => ({
-          id: s.id,
-          nom: s.nom,
-          url_recherche: `https://${s.nom.toLowerCase().replace(/\s+/g, "-")}.example.com`,
-          type_auth: "none" as const,
-          credentials: null,
-          selectors: null,
-          actif: s.actif,
-          ordre: s.ordre,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        }))
-        setSites(mockSites)
-        setSelectedSites(mockSites.map((s) => s.id))
-        setValue("sites_ids", mockSites.map((s) => s.id))
+        setSites([])
+        setSelectedSites([])
+        setValue("sites_ids", [])
       }
-    } catch {
-      // Mode mock en cas d'erreur
-      const mockSites = [
-        { id: "mock-1", nom: "Pièces Auto Pro", ordre: 1 },
-        { id: "mock-2", nom: "Carrosserie Express", ordre: 2 },
-        { id: "mock-3", nom: "OEM Parts Direct", ordre: 3 },
-        { id: "mock-4", nom: "Auto Pièces 24", ordre: 4 },
-        { id: "mock-5", nom: "Pièces Discount", ordre: 5 },
-        { id: "mock-6", nom: "Expert Carrosserie", ordre: 6 },
-      ].map((s) => ({
-        id: s.id,
-        nom: s.nom,
-        url_recherche: `https://${s.nom.toLowerCase().replace(/\s+/g, "-")}.example.com`,
-        type_auth: "none" as const,
-        credentials: null,
-        selectors: null,
-        actif: true,
-        ordre: s.ordre,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      }))
-      setSites(mockSites)
-      setSelectedSites(mockSites.map((s) => s.id))
-      setValue("sites_ids", mockSites.map((s) => s.id))
+    } catch (error) {
+      console.error('Erreur lors du chargement des sites:', error)
+      setSites([])
+      setSelectedSites([])
+      setValue("sites_ids", [])
     }
   }
 

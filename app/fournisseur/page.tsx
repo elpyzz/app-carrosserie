@@ -8,8 +8,9 @@ import { PieceComparisonTable } from "./components/PieceComparisonTable"
 import { SearchHistory } from "./components/SearchHistory"
 import { PieceSearchCriteria, PieceResult, PieceSearch } from "@/lib/fournisseur/types"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Search, History, TrendingDown, FileText } from "lucide-react"
+import { Search, History, TrendingDown, FileText, Settings } from "lucide-react"
 import { QapterUpload } from "./components/QapterUpload"
+import { SupplierSitesConfig } from "./components/SupplierSitesConfig"
 
 export default function FournisseurPage() {
   const [results, setResults] = useState<PieceResult[]>([])
@@ -107,6 +108,10 @@ export default function FournisseurPage() {
               <FileText className="h-4 w-4" />
               <span>Qapter</span>
             </TabsTrigger>
+            <TabsTrigger value="config" className="flex items-center space-x-2 text-gray-900 data-[state=active]:text-white data-[state=active]:bg-bordeaux-600">
+              <Settings className="h-4 w-4" />
+              <span>Configuration</span>
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="search" className="space-y-6">
@@ -153,6 +158,10 @@ export default function FournisseurPage() {
               </p>
             </div>
             <QapterUpload />
+          </TabsContent>
+
+          <TabsContent value="config">
+            <SupplierSitesConfig />
           </TabsContent>
         </Tabs>
       </div>

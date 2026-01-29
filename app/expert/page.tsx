@@ -6,9 +6,10 @@ import { ExpertSearchForm } from "./components/ExpertSearchForm"
 import { ExpertResults } from "./components/ExpertResults"
 import { ExpertSitesConfig } from "./components/ExpertSitesConfig"
 import { ExpertRapportsList } from "./components/ExpertRapportsList"
+import { ExpertCreateDossierForm } from "./components/ExpertCreateDossierForm"
 import { ExpertSearchCriteria, ExpertSearchResult } from "@/lib/expert/types"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Search, Settings, FileText } from "lucide-react"
+import { Search, Settings, FileText, FilePlus } from "lucide-react"
 
 export default function ExpertPage() {
   const [results, setResults] = useState<ExpertSearchResult[]>([])
@@ -93,6 +94,10 @@ export default function ExpertPage() {
               <FileText className="h-4 w-4" />
               <span>Rapports reçus</span>
             </TabsTrigger>
+            <TabsTrigger value="create" className="flex items-center space-x-2 text-gray-900 data-[state=active]:text-white data-[state=active]:bg-bordeaux-600">
+              <FilePlus className="h-4 w-4" />
+              <span>Créer un dossier</span>
+            </TabsTrigger>
             <TabsTrigger value="config" className="flex items-center space-x-2 text-gray-900 data-[state=active]:text-white data-[state=active]:bg-bordeaux-600">
               <Settings className="h-4 w-4" />
               <span>Configuration</span>
@@ -126,6 +131,17 @@ export default function ExpertPage() {
               </p>
             </div>
             <ExpertRapportsList />
+          </TabsContent>
+
+          <TabsContent value="create">
+            <div className="bg-white border border-bordeaux-200 rounded-lg p-4 mb-4 shadow-md">
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Créer un dossier expert</h3>
+              <p className="text-sm text-gray-900">
+                Créez un dossier simplifié après envoi de l'AED/AD ou expertise terrain. 
+                Le système utilisera ces informations pour récupérer automatiquement les rapports.
+              </p>
+            </div>
+            <ExpertCreateDossierForm />
           </TabsContent>
 
           <TabsContent value="config">

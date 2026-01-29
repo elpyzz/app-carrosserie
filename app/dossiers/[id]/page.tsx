@@ -9,6 +9,7 @@ import { DossierStatut } from "@/lib/types"
 import Link from "next/link"
 import { ArrowLeft, Upload, Send, CheckCircle2, Circle } from "lucide-react"
 import { DossierDetailClient } from "./dossier-detail-client"
+import { ClientPreferences } from "@/app/clients/components/ClientPreferences"
 
 async function getDossier(id: string) {
   const supabase = await createClient()
@@ -323,6 +324,11 @@ export default async function DossierDetailPage({
             </CardContent>
           </Card>
         </div>
+
+        {/* Préférences client */}
+        {dossier.clients?.id && (
+          <ClientPreferences clientId={dossier.clients.id} />
+        )}
 
         {/* Documents */}
         <Card>

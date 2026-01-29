@@ -42,3 +42,11 @@ export function getDaysSince(date: string | Date | null | undefined): number {
   const diff = now.getTime() - d.getTime()
   return Math.floor(diff / (1000 * 60 * 60 * 24))
 }
+
+/**
+ * Vérifie si une chaîne est un UUID valide
+ */
+export function isValidUUID(str: string): boolean {
+  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+  return uuidRegex.test(str)
+}

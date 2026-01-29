@@ -25,7 +25,14 @@ export function Tabs({
 }: TabsProps) {
   const [internalValue, setInternalValue] = React.useState(defaultValue || "")
   const value = controlledValue ?? internalValue
-  const handleValueChange = onValueChange ?? setInternalValue
+  
+  const handleValueChange = React.useCallback((newValue: string) => {
+    if (onValueChange) {
+      onValueChange(newValue)
+    } else {
+      setInternalValue(newValue)
+    }
+  }, [onValueChange, value]) // Ajouter value pour éviter stale closure
 
   return (
     <TabsContext.Provider value={{ value, onValueChange: handleValueChange }}>
@@ -73,9 +80,17 @@ export function TabsTrigger({
   const { value: selectedValue, onValueChange } = useTabsContext()
   const isSelected = selectedValue === value
 
+  const handleClick = React.useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
+    onValueChange(value)
+  }, [onValueChange, value])
+
   return (
     <button
-      onClick={() => onValueChange(value)}
+      type="button"
+      onClick={handleClick}
+      onMouseDown={(e) => e.preventDefault()} // Empêcher le focus qui peut déclencher des événements
       className={cn(
         "inline-flex items-center justify-center whitespace-nowrap rounded-lg px-4 py-2 text-sm font-semibold ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
         isSelected

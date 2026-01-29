@@ -9,7 +9,6 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
-import { createClient } from "@/lib/supabase/client"
 import { ExpertSite, ExpertSiteAuthType } from "@/lib/expert/types"
 import { Search, Loader2 } from "lucide-react"
 
@@ -34,7 +33,6 @@ interface ExpertSearchFormProps {
 }
 
 export function ExpertSearchForm({ onSearch, loading }: ExpertSearchFormProps) {
-  const supabase = createClient()
   const [sites, setSites] = useState<ExpertSite[]>([])
   const [selectedSites, setSelectedSites] = useState<string[]>([])
 
@@ -55,15 +53,12 @@ export function ExpertSearchForm({ onSearch, loading }: ExpertSearchFormProps) {
     // Charger les sites d'experts
     const loadSites = async () => {
       try {
-        const { data, error } = await supabase
-          .from("expert_sites")
-          .select("*")
-          .eq("actif", true)
+        const response = await fetch('/api/expert/sites')
+        const data = await response.json()
         
-        if (data && !error) {
-          // Convertir type_auth string en ExpertSiteAuthType
-          // Convertir type_auth string en ExpertSiteAuthType
-          const formattedSites: ExpertSite[] = (data as any[]).map((s: any) => ({
+        if (data.success && data.sites) {
+          const activeSites = data.sites.filter((s: ExpertSite) => s.actif)
+          const formattedSites: ExpertSite[] = activeSites.map((s: any) => ({
             ...s,
             type_auth: (s.type_auth === "none" || s.type_auth === "form" || s.type_auth === "api") 
               ? s.type_auth as ExpertSiteAuthType
@@ -74,53 +69,15 @@ export function ExpertSearchForm({ onSearch, loading }: ExpertSearchFormProps) {
           setSelectedSites(activeSiteIds)
           setValue("sites_ids", activeSiteIds)
         } else {
-          // Mode mock : sites de démonstration
-          const mockSites = [
-            {
-              id: "mock-1",
-              nom: "Expert Auto",
-              url_recherche: "https://expert-auto.example.com",
-              type_auth: "none",
-              credentials: null,
-              selectors: null,
-              actif: true,
-              created_at: new Date().toISOString(),
-              updated_at: new Date().toISOString(),
-            },
-            {
-              id: "mock-2",
-              nom: "Expert Pro",
-              url_recherche: "https://expert-pro.example.com",
-              type_auth: "form",
-              credentials: null,
-              selectors: null,
-              actif: true,
-              created_at: new Date().toISOString(),
-              updated_at: new Date().toISOString(),
-            },
-          ]
-          setSites(mockSites as ExpertSite[])
-          setSelectedSites(["mock-1", "mock-2"])
-          setValue("sites_ids", ["mock-1", "mock-2"])
+          setSites([])
+          setSelectedSites([])
+          setValue("sites_ids", [])
         }
-      } catch {
-        // Mode mock en cas d'erreur
-        const mockSites = [
-          {
-            id: "mock-1",
-            nom: "Expert Auto",
-            url_recherche: "https://expert-auto.example.com",
-            type_auth: "none",
-            credentials: null,
-            selectors: null,
-            actif: true,
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
-          },
-        ]
-        setSites(mockSites as ExpertSite[])
-        setSelectedSites(["mock-1"])
-        setValue("sites_ids", ["mock-1"])
+      } catch (error) {
+        console.error('Erreur lors du chargement des sites:', error)
+        setSites([])
+        setSelectedSites([])
+        setValue("sites_ids", [])
       }
     }
     

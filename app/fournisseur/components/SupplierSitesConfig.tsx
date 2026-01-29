@@ -8,55 +8,31 @@ import { Label } from "@/components/ui/label"
 import { Select } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
-import { createClient } from "@/lib/supabase/client"
 import { SupplierSite, SupplierSiteAuthType } from "@/lib/fournisseur/types"
 import { Plus, Edit, Trash2, TestTube, Settings, AlertCircle } from "lucide-react"
 
 export function SupplierSitesConfig() {
-  const supabase = createClient()
   const [sites, setSites] = useState<SupplierSite[]>([])
   const [showModal, setShowModal] = useState(false)
   const [editingSite, setEditingSite] = useState<SupplierSite | null>(null)
-  const [isAdmin, setIsAdmin] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(true) // Mode mock = admin par défaut
 
   useEffect(() => {
-    const checkAdmin = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (user) {
-        try {
-          const { data } = await supabase
-            .from("users")
-            .select("role")
-            .eq("id", user.id)
-            .single()
-          setIsAdmin(data?.role === "admin")
-        } catch {
-          setIsAdmin(true) // Mode mock = admin
-        }
-      } else {
-        setIsAdmin(true) // Mode mock = admin
-      }
-    }
-
-    checkAdmin()
     loadSites()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const loadSites = async () => {
     try {
-      const { data, error } = await supabase
-        .from("supplier_sites")
-        .select("*")
-        .order("ordre", { ascending: true })
-
-      if (data && !error) {
-        setSites(data as SupplierSite[])
+      const response = await fetch('/api/fournisseur/sites')
+      const data = await response.json()
+      
+      if (data.success && data.sites) {
+        setSites(data.sites as SupplierSite[])
       } else {
-        // Mode mock
         setSites([])
       }
-    } catch {
+    } catch (error) {
+      console.error('Erreur lors du chargement des sites:', error)
       setSites([])
     }
   }

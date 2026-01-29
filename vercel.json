@@ -2,7 +2,17 @@
   "crons": [
     {
       "path": "/api/cron/relances",
-      "schedule": "0 */6 * * *"
+      "schedule": "0 8,14,20 * * *"
+    },
+    {
+      "path": "/api/cron/relances-assurances",
+      "schedule": "0 9 * * *"
     }
-  ]
+  ],
+  "functions": {
+    "app/api/cron/relances/route.ts": {
+      "maxDuration": 60,
+      "memory": 1024
+    }
+  }
 }

@@ -14,12 +14,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  // #region agent log
-  if (typeof window !== 'undefined') {
-    fetch('http://127.0.0.1:7242/ingest/dd01c13f-3adb-44dd-ab15-9d28649f71ca',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'app/layout.tsx:12',message:'RootLayout rendering',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'K'})}).catch(()=>{});
-  }
-  // #endregion
-
   return (
     <html lang="fr">
       <body className={inter.className}>

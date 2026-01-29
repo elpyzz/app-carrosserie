@@ -1,246 +1,513 @@
 import { NextResponse } from "next/server"
 import { createClient } from "@/lib/supabase/server"
 import { Resend } from "resend"
+import { shouldStopRelances, stopRelancesForDossier, calculateDaysSinceLastRelance } from "@/lib/relance/utils"
+import { getRelanceSettings, createEmptyResults, formatMessage } from "@/lib/relance/cron-helpers"
+import { sendSMS } from "@/lib/sms/twilio-client"
+import { createAutomationHandler, isAutomationAvailable } from "@/lib/expert/automation/site-handlers"
+import { RelanceCronResults, RelanceSettings } from "@/lib/relance/types"
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+// Types pour les dossiers avec jointures
+interface DossierWithRelations {
+  id: string
+  dossier_id: string
+  statut: string
+  date_derniere_relance_expert: string | null
+  date_entree: string
+  date_rapport_recu: string | null
+  notifier_client: boolean
+  numero_sinistre: string | null
+  site_expert_id: string | null
+  expert: string | null
+  expert_email: string | null
+  clients: {
+    id: string
+    nom: string
+    telephone: string | null
+    email: string | null
+  } | null
+  vehicules: {
+    immatriculation: string | null
+  } | null
+  expert_sites: {
+    id: string
+    nom: string
+    url_recherche: string
+    type_auth: string
+    credentials: any
+    selectors: any
+    actif: boolean
+  } | null
+}
 
 export async function GET(request: Request) {
-  // Vérifier le header de sécurité (Vercel Cron)
+  // Vérification sécurité du cron
   const authHeader = request.headers.get("authorization")
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   }
 
   const supabase = await createClient()
+  const results = createEmptyResults()
 
   try {
     // Récupérer les settings
-    const { data: settings } = await supabase
-      .from("settings")
-      .select("key, value")
-      .in("key", [
-        "email_expediteur",
-        "frequence_relance_expert_jours",
-        "modele_message_expert",
-        "modele_message_client",
-        "sms_enabled",
-      ])
+    const settings = await getRelanceSettings(supabase)
 
-    const settingsMap: Record<string, string> = {}
-    settings?.forEach((s: { key: string; value: string }) => {
-      settingsMap[s.key] = s.value
-    })
-
-    const emailExpediteur = settingsMap["email_expediteur"] || "noreply@carrosserie.local"
-    const frequenceJours = parseInt(settingsMap["frequence_relance_expert_jours"] || "3")
-    const modeleExpert = settingsMap["modele_message_expert"] || "Bonjour, nous relançons concernant le dossier {dossier_id}."
-    const modeleClient = settingsMap["modele_message_client"] || "Bonjour, nous avons relancé l'expert concernant votre dossier {dossier_id} aujourd'hui."
-
-    // ============================================
-    // RELANCES EXPERTS
-    // ============================================
-    const { data: dossiersARelancer } = await supabase
+    // Récupérer les dossiers à relancer
+    const { data: dossiersARelancer, error: fetchError } = await supabase
       .from("dossiers")
-      .select("*, clients(*)")
+      .select(`
+        id,
+        dossier_id,
+        statut,
+        date_derniere_relance_expert,
+        date_entree,
+        date_rapport_recu,
+        notifier_client,
+        numero_sinistre,
+        site_expert_id,
+        expert,
+        expert_email,
+        clients (
+          id,
+          nom,
+          telephone,
+          email
+        ),
+        vehicules (
+          immatriculation
+        ),
+        expert_sites (
+          id,
+          nom,
+          url_recherche,
+          type_auth,
+          credentials,
+          selectors,
+          actif
+        )
+      `)
       .in("statut", ["EN_ATTENTE_EXPERT", "RELANCE_EXPERT"])
       .is("date_rapport_recu", null)
 
-    const dossiersRelances: any[] = []
-
-    for (const dossier of dossiersARelancer || []) {
-      const dateDerniereRelance = dossier.date_derniere_relance_expert
-        ? new Date(dossier.date_derniere_relance_expert)
-        : new Date(dossier.date_entree)
-      const joursDepuisRelance = Math.floor(
-        (Date.now() - dateDerniereRelance.getTime()) / (1000 * 60 * 60 * 24)
+    if (fetchError) {
+      console.error("[Cron] Error fetching dossiers:", fetchError)
+      return NextResponse.json(
+        { error: "Error fetching dossiers", details: fetchError.message },
+        { status: 500 }
       )
+    }
 
-      if (joursDepuisRelance >= frequenceJours && dossier.expert_email) {
-        // Vérifier qu'il n'y a pas de document rapport_expert
-        const { data: hasRapport } = await supabase
-          .from("documents")
-          .select("id")
-          .eq("dossier_id", dossier.id)
-          .eq("type", "rapport_expert")
-          .limit(1)
+    const dossiers = (dossiersARelancer || []) as DossierWithRelations[]
 
-        if (hasRapport && hasRapport.length > 0) {
-          // Le rapport existe, mettre à jour le statut
-          await supabase
-            .from("dossiers")
-            .update({
-              statut: "RAPPORT_RECU",
-              date_rapport_recu: new Date().toISOString(),
-            })
-            .eq("id", dossier.id)
+    for (const dossier of dossiers) {
+      try {
+        // ⚠️ VÉRIFICATION CRITIQUE : Arrêt si document reçu
+        const stopCheck = await shouldStopRelances(dossier.id)
+        if (stopCheck.shouldStop) {
+          await stopRelancesForDossier(
+            dossier.id,
+            stopCheck.reason || "unknown",
+            stopCheck.documentType
+          )
+          results.stopped++
           continue
         }
 
-        // Envoyer email à l'expert
-        const messageExpert = modeleExpert.replace("{dossier_id}", dossier.dossier_id)
+        // Calculer jours depuis dernière relance
+        const joursDepuisRelance = calculateDaysSinceLastRelance({
+          date_derniere_relance_expert: dossier.date_derniere_relance_expert,
+          date_entree: dossier.date_entree,
+        })
 
-        try {
-          await resend.emails.send({
-            from: emailExpediteur,
-            to: dossier.expert_email,
-            subject: `Relance - Dossier ${dossier.dossier_id}`,
-            text: messageExpert,
-          })
-
-          // Enregistrer la communication
-          await supabase.from("communications").insert({
-            dossier_id: dossier.id,
-            type: "relance_auto",
-            destinataire: dossier.expert_email,
-            sujet: `Relance - Dossier ${dossier.dossier_id}`,
-            contenu: messageExpert,
-            statut: "envoye",
-          })
-
-          // Mettre à jour le dossier
-          await supabase
-            .from("dossiers")
-            .update({
-              statut: "RELANCE_EXPERT",
-              date_derniere_relance_expert: new Date().toISOString(),
-            })
-            .eq("id", dossier.id)
-
-          dossiersRelances.push(dossier)
-
-          // Notifier le client si activé
-          if (dossier.notifier_client && dossier.clients?.email) {
-            const messageClient = modeleClient.replace(
-              "{dossier_id}",
-              dossier.dossier_id
-            )
-
-            try {
-              await resend.emails.send({
-                from: emailExpediteur,
-                to: dossier.clients.email,
-                subject: `Mise à jour - Dossier ${dossier.dossier_id}`,
-                text: messageClient,
-              })
-
-              await supabase.from("communications").insert({
-                dossier_id: dossier.id,
-                type: "email",
-                destinataire: dossier.clients.email,
-                sujet: `Mise à jour - Dossier ${dossier.dossier_id}`,
-                contenu: messageClient,
-                statut: "envoye",
-              })
-            } catch (err) {
-              console.error("Error sending client notification:", err)
-            }
-          }
-        } catch (err) {
-          console.error(`Error sending email for dossier ${dossier.dossier_id}:`, err)
+        const frequenceExpert = parseInt(settings.frequence_relance_expert_jours || "2")
+        if (joursDepuisRelance < frequenceExpert) {
+          results.skipped++
+          continue
         }
-      }
-    }
 
-    // ============================================
-    // RELANCES IMPAYÉS
-    // ============================================
-    const { data: impayes } = await supabase
-      .from("payments")
-      .select("*, dossiers(*, clients(*))")
-      .in("statut", ["EN_ATTENTE", "EN_RETARD"])
+        // RELANCE EXPERT
+        await relanceExpert(dossier, settings, supabase, results)
 
-    const { data: modeleImpaye } = await supabase
-      .from("settings")
-      .select("value")
-      .eq("key", "modele_message_impaye")
-      .single()
+        // RELANCE CLIENT
+        await relanceClient(dossier, settings, supabase, results)
 
-    const modeleImpayeText =
-      modeleImpaye?.value ||
-      "Bonjour, votre facture {dossier_id} d'un montant de {montant}€ est en attente de paiement depuis {jours} jours."
-
-    const { data: emailPaiements } = await supabase
-      .from("settings")
-      .select("value")
-      .eq("key", "email_paiements")
-      .single()
-
-    const emailPaiementsValue = emailPaiements?.value || "paiements@carrosserie.local"
-
-    const impayesRelances: any[] = []
-
-    for (const payment of impayes || []) {
-      if (!payment.date_echeance) continue
-
-      const dateEcheance = new Date(payment.date_echeance)
-      const joursDepuisEcheance = Math.floor(
-        (Date.now() - dateEcheance.getTime()) / (1000 * 60 * 60 * 24)
-      )
-
-      // Relances à J+30, J+45, J+60
-      const relanceNecessaire =
-        (joursDepuisEcheance === 30 ||
-          joursDepuisEcheance === 45 ||
-          joursDepuisEcheance === 60) &&
-        joursDepuisEcheance > 0
-
-      if (relanceNecessaire) {
-        const dossier = payment.dossiers
-        const client = dossier?.clients
-
-        if (client?.email) {
-          const message = modeleImpayeText
-            .replace("{dossier_id}", dossier?.dossier_id || "")
-            .replace("{montant}", payment.montant.toString())
-            .replace("{jours}", joursDepuisEcheance.toString())
-
-          try {
-            await resend.emails.send({
-              from: emailPaiementsValue,
-              to: client.email,
-              subject: `Rappel - Facture ${dossier?.dossier_id}`,
-              text: message,
-            })
-
-            // Enregistrer la communication
-            await supabase.from("communications").insert({
-              dossier_id: payment.dossier_id,
-              type: "relance_auto",
-              destinataire: client.email,
-              sujet: `Rappel - Facture ${dossier?.dossier_id}`,
-              contenu: message,
-              statut: "envoye",
-            })
-
-            // Mettre à jour le payment
-            await supabase
-              .from("payments")
-              .update({
-                date_derniere_relance: new Date().toISOString(),
-                nombre_relances: payment.nombre_relances + 1,
-                statut: joursDepuisEcheance > 30 ? "EN_RETARD" : payment.statut,
-              })
-              .eq("id", payment.id)
-
-            impayesRelances.push(payment)
-          } catch (err) {
-            console.error(`Error sending impaye email for payment ${payment.id}:`, err)
-          }
-        }
+      } catch (dossierError: any) {
+        console.error(`[Cron] Error processing dossier ${dossier.dossier_id}:`, dossierError)
+        results.errors.push(`Dossier ${dossier.dossier_id}: ${dossierError.message}`)
       }
     }
 
     return NextResponse.json({
       success: true,
-      relances_experts: dossiersRelances.length,
-      relances_impayes: impayesRelances.length,
+      results,
+      dossiers_traites: dossiers.length,
       timestamp: new Date().toISOString(),
     })
+
   } catch (error: any) {
-    console.error("Error in cron job:", error)
+    console.error("[Cron] Fatal error:", error)
     return NextResponse.json(
-      { error: error.message },
+      { 
+        success: false,
+        error: error.message,
+        results,
+      },
       { status: 500 }
     )
+  }
+}
+
+/**
+ * Relance un expert (portail puis email en fallback)
+ */
+async function relanceExpert(
+  dossier: DossierWithRelations,
+  settings: RelanceSettings,
+  supabase: any,
+  results: RelanceCronResults
+): Promise<void> {
+  // 1. Essayer relance via portail si activée et site configuré
+  if (
+    settings.relance_expert_portail_enabled === "true" &&
+    dossier.site_expert_id &&
+    dossier.expert_sites &&
+    isAutomationAvailable(dossier.expert_sites as any)
+  ) {
+    const portailSuccess = await relanceExpertViaPortail(dossier, settings, supabase)
+
+    if (portailSuccess) {
+      results.experts_portail.success++
+      return // Succès portail, on s'arrête là
+    } else {
+      results.experts_portail.failed++
+      // Continue vers email en fallback
+    }
+  }
+
+  // 2. Relance par email (fallback ou méthode principale)
+  if (dossier.expert_email) {
+    await relanceExpertViaEmail(dossier, settings, supabase, results)
+  }
+}
+
+/**
+ * Relance expert via portail web
+ */
+async function relanceExpertViaPortail(
+  dossier: DossierWithRelations,
+  settings: RelanceSettings,
+  supabase: any
+): Promise<boolean> {
+  if (!dossier.expert_sites) return false
+
+  const automation = createAutomationHandler(dossier.expert_sites as any)
+
+  try {
+    const message = formatMessage(settings.modele_message_expert_portail, {
+      dossier_id: dossier.dossier_id,
+    })
+
+    const result = await automation.executeRelance(
+      dossier.numero_sinistre || dossier.dossier_id,
+      dossier.vehicules?.immatriculation || "",
+      message
+    )
+
+    // Enregistrer dans l'historique
+    await supabase.from("relance_history").insert({
+      dossier_id: dossier.id,
+      relance_type: "expert_portail",
+      type: "portail_expert",
+      destinataire: dossier.expert_sites.nom,
+      sujet: `Relance via portail - ${dossier.dossier_id}`,
+      contenu: message,
+      statut: result.success ? "envoye" : "echec",
+      site_expert_id: dossier.site_expert_id,
+      portail_action: result.action,
+      portail_resultat: result,
+      erreur_message: result.erreur || null,
+      sent_at: new Date().toISOString(),
+    })
+
+    // Si rapport trouvé, arrêter les relances
+    if (result.rapport_trouve && result.rapport_url) {
+      await stopRelancesForDossier(
+        dossier.id,
+        "rapport_telecharge_portail",
+        "rapport_expert"
+      )
+    }
+
+    // Mettre à jour le dossier si succès
+    if (result.success) {
+      await supabase
+        .from("dossiers")
+        .update({
+          statut: "RELANCE_EXPERT",
+          date_derniere_relance_expert: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", dossier.id)
+    }
+
+    return result.success
+
+  } catch (error: any) {
+    console.error(`[Cron] Portail error for ${dossier.dossier_id}:`, error)
+    
+    // Log l'erreur dans l'historique
+    await supabase.from("relance_history").insert({
+      dossier_id: dossier.id,
+      relance_type: "expert_portail",
+      type: "portail_expert",
+      destinataire: dossier.expert_sites?.nom || "unknown",
+      statut: "echec",
+      erreur_message: error.message,
+      sent_at: new Date().toISOString(),
+    })
+
+    return false
+
+  } finally {
+    // Toujours nettoyer les ressources
+    await automation.cleanup()
+  }
+}
+
+/**
+ * Relance expert via email
+ */
+async function relanceExpertViaEmail(
+  dossier: DossierWithRelations,
+  settings: RelanceSettings,
+  supabase: any,
+  results: RelanceCronResults
+): Promise<void> {
+  if (!dossier.expert_email) return
+
+  const message = formatMessage(settings.modele_message_expert, {
+    dossier_id: dossier.dossier_id,
+  })
+
+  try {
+    // Vérifier que RESEND_API_KEY est configuré
+    if (!process.env.RESEND_API_KEY) {
+      throw new Error("RESEND_API_KEY not configured")
+    }
+
+    const resend = new Resend(process.env.RESEND_API_KEY)
+
+    const emailResult = await resend.emails.send({
+      from: settings.email_expediteur,
+      to: dossier.expert_email,
+      subject: `Relance - Dossier ${dossier.dossier_id}`,
+      text: message,
+    })
+
+    // Enregistrer dans l'historique
+    await supabase.from("relance_history").insert({
+      dossier_id: dossier.id,
+      relance_type: "expert_email",
+      type: "email",
+      destinataire: dossier.expert_email,
+      sujet: `Relance - Dossier ${dossier.dossier_id}`,
+      contenu: message,
+      statut: "envoye",
+      resend_email_id: emailResult.data?.id || null,
+      sent_at: new Date().toISOString(),
+    })
+
+    // Mettre à jour le dossier
+    await supabase
+      .from("dossiers")
+      .update({
+        statut: "RELANCE_EXPERT",
+        date_derniere_relance_expert: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", dossier.id)
+
+    results.experts_email.success++
+
+  } catch (error: any) {
+    console.error(`[Cron] Email error for ${dossier.dossier_id}:`, error)
+    results.experts_email.failed++
+
+    await supabase.from("relance_history").insert({
+      dossier_id: dossier.id,
+      relance_type: "expert_email",
+      type: "email",
+      destinataire: dossier.expert_email,
+      sujet: `Relance - Dossier ${dossier.dossier_id}`,
+      contenu: message,
+      statut: "echec",
+      erreur_message: error.message,
+      sent_at: new Date().toISOString(),
+    })
+  }
+}
+
+/**
+ * Relance un client (SMS et/ou email)
+ */
+async function relanceClient(
+  dossier: DossierWithRelations,
+  settings: RelanceSettings,
+  supabase: any,
+  results: RelanceCronResults
+): Promise<void> {
+  const client = dossier.clients
+  if (!client) return
+
+  // Vérifier préférences client
+  const { data: preferences } = await supabase
+    .from("client_preferences")
+    .select("*")
+    .eq("client_id", client.id)
+    .single()
+
+  const smsEnabled = preferences?.sms_enabled !== false
+  const emailEnabled = preferences?.email_enabled !== false
+
+  // RELANCE CLIENT PAR SMS
+  if (
+    settings.relance_client_sms_enabled === "true" &&
+    settings.sms_enabled === "true" &&
+    client.telephone &&
+    smsEnabled
+  ) {
+    await relanceClientViaSMS(dossier, client, settings, supabase, results)
+  }
+
+  // RELANCE CLIENT PAR EMAIL (si notifier_client activé)
+  if (dossier.notifier_client && client.email && emailEnabled) {
+    await relanceClientViaEmail(dossier, client, settings, supabase, results)
+  }
+}
+
+/**
+ * Relance client par SMS
+ */
+async function relanceClientViaSMS(
+  dossier: DossierWithRelations,
+  client: NonNullable<DossierWithRelations["clients"]>,
+  settings: RelanceSettings,
+  supabase: any,
+  results: RelanceCronResults
+): Promise<void> {
+  if (!client.telephone) return
+
+  const joursAttente = calculateDaysSinceLastRelance({
+    date_derniere_relance_expert: dossier.date_derniere_relance_expert,
+    date_entree: dossier.date_entree,
+  })
+
+  const message = formatMessage(settings.modele_message_client_sms, {
+    client_nom: client.nom || "Monsieur/Madame",
+    dossier_id: dossier.dossier_id,
+    jours_attente: joursAttente,
+  })
+
+  try {
+    const smsResult = await sendSMS(client.telephone, message)
+
+    // Enregistrer dans l'historique
+    await supabase.from("relance_history").insert({
+      dossier_id: dossier.id,
+      relance_type: "client_sms",
+      type: "sms",
+      destinataire: client.telephone,
+      contenu: message,
+      statut: smsResult.success ? "envoye" : "echec",
+      twilio_message_sid: smsResult.messageSid || null,
+      erreur_message: smsResult.error || null,
+      sent_at: new Date().toISOString(),
+    })
+
+    if (smsResult.success) {
+      results.clients_sms.success++
+    } else {
+      results.clients_sms.failed++
+    }
+
+  } catch (error: any) {
+    console.error(`[Cron] SMS error for ${dossier.dossier_id}:`, error)
+    results.clients_sms.failed++
+
+    await supabase.from("relance_history").insert({
+      dossier_id: dossier.id,
+      relance_type: "client_sms",
+      type: "sms",
+      destinataire: client.telephone,
+      contenu: message,
+      statut: "echec",
+      erreur_message: error.message,
+      sent_at: new Date().toISOString(),
+    })
+  }
+}
+
+/**
+ * Relance client par email
+ */
+async function relanceClientViaEmail(
+  dossier: DossierWithRelations,
+  client: NonNullable<DossierWithRelations["clients"]>,
+  settings: RelanceSettings,
+  supabase: any,
+  results: RelanceCronResults
+): Promise<void> {
+  if (!client.email) return
+
+  const message = formatMessage(settings.modele_message_client, {
+    dossier_id: dossier.dossier_id,
+    client_nom: client.nom,
+  })
+
+  try {
+    if (!process.env.RESEND_API_KEY) {
+      throw new Error("RESEND_API_KEY not configured")
+    }
+
+    const resend = new Resend(process.env.RESEND_API_KEY)
+
+    const emailResult = await resend.emails.send({
+      from: settings.email_expediteur,
+      to: client.email,
+      subject: `Mise à jour - Dossier ${dossier.dossier_id}`,
+      text: message,
+    })
+
+    await supabase.from("relance_history").insert({
+      dossier_id: dossier.id,
+      relance_type: "client_email",
+      type: "email",
+      destinataire: client.email,
+      sujet: `Mise à jour - Dossier ${dossier.dossier_id}`,
+      contenu: message,
+      statut: "envoye",
+      resend_email_id: emailResult.data?.id || null,
+      sent_at: new Date().toISOString(),
+    })
+
+    results.clients_email.success++
+
+  } catch (error: any) {
+    console.error(`[Cron] Client email error for ${dossier.dossier_id}:`, error)
+    results.clients_email.failed++
+
+    await supabase.from("relance_history").insert({
+      dossier_id: dossier.id,
+      relance_type: "client_email",
+      type: "email",
+      destinataire: client.email,
+      sujet: `Mise à jour - Dossier ${dossier.dossier_id}`,
+      contenu: message,
+      statut: "echec",
+      erreur_message: error.message,
+      sent_at: new Date().toISOString(),
+    })
   }
 }
