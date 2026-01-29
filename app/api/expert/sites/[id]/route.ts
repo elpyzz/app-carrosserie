@@ -1,18 +1,15 @@
 import { NextRequest, NextResponse } from "next/server"
 import { createClient } from "@/lib/supabase/server"
-
-// Type pour le contexte de route Next.js 15
-type RouteContext = {
-  params: Promise<{ id: string }>
-}
+import { maskSiteCredentials, sanitizeForAuditLog, sanitizeErrorMessage } from "@/lib/security/credentials-masker"
+import { isMaskedCredentials } from "@/lib/security/credentials-masker"
 
 // GET /api/expert/sites/[id] - Récupérer un site expert
 export async function GET(
   request: NextRequest,
-  context: RouteContext
+  { params }: { params: { id: string } }
 ) {
   try {
-    const { id } = await context.params
+    const { id } = params
     const supabase = await createClient()
 
     const { data: site, error } = await supabase
@@ -30,13 +27,13 @@ export async function GET(
 
     return NextResponse.json({
       success: true,
-      site,
+      site: maskSiteCredentials(site), // ✅ Masqué
     })
 
   } catch (error: any) {
-    console.error("[API] GET /api/expert/sites/[id] error:", error)
+    console.error("[API] GET /api/expert/sites/[id] error:", sanitizeErrorMessage(error))
     return NextResponse.json(
-      { success: false, error: error.message },
+      { success: false, error: sanitizeErrorMessage(error) },
       { status: 500 }
     )
   }
@@ -45,10 +42,10 @@ export async function GET(
 // PUT /api/expert/sites/[id] - Modifier un site expert
 export async function PUT(
   request: NextRequest,
-  context: RouteContext
+  { params }: { params: { id: string } }
 ) {
   try {
-    const { id } = await context.params
+    const { id } = params
     const supabase = await createClient()
 
     // Vérifier l'authentification
@@ -66,6 +63,25 @@ export async function PUT(
 
     const body = await request.json()
     const { nom, url_recherche, type_auth, credentials, selectors, actif } = body
+
+    // IMPORTANT : Ne pas permettre la modification des credentials via cet endpoint
+    // Les credentials doivent être modifiés via /api/expert/sites/[id]/credentials
+    if (credentials !== undefined) {
+      // Si c'est un credentials masqué ou une tentative de modification
+      if (isMaskedCredentials(credentials)) {
+        // Ignorer silencieusement les credentials masqués
+        delete body.credentials
+      } else if (credentials !== null) {
+        // Rediriger vers l'endpoint dédié
+        return NextResponse.json(
+          {
+            success: false,
+            error: "Pour modifier les credentials, utilisez PUT /api/expert/sites/{id}/credentials",
+          },
+          { status: 400 }
+        )
+      }
+    }
 
     // Vérifier que le site existe
     const { data: existingSite, error: fetchError } = await supabase
@@ -93,25 +109,6 @@ export async function PUT(
       }
     }
 
-    // Valider le JSON des credentials si fourni
-    let parsedCredentials: any = undefined
-    if (credentials !== undefined) {
-      if (credentials === null || credentials === "") {
-        parsedCredentials = null
-      } else {
-        try {
-          parsedCredentials = typeof credentials === "string" 
-            ? JSON.parse(credentials) 
-            : credentials
-        } catch {
-          return NextResponse.json(
-            { success: false, error: "Format JSON invalide pour credentials" },
-            { status: 400 }
-          )
-        }
-      }
-    }
-
     // Valider le JSON des selectors si fourni
     let parsedSelectors: any = undefined
     if (selectors !== undefined) {
@@ -131,7 +128,7 @@ export async function PUT(
       }
     }
 
-    // Construire l'objet de mise à jour
+    // Construire l'objet de mise à jour (sans credentials)
     const updateData: Record<string, any> = {
       updated_at: new Date().toISOString(),
     }
@@ -139,7 +136,7 @@ export async function PUT(
     if (nom !== undefined) updateData.nom = nom
     if (url_recherche !== undefined) updateData.url_recherche = url_recherche
     if (type_auth !== undefined) updateData.type_auth = type_auth
-    if (parsedCredentials !== undefined) updateData.credentials = parsedCredentials
+    // Ne pas inclure credentials dans updateData (modifié via endpoint dédié)
     if (parsedSelectors !== undefined) updateData.selectors = parsedSelectors
     if (actif !== undefined) updateData.actif = actif
 
@@ -159,27 +156,27 @@ export async function PUT(
       )
     }
 
-    // Log audit
+    // Log audit (sans exposer les credentials)
     await supabase.from("audit_logs").insert({
       action: "EXPERT_SITE_UPDATED",
       entity_type: "expert_sites",
       entity_id: id,
       user_id: user.id,
-      details: { 
+      details: sanitizeForAuditLog({ 
         previous_nom: existingSite.nom,
         ...updateData 
-      },
+      }), // ✅ Sanitisé
     })
 
     return NextResponse.json({
       success: true,
-      site: updatedSite,
+      site: maskSiteCredentials(updatedSite), // ✅ Masqué
     })
 
   } catch (error: any) {
-    console.error("[API] PUT /api/expert/sites/[id] error:", error)
+    console.error("[API] PUT /api/expert/sites/[id] error:", sanitizeErrorMessage(error))
     return NextResponse.json(
-      { success: false, error: error.message || "Erreur lors de la modification du site" },
+      { success: false, error: sanitizeErrorMessage(error) },
       { status: 500 }
     )
   }
@@ -188,10 +185,10 @@ export async function PUT(
 // DELETE /api/expert/sites/[id] - Supprimer un site expert
 export async function DELETE(
   request: NextRequest,
-  context: RouteContext
+  { params }: { params: { id: string } }
 ) {
   try {
-    const { id } = await context.params
+    const { id } = params
     const supabase = await createClient()
 
     // Vérifier l'authentification
@@ -266,9 +263,9 @@ export async function DELETE(
     })
 
   } catch (error: any) {
-    console.error("[API] DELETE /api/expert/sites/[id] error:", error)
+    console.error("[API] DELETE /api/expert/sites/[id] error:", sanitizeErrorMessage(error))
     return NextResponse.json(
-      { success: false, error: error.message || "Erreur lors de la suppression du site" },
+      { success: false, error: sanitizeErrorMessage(error) },
       { status: 500 }
     )
   }

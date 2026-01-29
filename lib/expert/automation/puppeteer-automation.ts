@@ -2,6 +2,7 @@ import puppeteer, { Browser, Page } from "puppeteer-core"
 import chromium from "@sparticuz/chromium"
 import { BaseAutomation } from "./base-automation"
 import { PortailRelanceResult } from "@/lib/relance/types"
+import { sanitizeErrorMessage } from "@/lib/security/credentials-masker"
 
 export class PuppeteerAutomation extends BaseAutomation {
   private browser: Browser | null = null
@@ -81,11 +82,11 @@ export class PuppeteerAutomation extends BaseAutomation {
         },
       }
     } catch (error: any) {
-      console.error("[Puppeteer] Connection error:", error)
+      console.error("[Puppeteer] Connection error:", sanitizeErrorMessage(error))
       return {
         success: false,
         action: "connexion",
-        erreur: error.message || "Erreur de connexion au portail",
+        erreur: sanitizeErrorMessage(error) || "Erreur de connexion au portail",
       }
     }
   }
@@ -109,7 +110,7 @@ export class PuppeteerAutomation extends BaseAutomation {
         await this.page.waitForNavigation({ waitUntil: "networkidle2", timeout: 15000 })
       }
     } catch (error) {
-      console.error("[Puppeteer] Login error:", error)
+      console.error("[Puppeteer] Login error:", sanitizeErrorMessage(error))
       throw error
     }
   }
@@ -150,11 +151,11 @@ export class PuppeteerAutomation extends BaseAutomation {
         },
       }
     } catch (error: any) {
-      console.error("[Puppeteer] Search error:", error)
+      console.error("[Puppeteer] Search error:", sanitizeErrorMessage(error))
       return {
         success: false,
         action: "recherche",
-        erreur: error.message || "Erreur lors de la recherche",
+        erreur: sanitizeErrorMessage(error) || "Erreur lors de la recherche",
       }
     }
   }
@@ -198,11 +199,11 @@ export class PuppeteerAutomation extends BaseAutomation {
         },
       }
     } catch (error: any) {
-      console.error("[Puppeteer] Send message error:", error)
+      console.error("[Puppeteer] Send message error:", sanitizeErrorMessage(error))
       return {
         success: false,
         action: "message_envoye",
-        erreur: error.message || "Erreur lors de l'envoi du message",
+        erreur: sanitizeErrorMessage(error) || "Erreur lors de l'envoi du message",
       }
     }
   }
@@ -251,11 +252,11 @@ export class PuppeteerAutomation extends BaseAutomation {
         },
       }
     } catch (error: any) {
-      console.error("[Puppeteer] Check rapport error:", error)
+      console.error("[Puppeteer] Check rapport error:", sanitizeErrorMessage(error))
       return {
         success: false,
         action: "rapport_telecharge",
-        erreur: error.message || "Erreur lors de la vérification du rapport",
+        erreur: sanitizeErrorMessage(error) || "Erreur lors de la vérification du rapport",
       }
     }
   }
@@ -271,7 +272,7 @@ export class PuppeteerAutomation extends BaseAutomation {
         this.browser = null
       }
     } catch (error) {
-      console.error("[Puppeteer] Cleanup error:", error)
+      console.error("[Puppeteer] Cleanup error:", sanitizeErrorMessage(error))
     }
   }
 }

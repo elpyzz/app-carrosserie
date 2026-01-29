@@ -42,8 +42,6 @@ export default function LoginPage() {
     e.preventDefault()
     e.stopPropagation()
     
-    console.log("Button clicked!", { email, password })
-    
     if (!email || !password) {
       setError("Veuillez remplir tous les champs")
       return

@@ -1,4 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { createClient } from "@/lib/supabase/server"
+import { maskSitesCredentials, maskSiteCredentials } from "@/lib/security/credentials-masker"
+import { validateAndSanitizeCredentials } from "@/lib/security/credentials-validator"
 
 // Sites fournisseurs par défaut
 const DEFAULT_SUPPLIER_SITES = [
@@ -67,6 +70,23 @@ const DEFAULT_SUPPLIER_SITES = [
 // GET /api/fournisseur/sites - Liste des sites fournisseurs
 export async function GET(request: NextRequest) {
   try {
+    // Si Supabase connecté, récupérer depuis la base de données
+    if (process.env.NEXT_PUBLIC_SUPABASE_URL) {
+      const supabase = await createClient()
+      const { data, error } = await supabase
+        .from("supplier_sites")
+        .select("*")
+        .order("ordre", { ascending: true })
+
+      if (!error && data) {
+        return NextResponse.json({
+          success: true,
+          sites: maskSitesCredentials(data), // ✅ Masqué
+        })
+      }
+    }
+
+    // Fallback : retourner les sites par défaut
     return NextResponse.json({
       success: true,
       sites: DEFAULT_SUPPLIER_SITES,
@@ -80,12 +100,63 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST /api/fournisseur/sites - Créer un site (pour l'instant, retourne juste les sites par défaut)
+// POST /api/fournisseur/sites - Créer un site
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    // Pour l'instant, on retourne juste les sites par défaut
-    // Plus tard, on pourra ajouter la persistance dans SQLite
+
+    // Si Supabase connecté, créer dans la base de données
+    if (process.env.NEXT_PUBLIC_SUPABASE_URL) {
+      const supabase = await createClient()
+
+      // Vérifier l'authentification
+      const {
+        data: { user },
+        error: authError,
+      } = await supabase.auth.getUser()
+
+      if (authError || !user) {
+        return NextResponse.json(
+          { success: false, error: "Non authentifié" },
+          { status: 401 }
+        )
+      }
+
+      // Valider les credentials si fournis
+      let validatedCredentials: Record<string, any> | null = null
+      if (body.credentials) {
+        validatedCredentials = validateAndSanitizeCredentials(body.credentials)
+      }
+
+      const { data: newSite, error: insertError } = await supabase
+        .from("supplier_sites")
+        .insert({
+          nom: body.nom,
+          url_recherche: body.url_recherche,
+          type_auth: body.type_auth || "none",
+          credentials: validatedCredentials,
+          selectors: body.selectors || {},
+          actif: body.actif !== undefined ? body.actif : true,
+          ordre: body.ordre || 0,
+        })
+        .select()
+        .single()
+
+      if (insertError) {
+        console.error("[API] Error creating supplier site:", insertError)
+        return NextResponse.json(
+          { success: false, error: insertError.message },
+          { status: 500 }
+        )
+      }
+
+      return NextResponse.json({
+        success: true,
+        site: maskSiteCredentials(newSite), // ✅ Masqué
+      })
+    }
+
+    // Fallback : mode démo
     return NextResponse.json({
       success: true,
       sites: DEFAULT_SUPPLIER_SITES,

@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from "@/lib/supabase/server"
 import { ExpertSite, ExpertSiteAuthType } from "@/lib/expert/types"
+import { maskSitesCredentials, maskSiteCredentials } from "@/lib/security/credentials-masker"
+import { validateAndSanitizeCredentials, CredentialsValidationError } from "@/lib/security/credentials-validator"
 
 // Sites experts par défaut (fallback si Supabase non configuré)
 const DEFAULT_EXPERT_SITES: ExpertSite[] = [
@@ -86,19 +88,21 @@ export async function GET(request: NextRequest) {
 
       if (!error && data && data.length > 0) {
         // Formater les sites pour correspondre au type ExpertSite
-        const formattedSites: ExpertSite[] = data.map((s: any) => ({
-          id: s.id,
-          nom: s.nom,
-          url_recherche: s.url_recherche,
-          type_auth: (s.type_auth === "none" || s.type_auth === "form" || s.type_auth === "api") 
-            ? s.type_auth as ExpertSiteAuthType
-            : "none" as ExpertSiteAuthType,
-          credentials: s.credentials,
-          selectors: s.selectors,
-          actif: s.actif ?? true,
-          created_at: s.created_at || new Date().toISOString(),
-          updated_at: s.updated_at || new Date().toISOString(),
-        }))
+        const formattedSites = maskSitesCredentials(
+          data.map((s: any) => ({
+            id: s.id,
+            nom: s.nom,
+            url_recherche: s.url_recherche,
+            type_auth: (s.type_auth === "none" || s.type_auth === "form" || s.type_auth === "api") 
+              ? s.type_auth as ExpertSiteAuthType
+              : "none" as ExpertSiteAuthType,
+            credentials: s.credentials, // Sera masqué par maskSitesCredentials
+            selectors: s.selectors,
+            actif: s.actif ?? true,
+            created_at: s.created_at || new Date().toISOString(),
+            updated_at: s.updated_at || new Date().toISOString(),
+          }))
+        )
 
         return NextResponse.json({
           success: true,
@@ -164,18 +168,19 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Valider le JSON des credentials si fourni
-    let parsedCredentials = null
+    // Valider et nettoyer les credentials si fournis
+    let validatedCredentials: Record<string, any> | null = null
     if (credentials) {
       try {
-        parsedCredentials = typeof credentials === "string" 
-          ? JSON.parse(credentials) 
-          : credentials
-      } catch {
-        return NextResponse.json(
-          { success: false, error: "Format JSON invalide pour credentials" },
-          { status: 400 }
-        )
+        validatedCredentials = validateAndSanitizeCredentials(credentials)
+      } catch (error) {
+        if (error instanceof CredentialsValidationError) {
+          return NextResponse.json(
+            { success: false, error: error.message },
+            { status: 400 }
+          )
+        }
+        throw error
       }
     }
 
@@ -201,7 +206,7 @@ export async function POST(request: NextRequest) {
         nom,
         url_recherche,
         type_auth: type_auth || "none",
-        credentials: parsedCredentials,
+        credentials: validatedCredentials, // ✅ Validé
         selectors: parsedSelectors,
         actif: actif !== undefined ? actif : true,
       })
@@ -227,7 +232,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      site: newSite,
+      site: maskSiteCredentials(newSite), // ✅ Masqué
     })
 
   } catch (error: any) {

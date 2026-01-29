@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { createClient } from "@/lib/supabase/server"
-import { PieceSearchCriteria, PieceResult, Disponibilite } from "@/lib/fournisseur/types"
+import { PieceSearchCriteria, PieceResult } from "@/lib/fournisseur/types"
+import { searchOnSupplierSite } from "@/lib/fournisseur/scraper"
 
 export async function POST(request: Request) {
   try {
@@ -78,51 +79,20 @@ export async function POST(request: Request) {
       searchId = search.id
     }
 
-    // Simuler la recherche sur chaque site (mock pour l'instant)
+    // Recherche sur chaque site
     const results: PieceResult[] = await Promise.all(
       sites.map(async (site: any) => {
-        // Simuler un délai de recherche
-        await new Promise((resolve) => setTimeout(resolve, 1000 + Math.random() * 2000))
-
-        // Simuler différents résultats
-        const random = Math.random()
-        if (random > 0.5) {
-          // Pièce trouvée
-          const prix = 50 + Math.random() * 500
-          const delai = Math.floor(Math.random() * 10) + 1
-          const disponibiliteOptions: Disponibilite[] = ["en_stock", "sur_commande", "indisponible"]
-          const disponibilite = disponibiliteOptions[Math.floor(Math.random() * 3)]
-
-          return {
-            site_id: site.id,
-            site_nom: site.nom,
-            statut: "trouve",
-            message: "Pièce trouvée avec succès",
-            reference: criteria.reference_piece || `REF-${Math.floor(Math.random() * 10000)}`,
-            nom: criteria.nom_piece || "Pièce de rechange",
-            prix: Math.round(prix * 100) / 100,
-            devise: "EUR",
-            disponibilite,
-            delai_jours: disponibilite === "en_stock" ? delai : delai + 5,
-            image_url: `https://via.placeholder.com/150?text=${encodeURIComponent(site.nom)}`,
-            produit_url: `https://${site.nom.toLowerCase().replace(/\s+/g, "-")}.example.com/produit/123`,
-          } as PieceResult
-        } else if (random > 0.2) {
-          // Non trouvé
-          return {
-            site_id: site.id,
-            site_nom: site.nom,
-            statut: "non_trouve",
-            message: "Aucune pièce trouvée pour ces critères",
-          } as PieceResult
-        } else {
-          // Erreur
+        try {
+          const result = await searchOnSupplierSite(site, criteria)
+          return result
+        } catch (error: any) {
+          console.error(`[API] Error searching on site ${site.nom}:`, error)
           return {
             site_id: site.id,
             site_nom: site.nom,
             statut: "erreur",
             message: "Erreur lors de la recherche",
-            erreur: "Site temporairement indisponible",
+            erreur: error.message || "Erreur inconnue",
           } as PieceResult
         }
       })

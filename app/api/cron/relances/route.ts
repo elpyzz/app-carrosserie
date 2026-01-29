@@ -6,6 +6,7 @@ import { getRelanceSettings, createEmptyResults, formatMessage } from "@/lib/rel
 import { sendSMS } from "@/lib/sms/twilio-client"
 import { createAutomationHandler, isAutomationAvailable } from "@/lib/expert/automation/site-handlers"
 import { RelanceCronResults, RelanceSettings } from "@/lib/relance/types"
+import { sanitizeErrorMessage } from "@/lib/security/credentials-masker"
 
 // Types pour les dossiers avec jointures
 interface DossierWithRelations {
@@ -92,9 +93,9 @@ export async function GET(request: Request) {
       .is("date_rapport_recu", null)
 
     if (fetchError) {
-      console.error("[Cron] Error fetching dossiers:", fetchError)
+      console.error("[Cron] Error fetching dossiers:", sanitizeErrorMessage(fetchError))
       return NextResponse.json(
-        { error: "Error fetching dossiers", details: fetchError.message },
+        { error: "Error fetching dossiers", details: sanitizeErrorMessage(fetchError) },
         { status: 500 }
       )
     }
@@ -134,8 +135,8 @@ export async function GET(request: Request) {
         await relanceClient(dossier, settings, supabase, results)
 
       } catch (dossierError: any) {
-        console.error(`[Cron] Error processing dossier ${dossier.dossier_id}:`, dossierError)
-        results.errors.push(`Dossier ${dossier.dossier_id}: ${dossierError.message}`)
+        console.error(`[Cron] Error processing dossier ${dossier.dossier_id}:`, sanitizeErrorMessage(dossierError))
+        results.errors.push(`Dossier ${dossier.dossier_id}: ${sanitizeErrorMessage(dossierError)}`)
       }
     }
 
@@ -147,11 +148,11 @@ export async function GET(request: Request) {
     })
 
   } catch (error: any) {
-    console.error("[Cron] Fatal error:", error)
+    console.error("[Cron] Fatal error:", sanitizeErrorMessage(error))
     return NextResponse.json(
       { 
         success: false,
-        error: error.message,
+        error: sanitizeErrorMessage(error),
         results,
       },
       { status: 500 }
@@ -255,7 +256,7 @@ async function relanceExpertViaPortail(
     return result.success
 
   } catch (error: any) {
-    console.error(`[Cron] Portail error for ${dossier.dossier_id}:`, error)
+    console.error(`[Cron] Portail error for ${dossier.dossier_id}:`, sanitizeErrorMessage(error))
     
     // Log l'erreur dans l'historique
     await supabase.from("relance_history").insert({
@@ -264,7 +265,7 @@ async function relanceExpertViaPortail(
       type: "portail_expert",
       destinataire: dossier.expert_sites?.nom || "unknown",
       statut: "echec",
-      erreur_message: error.message,
+      erreur_message: sanitizeErrorMessage(error),
       sent_at: new Date().toISOString(),
     })
 
@@ -332,7 +333,7 @@ async function relanceExpertViaEmail(
     results.experts_email.success++
 
   } catch (error: any) {
-    console.error(`[Cron] Email error for ${dossier.dossier_id}:`, error)
+    console.error(`[Cron] Email error for ${dossier.dossier_id}:`, sanitizeErrorMessage(error))
     results.experts_email.failed++
 
     await supabase.from("relance_history").insert({
@@ -343,7 +344,7 @@ async function relanceExpertViaEmail(
       sujet: `Relance - Dossier ${dossier.dossier_id}`,
       contenu: message,
       statut: "echec",
-      erreur_message: error.message,
+      erreur_message: sanitizeErrorMessage(error),
       sent_at: new Date().toISOString(),
     })
   }
@@ -433,7 +434,7 @@ async function relanceClientViaSMS(
     }
 
   } catch (error: any) {
-    console.error(`[Cron] SMS error for ${dossier.dossier_id}:`, error)
+    console.error(`[Cron] SMS error for ${dossier.dossier_id}:`, sanitizeErrorMessage(error))
     results.clients_sms.failed++
 
     await supabase.from("relance_history").insert({
@@ -443,7 +444,7 @@ async function relanceClientViaSMS(
       destinataire: client.telephone,
       contenu: message,
       statut: "echec",
-      erreur_message: error.message,
+      erreur_message: sanitizeErrorMessage(error),
       sent_at: new Date().toISOString(),
     })
   }
@@ -495,7 +496,7 @@ async function relanceClientViaEmail(
     results.clients_email.success++
 
   } catch (error: any) {
-    console.error(`[Cron] Client email error for ${dossier.dossier_id}:`, error)
+    console.error(`[Cron] Client email error for ${dossier.dossier_id}:`, sanitizeErrorMessage(error))
     results.clients_email.failed++
 
     await supabase.from("relance_history").insert({
@@ -506,7 +507,7 @@ async function relanceClientViaEmail(
       sujet: `Mise à jour - Dossier ${dossier.dossier_id}`,
       contenu: message,
       statut: "echec",
-      erreur_message: error.message,
+      erreur_message: sanitizeErrorMessage(error),
       sent_at: new Date().toISOString(),
     })
   }
