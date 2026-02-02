@@ -13,11 +13,48 @@ CREATE TABLE IF NOT EXISTS public.supplier_sites (
   actif BOOLEAN DEFAULT true,
   ordre INTEGER CHECK (ordre >= 1 AND ordre <= 6),
   created_at TIMESTAMPTZ DEFAULT NOW(),
-  updated_at TIMESTAMPTZ DEFAULT NOW(),
-  CONSTRAINT max_6_sites CHECK (
-    (SELECT COUNT(*) FROM public.supplier_sites WHERE actif = true) <= 6
-  )
+  updated_at TIMESTAMPTZ DEFAULT NOW()
 );
+
+-- Function to enforce max 6 active sites
+CREATE OR REPLACE FUNCTION public.check_max_6_active_sites()
+RETURNS TRIGGER AS $$
+DECLARE
+  active_count INTEGER;
+BEGIN
+  -- Count active sites, excluding current row if it's an update
+  IF TG_OP = 'UPDATE' THEN
+    -- For UPDATE: count active sites excluding the current row
+    SELECT COUNT(*) INTO active_count
+    FROM public.supplier_sites
+    WHERE actif = true AND id != NEW.id;
+  ELSE
+    -- For INSERT: count all active sites
+    SELECT COUNT(*) INTO active_count
+    FROM public.supplier_sites
+    WHERE actif = true;
+  END IF;
+  
+  -- If the new/updated row is active, add 1 to the count
+  IF NEW.actif = true THEN
+    active_count := active_count + 1;
+  END IF;
+  
+  -- Check if we exceed the limit
+  IF active_count > 6 THEN
+    RAISE EXCEPTION 'Maximum de 6 sites actifs autorisés. Actuellement: % sites actifs', active_count;
+  END IF;
+  
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Trigger to enforce max 6 active sites
+DROP TRIGGER IF EXISTS trigger_check_max_6_active_sites ON public.supplier_sites;
+CREATE TRIGGER trigger_check_max_6_active_sites
+  BEFORE INSERT OR UPDATE ON public.supplier_sites
+  FOR EACH ROW
+  EXECUTE FUNCTION public.check_max_6_active_sites();
 
 -- Table: piece_searches
 CREATE TABLE IF NOT EXISTS public.piece_searches (

@@ -1,14 +1,13 @@
 "use client"
 
 import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
+import { signIn } from "@/lib/actions/auth"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Loader2 } from "lucide-react"
 
 export default function LoginPage() {
-  const router = useRouter()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
@@ -17,49 +16,49 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     e.stopPropagation()
-    
+
     // Validation basique
     if (!email || !password) {
       setError("Veuillez remplir tous les champs")
       return
     }
 
-    setError("")
-    setLoading(true)
-
-    // En mode mock, rediriger directement
-    // Utiliser window.location pour une redirection garantie
-    try {
-      window.location.href = "/dashboard"
-    } catch (err) {
-      console.error("Redirect error:", err)
-      // Fallback avec router
-      router.push("/dashboard")
-    }
-  }
-
-  const handleButtonClick = (e: React.MouseEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    
-    if (!email || !password) {
-      setError("Veuillez remplir tous les champs")
+    // Validation format email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      setError("Format d'email invalide")
       return
     }
 
     setError("")
     setLoading(true)
-    
-    console.log("Redirecting to /dashboard...")
-    
-    // Redirection directe - utiliser plusieurs méthodes pour garantir
+
     try {
+      // Appeler signIn pour vérifier les credentials
+      const result = await signIn(email, password)
+
+      // Si erreur retournée, afficher le message
+      if (result?.error) {
+        setError(result.error)
+        setLoading(false)
+        return
+      }
+
+      // Si succès (mode mock ou Supabase sans redirect automatique)
+      // Rediriger vers le dashboard avec rechargement complet
+      // pour s'assurer que l'état d'authentification est mis à jour
       window.location.href = "/dashboard"
-    } catch (err) {
-      console.error("Error with window.location:", err)
-      router.push("/dashboard")
+
+      // Note : Si signIn fait redirect() automatiquement (Supabase),
+      // le code ici ne s'exécute jamais, ce qui est normal.
+
+    } catch (err: any) {
+      console.error("[Login] Error:", err?.message || err)
+      setError("Une erreur est survenue lors de la connexion")
+      setLoading(false)
     }
   }
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 relative overflow-hidden">
@@ -119,22 +118,18 @@ export default function LoginPage() {
               </div>
             )}
             <button
-              type="button"
-              onClick={(e) => {
-                e.preventDefault()
-                e.stopPropagation()
-                console.log("Direct button click!")
-                if (email && password) {
-                  console.log("Redirecting now...")
-                  window.location.replace("/dashboard")
-                } else {
-                  setError("Veuillez remplir tous les champs")
-                }
-              }}
-              className="w-full h-12 btn-primary text-base font-semibold relative z-50 pointer-events-auto cursor-pointer flex items-center justify-center rounded-lg"
+              type="submit"
+              className="w-full h-12 btn-primary text-base font-semibold flex items-center justify-center rounded-lg"
               disabled={loading}
             >
-              {loading ? "Connexion..." : "Se connecter"}
+              {loading ? (
+                <>
+                  <Loader2 className="h-5 w-5 animate-spin mr-2" />
+                  Connexion...
+                </>
+              ) : (
+                "Se connecter"
+              )}
             </button>
           </form>
         </CardContent>
