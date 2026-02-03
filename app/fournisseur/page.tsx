@@ -15,6 +15,9 @@ import { SupplierSitesConfig } from "./components/SupplierSitesConfig"
 export const dynamic = 'force-dynamic'
 
 export default function FournisseurPage() {
+  // Empêcher le pré-rendu côté serveur
+  if (typeof window === 'undefined') return null
+
   const [results, setResults] = useState<PieceResult[]>([])
   const [loading, setLoading] = useState(false)
   const [searchCriteria, setSearchCriteria] = useState<PieceSearchCriteria | null>(null)

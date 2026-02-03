@@ -9,6 +9,9 @@ import { Building2, UserCheck } from "lucide-react"
 export const dynamic = 'force-dynamic'
 
 export default function RelancePage() {
+  // Empêcher le pré-rendu côté serveur
+  if (typeof window === 'undefined') return null
+
   return (
     <AuthenticatedLayout>
       <div className="space-y-6">

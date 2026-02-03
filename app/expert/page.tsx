@@ -14,6 +14,9 @@ import { Search, Settings, FileText, FilePlus } from "lucide-react"
 export const dynamic = 'force-dynamic'
 
 export default function ExpertPage() {
+  // Empêcher le pré-rendu côté serveur
+  if (typeof window === 'undefined') return null
+
   const [results, setResults] = useState<ExpertSearchResult[]>([])
   const [loading, setLoading] = useState(false)
   const [searchCriteria, setSearchCriteria] = useState<ExpertSearchCriteria | null>(null)

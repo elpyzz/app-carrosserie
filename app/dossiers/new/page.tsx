@@ -49,6 +49,9 @@ const dossierSchema = z.object({
 type DossierFormData = z.infer<typeof dossierSchema>
 
 export default function NewDossierPage() {
+  // Empêcher le pré-rendu côté serveur
+  if (typeof window === 'undefined') return null
+
   const router = useRouter()
   const supabase = useSupabaseClient()
   const [loading, setLoading] = useState(false)

@@ -29,6 +29,9 @@ const supplierSchema = z.object({
 type SupplierFormData = z.infer<typeof supplierSchema>
 
 export default function NewSupplierPage() {
+  // Empêcher le pré-rendu côté serveur
+  if (typeof window === 'undefined') return null
+
   const router = useRouter()
   const supabase = useSupabaseClient()
   const [loading, setLoading] = useState(false)

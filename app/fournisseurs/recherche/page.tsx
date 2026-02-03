@@ -35,6 +35,9 @@ const rechercheSchema = z.object({
 type RechercheFormData = z.infer<typeof rechercheSchema>
 
 function RecherchePiecePageContent() {
+  // Empêcher le pré-rendu côté serveur
+  if (typeof window === 'undefined') return null
+
   const router = useRouter()
   const searchParams = useSearchParams()
   const supabase = useSupabaseClient()
