@@ -23,7 +23,9 @@ import {
   Loader2, 
   CheckCircle2, 
   AlertCircle,
+  Lock,
 } from "lucide-react"
+import Link from "next/link"
 
 // Helper pour email optionnel (vide OU email valide)
 const optionalEmail = z.string().refine(
@@ -703,6 +705,29 @@ export default function SettingsPage() {
                     <p className="text-sm text-red-600 mt-1">{errors.relance_retry_delay_minutes.message}</p>
                   )}
                 </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Section Sécurité */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Lock className="h-5 w-5 text-bordeaux-500" />
+                Sécurité
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-medium">Mot de passe</p>
+                  <p className="text-sm text-gray-500">
+                    Modifier votre mot de passe de connexion
+                  </p>
+                </div>
+                <Link href="/settings/password">
+                  <Button variant="outline">Modifier</Button>
+                </Link>
               </div>
             </CardContent>
           </Card>

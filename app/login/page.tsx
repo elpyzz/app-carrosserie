@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Link from "next/link"
 import { signIn } from "@/lib/actions/auth"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -131,6 +132,16 @@ export default function LoginPage() {
                 "Se connecter"
               )}
             </button>
+            {/* Lien vers inscription */}
+            <p className="text-center text-sm text-gray-600 mt-4">
+              Pas encore de compte ?{" "}
+              <Link
+                href="/register"
+                className="text-bordeaux-600 hover:text-bordeaux-700 font-medium"
+              >
+                Créer un compte
+              </Link>
+            </p>
           </form>
         </CardContent>
       </Card>
