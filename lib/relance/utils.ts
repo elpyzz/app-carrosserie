@@ -23,7 +23,7 @@ export async function shouldStopRelances(
       documentType: documents[0].type,
       details: {
         documents_count: documents.length,
-        document_types: documents.map((d) => d.type),
+        document_types: documents.map((d: any) => d.type),
         first_document_date: documents[0].created_at,
       },
     }
