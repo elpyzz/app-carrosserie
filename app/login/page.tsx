@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { signIn } from "@/lib/actions/auth"
 import { Input } from "@/components/ui/input"
@@ -10,7 +9,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Loader2 } from "lucide-react"
 
 export default function LoginPage() {
-  const router = useRouter()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
@@ -49,10 +47,9 @@ export default function LoginPage() {
 
       // Si succès, rediriger vers le dashboard
       if (result?.success) {
-        // Utiliser router.push pour la navigation côté client
-        router.push("/dashboard")
-        // Forcer le rafraîchissement pour mettre à jour l'état d'authentification
-        router.refresh()
+        // Utiliser window.location.href pour forcer un rechargement complet
+        // Cela garantit que les cookies de session sont bien récupérés par le middleware
+        window.location.href = "/dashboard"
         return
       }
 
