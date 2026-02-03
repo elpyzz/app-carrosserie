@@ -181,7 +181,7 @@ async function getDashboardData(): Promise<DashboardData> {
       data.totalDossiers = dossiers.length
 
       // Répartition par statut
-      dossiers.forEach((d) => {
+      dossiers.forEach((d: any) => {
         const statut = d.statut as string
         if (data.repartitionStatuts[statut] !== undefined) {
           data.repartitionStatuts[statut]++
@@ -257,7 +257,7 @@ async function getDashboardData(): Promise<DashboardData> {
       data.relancesEchecs = relances.filter((r) => r.statut === "echec").length
 
       // Répartition par type
-      relances.forEach((r) => {
+      relances.forEach((r: any) => {
         const type = r.relance_type as string
         data.repartitionRelances[type] = (data.repartitionRelances[type] || 0) + 1
       })
