@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select } from "@/components/ui/select"
-import { createClient } from "@/lib/supabase/client"
+import { useSupabaseClient } from "@/lib/hooks/useSupabaseClient"
 import { DocumentType } from "@/lib/types"
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
@@ -39,7 +39,7 @@ export default function UploadDocumentPage({
   params: { id: string }
 }) {
   const router = useRouter()
-  const supabase = useMemo(() => createClient(), [])
+  const supabase = useSupabaseClient()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   const [success, setSuccess] = useState(false)
@@ -54,6 +54,11 @@ export default function UploadDocumentPage({
   })
 
   const onSubmit = async (data: DocumentFormData) => {
+    if (!supabase) {
+      setError("Client Supabase non initialisé")
+      return
+    }
+
     setLoading(true)
     setError("")
     setSuccess(false)

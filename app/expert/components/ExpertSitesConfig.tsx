@@ -1,12 +1,12 @@
 "use client"
 
-import { useState, useEffect, useCallback, useMemo } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { createClient } from "@/lib/supabase/client"
+import { useSupabaseClient } from "@/lib/hooks/useSupabaseClient"
 import { ExpertSite, ExpertSiteAuthType } from "@/lib/expert/types"
 import {
   Settings,
@@ -28,7 +28,7 @@ export function ExpertSitesConfig() {
   const [editingSite, setEditingSite] = useState<ExpertSite | null>(null)
   const [error, setError] = useState<string | null>(null)
   
-  const supabase = useMemo(() => createClient(), [])
+  const supabase = useSupabaseClient()
 
   // Charger les sites
   const loadSites = useCallback(async () => {

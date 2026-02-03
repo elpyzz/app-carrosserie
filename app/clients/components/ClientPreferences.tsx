@@ -1,11 +1,11 @@
 "use client"
 
-import { useState, useEffect, useCallback, useMemo } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
-import { createClient } from "@/lib/supabase/client"
+import { useSupabaseClient } from "@/lib/hooks/useSupabaseClient"
 import { 
   Settings, 
   Mail, 
@@ -26,10 +26,10 @@ export function ClientPreferences({ clientId }: ClientPreferencesProps) {
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState<string | null>(null)
   
-  const supabase = useMemo(() => createClient(), [])
+  const supabase = useSupabaseClient()
 
   const loadPreferences = useCallback(async () => {
-    if (!clientId) return
+    if (!clientId || !supabase) return
     
     setLoading(true)
     setError(null)
@@ -67,6 +67,11 @@ export function ClientPreferences({ clientId }: ClientPreferencesProps) {
   }, [loadPreferences])
 
   const handleSave = async () => {
+    if (!supabase) {
+      setError("Client Supabase non initialisé")
+      return
+    }
+
     setSaving(true)
     setSuccess(false)
     setError(null)

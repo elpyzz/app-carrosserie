@@ -1,10 +1,10 @@
 "use client"
 
-import { useState, useEffect, useMemo } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { createClient } from "@/lib/supabase/client"
+import { useSupabaseClient } from "@/lib/hooks/useSupabaseClient"
 import { formatDate } from "@/lib/utils"
 import { History, RotateCcw, Trash2 } from "lucide-react"
 import { PieceSearch } from "@/lib/fournisseur/types"
@@ -14,7 +14,7 @@ interface SearchHistoryProps {
 }
 
 export function SearchHistory({ onReloadSearch }: SearchHistoryProps) {
-  const supabase = useMemo(() => createClient(), [])
+  const supabase = useSupabaseClient()
   const [searches, setSearches] = useState<PieceSearch[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -23,6 +23,8 @@ export function SearchHistory({ onReloadSearch }: SearchHistoryProps) {
   }, [])
 
   const loadHistory = async () => {
+    if (!supabase) return
+
     setLoading(true)
     try {
       const { data, error } = await supabase

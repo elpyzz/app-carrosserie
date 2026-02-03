@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { createClient } from "@/lib/supabase/client"
+import { useSupabaseClient } from "@/lib/hooks/useSupabaseClient"
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
 
@@ -30,7 +30,7 @@ type SupplierFormData = z.infer<typeof supplierSchema>
 
 export default function NewSupplierPage() {
   const router = useRouter()
-  const supabase = useMemo(() => createClient(), [])
+  const supabase = useSupabaseClient()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
 
@@ -43,6 +43,11 @@ export default function NewSupplierPage() {
   })
 
   const onSubmit = async (data: SupplierFormData) => {
+    if (!supabase) {
+      setError("Client Supabase non initialisé")
+      return
+    }
+
     setLoading(true)
     setError("")
 

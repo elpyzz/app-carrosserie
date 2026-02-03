@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { createClient } from "@/lib/supabase/client"
+import { useSupabaseClient } from "@/lib/hooks/useSupabaseClient"
 import { DossierStatut } from "@/lib/types"
 
 export const dynamic = 'force-dynamic'
@@ -50,7 +50,7 @@ type DossierFormData = z.infer<typeof dossierSchema>
 
 export default function NewDossierPage() {
   const router = useRouter()
-  const supabase = useMemo(() => createClient(), [])
+  const supabase = useSupabaseClient()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
 
@@ -67,6 +67,11 @@ export default function NewDossierPage() {
   })
 
   const onSubmit = async (data: DossierFormData) => {
+    if (!supabase) {
+      setError("Client Supabase non initialisé")
+      return
+    }
+
     setLoading(true)
     setError("")
 

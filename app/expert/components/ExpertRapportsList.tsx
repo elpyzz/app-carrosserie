@@ -1,12 +1,12 @@
 "use client"
 
-import { useState, useEffect, useMemo } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Select } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { createClient } from "@/lib/supabase/client"
+import { useSupabaseClient } from "@/lib/hooks/useSupabaseClient"
 import { formatCurrency, formatDate, getDaysSince } from "@/lib/utils"
 import Link from "next/link"
 import { Search, FileText, Download, Calendar, AlertCircle, CheckCircle2 } from "lucide-react"
@@ -29,7 +29,7 @@ interface RapportDocument {
 }
 
 export function ExpertRapportsList() {
-  const supabase = useMemo(() => createClient(), [])
+  const supabase = useSupabaseClient()
   const [rapports, setRapports] = useState<RapportDocument[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState("")
@@ -41,6 +41,8 @@ export function ExpertRapportsList() {
   }, [])
 
   const loadRapports = async () => {
+    if (!supabase) return
+
     setLoading(true)
     try {
       if (process.env.NEXT_PUBLIC_SUPABASE_URL) {

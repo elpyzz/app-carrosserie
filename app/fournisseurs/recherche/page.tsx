@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, Suspense, useMemo } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { createClient } from "@/lib/supabase/client"
+import { useSupabaseClient } from "@/lib/hooks/useSupabaseClient"
 import { formatCurrency } from "@/lib/utils"
 import { ArrowLeft, Save } from "lucide-react"
 import Link from "next/link"
@@ -37,7 +37,7 @@ type RechercheFormData = z.infer<typeof rechercheSchema>
 function RecherchePiecePageContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const supabase = useMemo(() => createClient(), [])
+  const supabase = useSupabaseClient()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   const [suppliers, setSuppliers] = useState<any[]>([])
@@ -65,6 +65,8 @@ function RecherchePiecePageContent() {
   }, [searchParams, setValue])
 
   useEffect(() => {
+    if (!supabase) return // Attendre que le client soit initialisé
+
     // Charger les fournisseurs
     supabase
       .from("suppliers")
@@ -89,6 +91,11 @@ function RecherchePiecePageContent() {
   }, [searchParams, supabase])
 
   const onSubmit = async (data: RechercheFormData) => {
+    if (!supabase) {
+      setError("Client Supabase non initialisé")
+      return
+    }
+
     setLoading(true)
     setError("")
 
