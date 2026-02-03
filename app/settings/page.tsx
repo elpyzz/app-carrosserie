@@ -165,7 +165,7 @@ export default function SettingsPage() {
       // Mapper les settings vers les valeurs du formulaire
       const formValues: Partial<SettingsFormData> = { ...defaultValues }
       
-      settings.forEach((setting) => {
+      settings.forEach((setting: { key: string; value: string }) => {
         const key = setting.key as keyof SettingsFormData
         const value = setting.value
         
