@@ -25,7 +25,7 @@ export async function GET(request: Request) {
       ])
 
     const settingsMap: Record<string, string> = {}
-    settings?.forEach((s) => {
+    settings?.forEach((s: { key: string; value: string }) => {
       settingsMap[s.key] = s.value
     })
 
