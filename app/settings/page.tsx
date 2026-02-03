@@ -172,7 +172,7 @@ export default function SettingsPage() {
         // Convertir les boolean stockés en string
         if (key in defaultValues) {
           if (typeof defaultValues[key] === "boolean") {
-            (formValues as any)[key] = (value === "true" || value === true)
+            (formValues as any)[key] = (value === "true")
           } else {
             (formValues as any)[key] = value
           }
