@@ -228,8 +228,8 @@ export default async function DossiersPage({
                           </td>
                           <td className="p-4 text-gray-900">{dossier.assureur || "-"}</td>
                           <td className="p-4">
-                            <Badge className={`${STATUT_COLORS[dossier.statut]} font-semibold px-3 py-1`}>
-                              {getStatutLabel(dossier.statut)}
+                            <Badge className={`${STATUT_COLORS[dossier.statut as DossierStatut]} font-semibold px-3 py-1`}>
+                              {getStatutLabel(dossier.statut as DossierStatut)}
                             </Badge>
                           </td>
                           <td className="p-4 font-bold text-primary">
