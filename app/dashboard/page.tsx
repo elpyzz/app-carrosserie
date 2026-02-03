@@ -194,7 +194,7 @@ async function getDashboardData(): Promise<DashboardData> {
       data.dossiersFactureEnvoyee = data.repartitionStatuts["FACTURE_ENVOYEE"] || 0
 
       // Dossiers en retard (>15 jours en attente expert)
-      data.dossiersRetard15j = dossiers.filter((d) => {
+      data.dossiersRetard15j = dossiers.filter((d: any) => {
         if (d.statut !== "EN_ATTENTE_EXPERT") return false
         const dateCreation = new Date(d.created_at)
         return dateCreation < il15Jours
@@ -213,12 +213,12 @@ async function getDashboardData(): Promise<DashboardData> {
 
     if (!error && factures) {
       data.facturesTotal = factures.length
-      data.facturesEnAttente = factures.filter((f) => f.statut === "EN_ATTENTE").length
-      data.facturesRelanceEnCours = factures.filter((f) => f.statut === "RELANCE_EN_COURS").length
-      data.facturesMontantTotal = factures.reduce((sum, f) => sum + toNumber(f.montant), 0)
+      data.facturesEnAttente = factures.filter((f: any) => f.statut === "EN_ATTENTE").length
+      data.facturesRelanceEnCours = factures.filter((f: any) => f.statut === "RELANCE_EN_COURS").length
+      data.facturesMontantTotal = factures.reduce((sum: number, f: any) => sum + toNumber(f.montant), 0)
 
       // Prochaines relances (dans les 7 prochains jours)
-      data.facturesProchainesRelances = factures.filter((f) => {
+      data.facturesProchainesRelances = factures.filter((f: any) => {
         if (!f.prochaine_relance) return false
         const dateRelance = new Date(f.prochaine_relance)
         return dateRelance >= debutAujourdhui && dateRelance <= dans7Jours
@@ -239,22 +239,22 @@ async function getDashboardData(): Promise<DashboardData> {
       data.relancesTotal = relances.length
 
       // Aujourd'hui
-      data.relancesAujourdhui = relances.filter((r) => {
+      data.relancesAujourdhui = relances.filter((r: any) => {
         const date = new Date(r.sent_at)
         return date >= debutAujourdhui
       }).length
 
       // Cette semaine
-      data.relancesCetteSemaine = relances.filter((r) => {
+      data.relancesCetteSemaine = relances.filter((r: any) => {
         const date = new Date(r.sent_at)
         return date >= debutSemaine
       }).length
 
       // Par statut
-      data.relancesReussies = relances.filter((r) =>
+      data.relancesReussies = relances.filter((r: any) =>
         r.statut === "envoye" || r.statut === "delivre"
       ).length
-      data.relancesEchecs = relances.filter((r) => r.statut === "echec").length
+      data.relancesEchecs = relances.filter((r: any) => r.statut === "echec").length
 
       // Répartition par type
       relances.forEach((r: any) => {
@@ -274,9 +274,9 @@ async function getDashboardData(): Promise<DashboardData> {
 
     if (!error && expertSearches) {
       data.expertsRecherchesTotal = expertSearches.length
-      data.expertsRapportsRecus = expertSearches.filter((e) => e.statut === "trouve").length
-      data.expertsEnAttente = expertSearches.filter((e) => e.statut !== "trouve").length
-      data.expertsCetteSemaine = expertSearches.filter((e) => {
+      data.expertsRapportsRecus = expertSearches.filter((e: any) => e.statut === "trouve").length
+      data.expertsEnAttente = expertSearches.filter((e: any) => e.statut !== "trouve").length
+      data.expertsCetteSemaine = expertSearches.filter((e: any) => {
         const date = new Date(e.created_at)
         return date >= debutSemaine
       }).length
@@ -293,8 +293,8 @@ async function getDashboardData(): Promise<DashboardData> {
 
     if (!error && pieceSearches) {
       data.fournisseursRecherchesTotal = pieceSearches.length
-      data.fournisseursPiecesTrouvees = pieceSearches.filter((p) => p.disponible === true).length
-      data.fournisseursCetteSemaine = pieceSearches.filter((p) => {
+      data.fournisseursPiecesTrouvees = pieceSearches.filter((p: any) => p.disponible === true).length
+      data.fournisseursCetteSemaine = pieceSearches.filter((p: any) => {
         const date = new Date(p.created_at)
         return date >= debutSemaine
       }).length
@@ -311,12 +311,12 @@ async function getDashboardData(): Promise<DashboardData> {
 
     if (!error && paiements) {
       data.montantPaiementsEnAttente = paiements
-        .filter((p) => p.statut === "EN_ATTENTE")
-        .reduce((sum, p) => sum + toNumber(p.montant), 0)
+        .filter((p: any) => p.statut === "EN_ATTENTE")
+        .reduce((sum: number, p: any) => sum + toNumber(p.montant), 0)
 
       data.montantPaiementsEnRetard = paiements
-        .filter((p) => p.statut === "EN_RETARD")
-        .reduce((sum, p) => sum + toNumber(p.montant), 0)
+        .filter((p: any) => p.statut === "EN_RETARD")
+        .reduce((sum: number, p: any) => sum + toNumber(p.montant), 0)
     }
   } catch (error) {
     // Table payments peut ne pas exister
