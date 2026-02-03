@@ -15,6 +15,8 @@ import { createClient } from "@/lib/supabase/client"
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
 
+export const dynamic = 'force-dynamic'
+
 const supplierSchema = z.object({
   nom: z.string().min(1, "Le nom est requis"),
   contact: z.string().optional(),

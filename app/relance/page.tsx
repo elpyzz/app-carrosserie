@@ -6,6 +6,8 @@ import { RelanceExpertsHistory } from "./components/RelanceExpertsHistory"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Building2, UserCheck } from "lucide-react"
 
+export const dynamic = 'force-dynamic'
+
 export default function RelancePage() {
   return (
     <AuthenticatedLayout>

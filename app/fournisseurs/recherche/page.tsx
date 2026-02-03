@@ -17,6 +17,8 @@ import { formatCurrency } from "@/lib/utils"
 import { ArrowLeft, Save } from "lucide-react"
 import Link from "next/link"
 
+export const dynamic = 'force-dynamic'
+
 const rechercheSchema = z.object({
   dossier_id: z.string().optional(),
   vehicule_marque: z.string().optional(),

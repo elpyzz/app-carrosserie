@@ -15,6 +15,8 @@ import { Textarea } from "@/components/ui/textarea"
 import { createClient } from "@/lib/supabase/client"
 import { DossierStatut } from "@/lib/types"
 
+export const dynamic = 'force-dynamic'
+
 const dossierSchema = z.object({
   client_nom: z.string().min(1, "Le nom est requis"),
   client_telephone: z.string().optional(),

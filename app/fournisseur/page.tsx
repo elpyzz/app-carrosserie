@@ -12,6 +12,8 @@ import { Search, History, TrendingDown, FileText, Settings } from "lucide-react"
 import { QapterUpload } from "./components/QapterUpload"
 import { SupplierSitesConfig } from "./components/SupplierSitesConfig"
 
+export const dynamic = 'force-dynamic'
+
 export default function FournisseurPage() {
   const [results, setResults] = useState<PieceResult[]>([])
   const [loading, setLoading] = useState(false)
