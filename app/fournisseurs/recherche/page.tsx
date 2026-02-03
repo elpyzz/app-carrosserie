@@ -51,10 +51,18 @@ function RecherchePiecePageContent() {
   } = useForm<RechercheFormData>({
     resolver: zodResolver(rechercheSchema),
     defaultValues: {
-      supplier_id: searchParams.get("supplier") || "",
-      dossier_id: searchParams.get("dossier") || "",
+      supplier_id: "",
+      dossier_id: "",
     },
   })
+
+  // Mettre à jour les valeurs du formulaire avec les paramètres d'URL après le montage
+  useEffect(() => {
+    const supplier = searchParams.get("supplier")
+    const dossier = searchParams.get("dossier")
+    if (supplier) setValue("supplier_id", supplier)
+    if (dossier) setValue("dossier_id", dossier)
+  }, [searchParams, setValue])
 
   useEffect(() => {
     // Charger les fournisseurs
