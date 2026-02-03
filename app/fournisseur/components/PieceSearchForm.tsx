@@ -215,7 +215,7 @@ export function PieceSearchForm({ onSearch, loading }: PieceSearchFormProps) {
                     <Checkbox
                       id={`site-${site.id}`}
                       checked={selectedSites.includes(site.id)}
-                      onChange={() => toggleSite(site.id)}
+                      onCheckedChange={() => toggleSite(site.id)}
                       disabled={!selectedSites.includes(site.id) && selectedSites.length >= 6}
                     />
                     <Label
