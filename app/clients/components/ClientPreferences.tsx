@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, useMemo } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -26,7 +26,7 @@ export function ClientPreferences({ clientId }: ClientPreferencesProps) {
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState<string | null>(null)
   
-  const supabase = createClient()
+  const supabase = useMemo(() => createClient(), [])
 
   const loadPreferences = useCallback(async () => {
     if (!clientId) return

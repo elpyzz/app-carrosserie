@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -48,7 +48,7 @@ type DossierFormData = z.infer<typeof dossierSchema>
 
 export default function NewDossierPage() {
   const router = useRouter()
-  const supabase = createClient()
+  const supabase = useMemo(() => createClient(), [])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
 

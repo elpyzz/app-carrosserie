@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, Suspense } from "react"
+import { useState, useEffect, Suspense, useMemo } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -35,7 +35,7 @@ type RechercheFormData = z.infer<typeof rechercheSchema>
 function RecherchePiecePageContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const supabase = createClient()
+  const supabase = useMemo(() => createClient(), [])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   const [suppliers, setSuppliers] = useState<any[]>([])

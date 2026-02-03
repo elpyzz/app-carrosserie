@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import { useRouter } from "next/navigation"
 import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
@@ -17,7 +17,7 @@ export function DossierDetailClient({
   initialDossier,
 }: DossierDetailClientProps) {
   const router = useRouter()
-  const supabase = createClient()
+  const supabase = useMemo(() => createClient(), [])
   const [statut, setStatut] = useState(initialDossier.statut)
   const [loading, setLoading] = useState(false)
 

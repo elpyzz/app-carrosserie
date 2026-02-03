@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Select } from "@/components/ui/select"
@@ -29,7 +29,7 @@ interface RapportDocument {
 }
 
 export function ExpertRapportsList() {
-  const supabase = createClient()
+  const supabase = useMemo(() => createClient(), [])
   const [rapports, setRapports] = useState<RapportDocument[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState("")
