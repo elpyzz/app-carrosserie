@@ -71,7 +71,7 @@ export function PieceSearchForm({ onSearch, loading }: PieceSearchFormProps) {
       if (data.success && data.sites) {
         const activeSites = data.sites.filter((s: SupplierSite) => s.actif).slice(0, 6)
         setSites(activeSites)
-        const activeSiteIds = activeSites.map((s) => s.id)
+        const activeSiteIds = activeSites.map((s: SupplierSite) => s.id)
         setSelectedSites(activeSiteIds)
         setValue("sites_ids", activeSiteIds)
       } else {
@@ -203,7 +203,7 @@ export function PieceSearchForm({ onSearch, loading }: PieceSearchFormProps) {
               {sites.length === 0 ? (
                 <p className="text-sm text-gray-900">Aucun site configuré</p>
               ) : (
-                sites.map((site) => (
+                sites.map((site: SupplierSite) => (
                   <div
                     key={site.id}
                     className={`flex items-center space-x-3 p-3 border rounded-lg transition-all backdrop-blur-sm ${
