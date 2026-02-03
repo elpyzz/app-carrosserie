@@ -8,5 +8,6 @@
       "path": "/api/cron/relances-assurances",
       "schedule": "0 9 * * *"
     }
-  ]
+  ],
+  "buildCommand": "npm run build"
 }
