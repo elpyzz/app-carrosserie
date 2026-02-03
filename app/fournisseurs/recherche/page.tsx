@@ -60,7 +60,7 @@ export default function RecherchePiecePage() {
       .from("suppliers")
       .select("*")
       .eq("actif", true)
-      .then(({ data }) => {
+      .then(({ data }: { data: any[] | null }) => {
         if (data) setSuppliers(data)
       })
 
@@ -72,7 +72,7 @@ export default function RecherchePiecePage() {
         .select("*, suppliers(*)")
         .eq("dossier_id", dossierId)
         .order("created_at", { ascending: false })
-        .then(({ data }) => {
+        .then(({ data }: { data: any[] | null }) => {
           if (data) setHistorique(data)
         })
     }
