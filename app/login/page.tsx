@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { signIn } from "@/lib/actions/auth"
 import { Input } from "@/components/ui/input"
@@ -9,6 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Loader2 } from "lucide-react"
 
 export default function LoginPage() {
+  const router = useRouter()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
@@ -35,7 +37,7 @@ export default function LoginPage() {
     setLoading(true)
 
     try {
-      // Appeler signIn pour vérifier les credentials
+      // Appeler signIn
       const result = await signIn(email, password)
 
       // Si erreur retournée, afficher le message
@@ -45,13 +47,18 @@ export default function LoginPage() {
         return
       }
 
-      // Si succès (mode mock ou Supabase sans redirect automatique)
-      // Rediriger vers le dashboard avec rechargement complet
-      // pour s'assurer que l'état d'authentification est mis à jour
-      window.location.href = "/dashboard"
+      // Si succès, rediriger vers le dashboard
+      if (result?.success) {
+        // Utiliser router.push pour la navigation côté client
+        router.push("/dashboard")
+        // Forcer le rafraîchissement pour mettre à jour l'état d'authentification
+        router.refresh()
+        return
+      }
 
-      // Note : Si signIn fait redirect() automatiquement (Supabase),
-      // le code ici ne s'exécute jamais, ce qui est normal.
+      // Si aucun résultat (ne devrait pas arriver)
+      setError("Une erreur inattendue est survenue")
+      setLoading(false)
 
     } catch (err: any) {
       console.error("[Login] Error:", err?.message || err)

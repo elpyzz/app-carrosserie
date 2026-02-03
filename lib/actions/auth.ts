@@ -50,6 +50,7 @@ export async function signIn(
   // Mode mock (sans Supabase)
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
     console.log("[Auth] Mode mock - connexion autorisée")
+    revalidatePath("/", "layout")
     return { success: true }
   }
 
@@ -70,15 +71,10 @@ export async function signIn(
       return { error: "Erreur lors de la connexion" }
     }
 
-    // Succès - redirection
+    // Succès - revalider les chemins et retourner success
     revalidatePath("/", "layout")
-    redirect("/dashboard")
+    return { success: true }
   } catch (error: any) {
-    // Si c'est une erreur de redirect, la laisser passer
-    if (error?.digest?.includes("NEXT_REDIRECT")) {
-      throw error
-    }
-
     console.error("[Auth] SignIn unexpected error:", error)
     return { error: "Une erreur est survenue lors de la connexion" }
   }
