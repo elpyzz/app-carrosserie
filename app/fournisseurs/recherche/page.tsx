@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -32,7 +32,7 @@ const rechercheSchema = z.object({
 
 type RechercheFormData = z.infer<typeof rechercheSchema>
 
-export default function RecherchePiecePage() {
+function RecherchePiecePageContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const supabase = createClient()
@@ -299,5 +299,21 @@ export default function RecherchePiecePage() {
         </div>
       </div>
     </AuthenticatedLayout>
+  )
+}
+
+export default function RecherchePiecePage() {
+  return (
+    <Suspense fallback={
+      <AuthenticatedLayout>
+        <div className="max-w-4xl mx-auto space-y-6">
+          <div className="flex items-center justify-center py-12">
+            <p className="text-gray-600">Chargement...</p>
+          </div>
+        </div>
+      </AuthenticatedLayout>
+    }>
+      <RecherchePiecePageContent />
+    </Suspense>
   )
 }
