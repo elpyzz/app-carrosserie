@@ -18,7 +18,7 @@ async function getTwilioCredentials(): Promise<TwilioCredentials | null> {
   }
 
   const settingsMap: Record<string, string> = {}
-  settings.forEach((s) => {
+  settings.forEach((s: { key: string; value: string }) => {
     settingsMap[s.key] = s.value
   })
 
