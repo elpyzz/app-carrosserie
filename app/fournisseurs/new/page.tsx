@@ -16,6 +16,7 @@ import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
 
 export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 const supplierSchema = z.object({
   nom: z.string().min(1, "Le nom est requis"),

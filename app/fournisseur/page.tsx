@@ -13,6 +13,7 @@ import { QapterUpload } from "./components/QapterUpload"
 import { SupplierSitesConfig } from "./components/SupplierSitesConfig"
 
 export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 export default function FournisseurPage() {
   const [results, setResults] = useState<PieceResult[]>([])
