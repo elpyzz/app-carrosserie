@@ -18,6 +18,7 @@ import { ArrowLeft, Save } from "lucide-react"
 import Link from "next/link"
 
 export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 const rechercheSchema = z.object({
   dossier_id: z.string().optional(),
