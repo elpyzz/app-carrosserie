@@ -112,7 +112,7 @@ export async function PUT(
         credentials_updated: true,
         merge_mode: merge,
       }),
-    }).catch((err) => {
+    }).catch((err: any) => {
       console.warn("[API] Audit log failed:", err)
     })
 
@@ -195,7 +195,7 @@ export async function DELETE(
       entity_id: id,
       user_id: user.id,
       details: { credentials_deleted: true },
-    }).catch((err) => {
+    }).catch((err: any) => {
       console.warn("[API] Audit log failed:", err)
     })
 
