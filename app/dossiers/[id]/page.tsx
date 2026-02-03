@@ -215,8 +215,8 @@ export default async function DossierDetailPage({
             </div>
           </div>
           <div className="flex items-center space-x-2">
-            <Badge className={STATUT_COLORS[dossier.statut]}>
-              {getStatutLabel(dossier.statut)}
+            <Badge className={STATUT_COLORS[dossier.statut as DossierStatut]}>
+              {getStatutLabel(dossier.statut as DossierStatut)}
             </Badge>
             {isRetard && (
               <Badge variant="destructive">Retard {joursSansRapport} jours</Badge>
