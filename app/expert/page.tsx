@@ -12,7 +12,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Search, Settings, FileText, FilePlus } from "lucide-react"
 
 export const dynamic = 'force-dynamic'
-export const revalidate = 0
 
 export default function ExpertPage() {
   const [results, setResults] = useState<ExpertSearchResult[]>([])

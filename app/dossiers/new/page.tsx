@@ -16,7 +16,6 @@ import { createClient } from "@/lib/supabase/client"
 import { DossierStatut } from "@/lib/types"
 
 export const dynamic = 'force-dynamic'
-export const revalidate = 0
 
 const dossierSchema = z.object({
   client_nom: z.string().min(1, "Le nom est requis"),
