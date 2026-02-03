@@ -8,11 +8,5 @@
       "path": "/api/cron/relances-assurances",
       "schedule": "0 9 * * *"
     }
-  ],
-  "functions": {
-    "app/api/cron/relances/route.ts": {
-      "maxDuration": 60,
-      "memory": 1024
-    }
-  }
+  ]
 }

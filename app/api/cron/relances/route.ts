@@ -8,6 +8,9 @@ import { createAutomationHandler, isAutomationAvailable } from "@/lib/expert/aut
 import { RelanceCronResults, RelanceSettings } from "@/lib/relance/types"
 import { sanitizeErrorMessage } from "@/lib/security/credentials-masker"
 
+// Configuration Vercel: durée maximale d'exécution de 60 secondes
+export const maxDuration = 60
+
 // Types pour les dossiers avec jointures
 interface DossierWithRelations {
   id: string
