@@ -78,13 +78,25 @@ export async function updateSession(request: NextRequest) {
   // #region agent log - DISABLED
   // #endregion
   
-  try {
-    await supabase.auth.getUser()
-    // #region agent log - DISABLED
-    // #endregion
-  } catch (error: any) {
-    // #region agent log - DISABLED
-    // #endregion
+  // Vérifier l'authentification
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  // Routes protégées qui nécessitent une authentification
+  const protectedRoutes = ['/dashboard', '/dossiers', '/expert', '/fournisseur', '/relance', '/settings', '/fournisseurs']
+  const isProtectedRoute = protectedRoutes.some(route => 
+    request.nextUrl.pathname.startsWith(route)
+  )
+
+  // Si c'est une route protégée et que l'utilisateur n'est pas authentifié, rediriger vers login
+  if (isProtectedRoute && !user) {
+    return NextResponse.redirect(new URL('/login', request.url))
+  }
+
+  // Si l'utilisateur est authentifié et essaie d'accéder à /login, rediriger vers dashboard
+  if (user && request.nextUrl.pathname === '/login') {
+    return NextResponse.redirect(new URL('/dashboard', request.url))
   }
 
   return response
