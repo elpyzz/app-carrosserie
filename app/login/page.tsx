@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { signIn } from "@/lib/actions/auth"
 import { Input } from "@/components/ui/input"
@@ -10,7 +9,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Loader2 } from "lucide-react"
 
 export default function LoginPage() {
-  const router = useRouter()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
@@ -48,15 +46,10 @@ export default function LoginPage() {
         return
       }
 
-      // Si succès, attendre que les cookies soient synchronisés
+      // Si succès, rediriger directement
+      // Le middleware rafraîchira la session lors de la prochaine requête
       if (result?.success) {
-        // Attendre un délai pour laisser les cookies se synchroniser avec le middleware
-        await new Promise(resolve => setTimeout(resolve, 1000))
-        
-        // Forcer la revalidation de la session
-        router.refresh()
-        
-        // Rediriger vers le dashboard avec un rechargement complet
+        // Rediriger immédiatement - le middleware rafraîchira la session
         window.location.href = "/dashboard"
         return
       }

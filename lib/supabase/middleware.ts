@@ -78,7 +78,8 @@ export async function updateSession(request: NextRequest) {
   // #region agent log - DISABLED
   // #endregion
   
-  // Vérifier l'authentification
+  // IMPORTANT : Appeler getUser() pour rafraîchir la session
+  // Cela met à jour automatiquement les cookies dans la réponse via les handlers set()
   const {
     data: { user },
   } = await supabase.auth.getUser()
@@ -98,9 +99,7 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
 
-  // NE PAS rediriger automatiquement depuis /login dans le middleware
-  // Cela évite les boucles de redirection
-  // La page de login gère elle-même la redirection après connexion réussie
-
+  // Retourner la réponse avec les cookies mis à jour par getUser()
+  // Les cookies sont automatiquement mis à jour via les handlers set() dans la config
   return response
 }
