@@ -1,16 +1,14 @@
 "use client"
 
 import { useState } from "react"
-import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { createClient } from "@/lib/supabase/client"
+import { signIn } from "@/lib/actions/auth"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Loader2 } from "lucide-react"
 
 export default function LoginPage() {
-  const router = useRouter()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
@@ -37,67 +35,29 @@ export default function LoginPage() {
     setLoading(true)
 
     try {
-      // Mode mock (sans Supabase)
-      if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
-        // Simuler une connexion réussie
-        await new Promise(resolve => setTimeout(resolve, 500))
-        router.refresh()
-        window.location.href = "/dashboard"
-        return
-      }
+      // Utiliser une Server Action pour la connexion
+      // Cela garantit que les cookies sont correctement synchronisés avec Next.js
+      const result = await signIn(email, password)
 
-      // Utiliser le client Supabase côté client pour la connexion
-      // Cela gère automatiquement les cookies de session
-      const supabase = createClient()
-      
-      const { data, error: signInError } = await supabase.auth.signInWithPassword({
-        email: email.trim().toLowerCase(),
-        password,
-      })
-
-      if (signInError) {
-        // Traduire les erreurs en français
-        let errorMessage = signInError.message
-        if (errorMessage.includes("Invalid login credentials")) {
-          errorMessage = "Email ou mot de passe incorrect"
-        } else if (errorMessage.includes("Email not confirmed")) {
-          errorMessage = "Veuillez confirmer votre email avant de vous connecter"
-        }
-        
-        setError(errorMessage)
+      // Si erreur retournée, afficher le message
+      if (result?.error) {
+        setError(result.error)
         setLoading(false)
         return
       }
 
-      if (!data.user) {
-        setError("Erreur lors de la connexion")
-        setLoading(false)
-        return
-      }
-
-      // Succès - vérifier que la session est bien créée
-      // Attendre que les cookies soient synchronisés avec le middleware
-      await new Promise(resolve => setTimeout(resolve, 1000)) // Augmenté à 1 seconde
-      
-      // Vérifier que la session est toujours active
-      const { data: { session } } = await supabase.auth.getSession()
-      
-      if (!session) {
-        setError("Erreur : session non créée, veuillez réessayer")
-        setLoading(false)
-        return
-      }
-      
-      // Forcer la revalidation de la session côté serveur
-      router.refresh()
-      
-      // Attendre un peu plus pour que le middleware détecte la session
-      await new Promise(resolve => setTimeout(resolve, 500))
-      
-      // Rediriger vers le dashboard avec un rechargement complet
-      window.location.href = "/dashboard"
+      // Si succès, signIn() a appelé redirect() et ne retourne jamais ici
+      // Ce code ne devrait pas être exécuté, mais au cas où :
+      setError("Une erreur inattendue est survenue")
+      setLoading(false)
 
     } catch (err: any) {
+      // Si c'est une erreur de redirect, c'est normal (Next.js lance une exception pour les redirects)
+      // Ne pas afficher d'erreur dans ce cas
+      if (err?.digest?.includes("NEXT_REDIRECT")) {
+        return
+      }
+
       console.error("[Login] Error:", err?.message || err)
       setError("Une erreur est survenue lors de la connexion")
       setLoading(false)
