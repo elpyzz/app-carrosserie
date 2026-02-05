@@ -75,11 +75,24 @@ export default function LoginPage() {
         return
       }
 
-      // Succès - attendre que les cookies soient synchronisés avec le middleware
-      await new Promise(resolve => setTimeout(resolve, 500))
+      // Succès - vérifier que la session est bien créée
+      // Attendre que les cookies soient synchronisés avec le middleware
+      await new Promise(resolve => setTimeout(resolve, 1000)) // Augmenté à 1 seconde
+      
+      // Vérifier que la session est toujours active
+      const { data: { session } } = await supabase.auth.getSession()
+      
+      if (!session) {
+        setError("Erreur : session non créée, veuillez réessayer")
+        setLoading(false)
+        return
+      }
       
       // Forcer la revalidation de la session côté serveur
       router.refresh()
+      
+      // Attendre un peu plus pour que le middleware détecte la session
+      await new Promise(resolve => setTimeout(resolve, 500))
       
       // Rediriger vers le dashboard avec un rechargement complet
       window.location.href = "/dashboard"
