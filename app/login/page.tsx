@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { signIn } from "@/lib/actions/auth"
 import { Input } from "@/components/ui/input"
@@ -10,7 +9,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Loader2 } from "lucide-react"
 
 export default function LoginPage() {
-  const router = useRouter()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
@@ -47,22 +45,18 @@ export default function LoginPage() {
         return
       }
 
-      // Si succès, rediriger vers le dashboard
-      if (result?.success) {
-        // Attendre que les cookies de session soient synchronisés
-        await new Promise(resolve => setTimeout(resolve, 300))
-        
-        // Forcer la revalidation de la session côté serveur
-        router.refresh()
-        router.push("/dashboard")
-        return
-      }
-
-      // Si aucun résultat (ne devrait pas arriver)
+      // Si succès, signIn() a appelé redirect() et ne retourne jamais ici
+      // Ce code ne devrait pas être exécuté, mais au cas où :
       setError("Une erreur inattendue est survenue")
       setLoading(false)
 
     } catch (err: any) {
+      // Si c'est une erreur de redirect, c'est normal (Next.js lance une exception pour les redirects)
+      // Ne pas afficher d'erreur dans ce cas
+      if (err?.digest?.includes("NEXT_REDIRECT")) {
+        return
+      }
+
       console.error("[Login] Error:", err?.message || err)
       setError("Une erreur est survenue lors de la connexion")
       setLoading(false)

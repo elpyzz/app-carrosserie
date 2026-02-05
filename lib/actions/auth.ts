@@ -51,7 +51,7 @@ export async function signIn(
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
     console.log("[Auth] Mode mock - connexion autorisée")
     revalidatePath("/", "layout")
-    return { success: true }
+    redirect("/dashboard")
   }
 
   try {
@@ -71,10 +71,15 @@ export async function signIn(
       return { error: "Erreur lors de la connexion" }
     }
 
-    // Succès - revalider les chemins et retourner success
+    // Succès - utiliser redirect() pour que Next.js gère les cookies automatiquement
     revalidatePath("/", "layout")
-    return { success: true }
+    redirect("/dashboard")
   } catch (error: any) {
+    // Si c'est une erreur de redirect, la laisser passer (c'est normal)
+    if (error?.digest?.includes("NEXT_REDIRECT")) {
+      throw error
+    }
+
     console.error("[Auth] SignIn unexpected error:", error)
     return { error: "Une erreur est survenue lors de la connexion" }
   }
