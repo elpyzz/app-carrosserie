@@ -78,12 +78,16 @@ export async function GET(request: NextRequest) {
         .select("*")
         .order("ordre", { ascending: true })
 
-      if (!error && data) {
+      // Si pas d'erreur ET que des données existent, les retourner
+      if (!error && data && data.length > 0) {
         return NextResponse.json({
           success: true,
           sites: maskSitesCredentials(data), // ✅ Masqué
         })
       }
+      
+      // Si la table est vide ou erreur, retourner les sites par défaut
+      // Cela permet d'avoir des sites de démonstration même si la table est vide
     }
 
     // Fallback : retourner les sites par défaut
@@ -93,10 +97,11 @@ export async function GET(request: NextRequest) {
     })
   } catch (error: any) {
     console.error('[API] GET /api/fournisseur/sites error:', error)
-    return NextResponse.json(
-      { success: false, error: error.message || 'Erreur lors de la récupération des sites' },
-      { status: 500 }
-    )
+    // En cas d'erreur, retourner quand même les sites par défaut
+    return NextResponse.json({
+      success: true,
+      sites: DEFAULT_SUPPLIER_SITES,
+    })
   }
 }
 
