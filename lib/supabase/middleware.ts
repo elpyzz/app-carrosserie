@@ -83,6 +83,10 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
+  // Routes publiques qui ne nécessitent pas d'authentification
+  const publicRoutes = ['/login', '/register']
+  const isPublicRoute = publicRoutes.includes(request.nextUrl.pathname)
+
   // Routes protégées qui nécessitent une authentification
   const protectedRoutes = ['/dashboard', '/dossiers', '/expert', '/fournisseur', '/relance', '/settings', '/fournisseurs']
   const isProtectedRoute = protectedRoutes.some(route => 
@@ -94,10 +98,9 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
 
-  // Si l'utilisateur est authentifié et essaie d'accéder à /login, rediriger vers dashboard
-  if (user && request.nextUrl.pathname === '/login') {
-    return NextResponse.redirect(new URL('/dashboard', request.url))
-  }
+  // NE PAS rediriger automatiquement depuis /login dans le middleware
+  // Cela évite les boucles de redirection
+  // La page de login gère elle-même la redirection après connexion réussie
 
   return response
 }
