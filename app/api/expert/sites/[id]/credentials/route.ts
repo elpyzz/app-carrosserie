@@ -17,6 +17,7 @@ export async function PUT(
 ) {
   try {
     const { id } = params
+    console.log('[DEBUG API] PUT /api/expert/sites/[id]/credentials - ID:', id)
 
     if (!id) {
       return NextResponse.json(
@@ -42,11 +43,14 @@ export async function PUT(
     } = await supabase.auth.getUser()
 
     if (authError || !user) {
+      console.log('[DEBUG API] Erreur authentification:', authError)
       return NextResponse.json(
         { success: false, error: "Non authentifié" },
         { status: 401 }
       )
     }
+    
+    console.log('[DEBUG API] Utilisateur authentifié:', user.id)
 
     // Récupérer le site existant
     const { data: existingSite, error: fetchError } = await supabase
@@ -55,7 +59,15 @@ export async function PUT(
       .eq("id", id)
       .single()
 
+    console.log('[DEBUG API] Résultat requête site:', { 
+      hasData: !!existingSite, 
+      error: fetchError?.message,
+      errorCode: fetchError?.code,
+      errorDetails: fetchError
+    })
+
     if (fetchError || !existingSite) {
+      console.error('[DEBUG API] Site non trouvé - ID:', id, 'Error:', fetchError)
       return NextResponse.json(
         { success: false, error: "Site non trouvé" },
         { status: 404 }

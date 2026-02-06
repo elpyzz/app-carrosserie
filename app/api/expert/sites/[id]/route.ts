@@ -46,6 +46,7 @@ export async function PUT(
 ) {
   try {
     const { id } = params
+    console.log('[DEBUG API] PUT /api/expert/sites/[id] - ID:', id)
     const supabase = await createClient()
 
     // Vérifier l'authentification
@@ -55,14 +56,18 @@ export async function PUT(
     } = await supabase.auth.getUser()
 
     if (authError || !user) {
+      console.log('[DEBUG API] Erreur authentification:', authError)
       return NextResponse.json(
         { success: false, error: "Non authentifié" },
         { status: 401 }
       )
     }
+    
+    console.log('[DEBUG API] Utilisateur authentifié:', user.id)
 
     const body = await request.json()
     const { nom, url_recherche, type_auth, credentials, selectors, actif } = body
+    console.log('[DEBUG API] Body reçu:', { nom, url_recherche, type_auth, hasCredentials: !!credentials, hasSelectors: !!selectors, actif })
 
     // IMPORTANT : Ne pas permettre la modification des credentials via cet endpoint
     // Les credentials doivent être modifiés via /api/expert/sites/[id]/credentials
@@ -71,8 +76,10 @@ export async function PUT(
       if (isMaskedCredentials(credentials)) {
         // Ignorer silencieusement les credentials masqués
         delete body.credentials
+        console.log('[DEBUG API] Credentials masqués ignorés')
       } else if (credentials !== null) {
         // Rediriger vers l'endpoint dédié
+        console.log('[DEBUG API] Tentative de modification credentials via endpoint principal - refusée')
         return NextResponse.json(
           {
             success: false,
@@ -90,7 +97,15 @@ export async function PUT(
       .eq("id", id)
       .single()
 
+    console.log('[DEBUG API] Résultat requête site:', { 
+      hasData: !!existingSite, 
+      error: fetchError?.message,
+      errorCode: fetchError?.code,
+      errorDetails: fetchError
+    })
+
     if (fetchError || !existingSite) {
+      console.error('[DEBUG API] Site non trouvé - ID:', id, 'Error:', fetchError)
       return NextResponse.json(
         { success: false, error: "Site non trouvé" },
         { status: 404 }

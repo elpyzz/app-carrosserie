@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { useSupabaseClient } from "@/lib/hooks/useSupabaseClient"
 import { ExpertSite, ExpertSiteAuthType } from "@/lib/expert/types"
+import { isMaskedCredentials } from "@/lib/security/credentials-masker"
 import {
   Settings,
   Plus,
@@ -353,44 +354,130 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
     }
 
     try {
-      // Si c'est une modification ET que les credentials ont changé, utiliser l'endpoint dédié
-      // IMPORTANT: Ne construire parsedCredentials et appeler l'endpoint QUE si vraiment nécessaire
-      if (site && parsedCredentials && typeAuth !== "none") {
-        // Vérifier si les credentials ont vraiment changé
-        const currentEmail = site.credentials?.email || site.credentials?.login || ""
-        const emailChanged = email.trim() !== currentEmail
-        const passwordChanged = password !== "" // Si password n'est pas vide, il a été modifié
-        
-        // Ne mettre à jour les credentials QUE si vraiment changés
-        if (emailChanged || passwordChanged) {
-          // D'abord mettre à jour les credentials via l'endpoint dédié
-          try {
-            const credentialsResponse = await fetch(`/api/expert/sites/${site.id}/credentials`, {
-              method: "PUT",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                credentials: parsedCredentials,
-                merge: false // Remplacer complètement
-              }),
-            })
+      // IMPORTANT: Ne mettre à jour les credentials QUE si vraiment nécessaire
+      // Si on modifie seulement le nom/URL, on ne doit PAS appeler l'endpoint credentials
+      
+      // Vérifier si l'ID est un UUID valide (format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)
+      const isUUID = site?.id && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(site.id)
+      
+      // Si ce n'est pas un UUID, c'est un site par défaut - il faut le créer d'abord
+      if (site && !isUUID) {
+        console.log('[DEBUG ExpertSitesConfig] Site par défaut détecté, création dans Supabase:', site.id)
+        // Créer le site dans Supabase d'abord
+        const createResponse = await fetch("/api/expert/sites", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            nom: nom.trim(),
+            url_recherche: url.trim(),
+            type_auth: typeAuth,
+            credentials: parsedCredentials,
+            selectors: parsedSelectors,
+            actif,
+          }),
+        })
 
-            const credentialsData = await credentialsResponse.json()
-            if (!credentialsData.success) {
-              // Si l'endpoint credentials échoue, on ne peut pas continuer car le PUT principal
-              // ne permet pas de modifier les credentials. On affiche l'erreur.
-              setError(credentialsData.error || "Erreur lors de la mise à jour des credentials")
-              setLoading(false)
-              return
-            }
-          } catch (err: any) {
-            // En cas d'erreur réseau, afficher l'erreur
-            setError(`Erreur réseau lors de la mise à jour des credentials: ${err.message}`)
+        const createData = await createResponse.json()
+        console.log('[DEBUG ExpertSitesConfig] Réponse création site:', createData)
+
+        if (createData.success) {
+          setSuccess(true)
+          setTimeout(() => {
+            onSave()
+          }, 500)
+          return
+        } else {
+          setError(createData.error || "Erreur lors de la création du site")
+          setLoading(false)
+          return
+        }
+      }
+      
+      // DEBUG: Log pour comprendre ce qui se passe
+      console.log('[DEBUG ExpertSitesConfig] handleSave:', {
+        siteId: site?.id,
+        isUUID,
+        siteNom: site?.nom,
+        typeAuth,
+        hasParsedCredentials: !!parsedCredentials,
+        passwordLength: password.length,
+        passwordTrimmed: password.trim().length,
+        email: email.trim(),
+        url: url.trim(),
+        nom: nom.trim()
+      })
+      
+      // Vérifier si les credentials sont masqués (retournés par l'API)
+      const credentialsAreMasked = site ? isMaskedCredentials(site.credentials) : false
+      console.log('[DEBUG ExpertSitesConfig] credentialsAreMasked:', credentialsAreMasked)
+      
+      // Déterminer si on doit mettre à jour les credentials
+      let shouldUpdateCredentials = false
+      
+      // IMPORTANT: Ne vérifier les credentials QUE si on a vraiment des credentials à mettre à jour
+      // Si on modifie seulement le nom/URL et que typeAuth est "none", on ne doit pas entrer ici
+      if (site && parsedCredentials && typeAuth !== "none") {
+        if (credentialsAreMasked) {
+          // Les credentials sont masqués (retournés par l'API)
+          // On ne met à jour les credentials QUE si le mot de passe a été modifié (champ non vide)
+          // Cela signifie que l'utilisateur veut changer le mot de passe
+          shouldUpdateCredentials = password.trim() !== ""
+          console.log('[DEBUG ExpertSitesConfig] Credentials masqués, shouldUpdateCredentials:', shouldUpdateCredentials, 'password:', password.trim().length > 0 ? '***' : 'vide')
+        } else {
+          // Les credentials ne sont pas masqués, on peut comparer les valeurs
+          const currentEmail = site.credentials?.email || site.credentials?.login || ""
+          const emailChanged = email.trim() !== currentEmail
+          const passwordChanged = password.trim() !== "" // Si password n'est pas vide, il a été modifié
+          
+          // Ne mettre à jour les credentials QUE si vraiment changés
+          shouldUpdateCredentials = emailChanged || passwordChanged
+          console.log('[DEBUG ExpertSitesConfig] Credentials non masqués, shouldUpdateCredentials:', shouldUpdateCredentials, {
+            emailChanged,
+            passwordChanged,
+            currentEmail,
+            newEmail: email.trim()
+          })
+        }
+      } else {
+        console.log('[DEBUG ExpertSitesConfig] Pas de mise à jour credentials nécessaire:', {
+          hasSite: !!site,
+          hasParsedCredentials: !!parsedCredentials,
+          typeAuth
+        })
+      }
+      
+      // Mettre à jour les credentials SEULEMENT si nécessaire
+      if (shouldUpdateCredentials && site) {
+        console.log('[DEBUG ExpertSitesConfig] ⚠️ Appel endpoint credentials pour site:', site.id)
+        try {
+          const credentialsResponse = await fetch(`/api/expert/sites/${site.id}/credentials`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              credentials: parsedCredentials,
+              merge: false // Remplacer complètement
+            }),
+          })
+
+          const credentialsData = await credentialsResponse.json()
+          console.log('[DEBUG ExpertSitesConfig] Réponse endpoint credentials:', credentialsData)
+          
+          if (!credentialsData.success) {
+            // Si l'endpoint credentials échoue, on ne peut pas continuer car le PUT principal
+            // ne permet pas de modifier les credentials. On affiche l'erreur.
+            setError(credentialsData.error || "Erreur lors de la mise à jour des credentials")
             setLoading(false)
             return
           }
+        } catch (err: any) {
+          // En cas d'erreur réseau, afficher l'erreur
+          console.error('[DEBUG ExpertSitesConfig] Erreur endpoint credentials:', err)
+          setError(`Erreur réseau lors de la mise à jour des credentials: ${err.message}`)
+          setLoading(false)
+          return
         }
-        // Si on ne modifie pas les credentials (seulement nom/URL), on ne fait rien ici
-        // et on continue avec le PUT principal qui mettra à jour le nom/URL
+      } else {
+        console.log('[DEBUG ExpertSitesConfig] ✅ Pas d\'appel à l\'endpoint credentials - on continue avec le PUT principal')
       }
 
       // Mettre à jour le reste (nom, URL, selectors, etc.) sans credentials
@@ -399,6 +486,8 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
         : "/api/expert/sites"
 
       const method = site ? "PUT" : "POST"
+      
+      console.log('[DEBUG ExpertSitesConfig] Appel PUT principal:', { apiUrl, method, siteId: site?.id })
 
       const response = await fetch(apiUrl, {
         method,
@@ -415,6 +504,7 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
       })
 
       const data = await response.json()
+      console.log('[DEBUG ExpertSitesConfig] Réponse PUT principal:', data)
 
       if (data.success) {
         setSuccess(true)
@@ -425,6 +515,7 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
         setError(data.error || "Erreur lors de la sauvegarde")
       }
     } catch (err: any) {
+      console.error('[DEBUG ExpertSitesConfig] Erreur générale:', err)
       setError(err.message || "Une erreur est survenue")
     } finally {
       setLoading(false)
