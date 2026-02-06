@@ -149,37 +149,53 @@ export class PuppeteerAutomation extends BaseAutomation {
     if (!this.page) return
 
     try {
-      // Attendre que le formulaire soit visible
+      // Attendre que le formulaire soit visible - TIMEOUT AUGMENTÉ à 30s
       if (this.selectors.login_username) {
-        await this.page.waitForSelector(this.selectors.login_username, { timeout: 10000 })
+        console.log(`[Puppeteer] Attente du sélecteur login: ${this.selectors.login_username}`)
+        await this.page.waitForSelector(this.selectors.login_username, { timeout: 30000 })
+        console.log(`[Puppeteer] Sélecteur login trouvé, saisie de l'email...`)
         await this.page.type(this.selectors.login_username, this.credentials.login || "", { delay: 100 })
       }
       
       if (this.selectors.login_password) {
+        console.log(`[Puppeteer] Saisie du mot de passe...`)
         await this.page.type(this.selectors.login_password, this.credentials.password || "", { delay: 100 })
       }
       
       if (this.selectors.login_submit) {
-        // Attendre que le bouton soit activé (certains sites désactivent le bouton au chargement)
+        console.log(`[Puppeteer] Attente du bouton de connexion: ${this.selectors.login_submit}`)
+        // Attendre que le bouton soit activé (certains sites désactivent le bouton au chargement) - TIMEOUT AUGMENTÉ à 30s
         await this.page.waitForFunction(
           (selector) => {
             const button = document.querySelector(selector) as HTMLButtonElement
             return button && !button.disabled
           },
-          { timeout: 10000 },
+          { timeout: 30000 },
           this.selectors.login_submit
         )
         
+        console.log(`[Puppeteer] Bouton de connexion activé, clic...`)
         // Simuler un mouvement de souris pour activer le bouton si nécessaire
         await this.page.mouse.move(100, 100)
         await this.wait(500)
         
         await this.page.click(this.selectors.login_submit)
-        await this.page.waitForNavigation({ waitUntil: "networkidle2", timeout: 20000 })
+        console.log(`[Puppeteer] Attente de la navigation après connexion...`)
+        await this.page.waitForNavigation({ waitUntil: "networkidle2", timeout: 30000 }) // TIMEOUT AUGMENTÉ à 30s
         await this.wait(2000) // Attendre le chargement complet après connexion
+        console.log(`[Puppeteer] Connexion réussie`)
       }
     } catch (error) {
       console.error("[Puppeteer] Login error:", sanitizeErrorMessage(error))
+      // Prendre une capture d'écran pour debug si possible
+      if (this.page) {
+        try {
+          const screenshot = await this.page.screenshot({ encoding: 'base64' })
+          console.log("[Puppeteer] Screenshot de la page lors de l'erreur (premiers 100 caractères):", screenshot.substring(0, 100))
+        } catch (screenshotError) {
+          console.log("[Puppeteer] Impossible de prendre une capture d'écran")
+        }
+      }
       throw error
     }
   }
@@ -271,7 +287,7 @@ export class PuppeteerAutomation extends BaseAutomation {
             const rows = document.querySelectorAll('#table_dossiers tbody tr')
             return rows.length > 0 || document.body.textContent?.includes('Aucun')
           },
-          { timeout: 10000 }
+          { timeout: 20000 } // TIMEOUT AUGMENTÉ à 20s
         )
         await this.wait(1000) // Attendre un peu plus pour être sûr
       } catch {
@@ -343,7 +359,7 @@ export class PuppeteerAutomation extends BaseAutomation {
     try {
       // Chercher et remplir le formulaire de message
       if (this.selectors.message_textarea) {
-        await this.page.waitForSelector(this.selectors.message_textarea, { timeout: 10000 })
+        await this.page.waitForSelector(this.selectors.message_textarea, { timeout: 20000 }) // TIMEOUT AUGMENTÉ à 20s
         await this.page.type(this.selectors.message_textarea, message)
       } else {
         // Si pas de sélecteur de message, on considère que c'est OK (certains portails n'ont pas cette fonctionnalité)
@@ -393,13 +409,13 @@ export class PuppeteerAutomation extends BaseAutomation {
       if (this.selectors.dossier_row) {
         try {
           console.log("[Puppeteer] Clic sur la ligne du dossier")
-          await this.page.waitForSelector(this.selectors.dossier_row, { timeout: 5000 })
+          await this.page.waitForSelector(this.selectors.dossier_row, { timeout: 15000 }) // TIMEOUT AUGMENTÉ à 15s
           
           // Cliquer sur la première ligne trouvée
           await this.page.click(this.selectors.dossier_row)
           
           // Attendre la navigation vers la page de dossier
-          await this.page.waitForNavigation({ waitUntil: "networkidle2", timeout: 15000 })
+          await this.page.waitForNavigation({ waitUntil: "networkidle2", timeout: 20000 }) // TIMEOUT AUGMENTÉ à 20s
           await this.wait(2000) // Attendre le chargement complet
         } catch (error) {
           console.error("[Puppeteer] Erreur lors du clic sur le dossier:", sanitizeErrorMessage(error))
@@ -415,7 +431,7 @@ export class PuppeteerAutomation extends BaseAutomation {
       if (this.selectors.documents_tab) {
         try {
           console.log("[Puppeteer] Ouverture de l'onglet Documents")
-          await this.page.waitForSelector(this.selectors.documents_tab, { timeout: 10000 })
+          await this.page.waitForSelector(this.selectors.documents_tab, { timeout: 20000 }) // TIMEOUT AUGMENTÉ à 20s
           await this.page.click(this.selectors.documents_tab)
           await this.wait(2000) // Attendre le chargement de l'onglet
         } catch (error) {
@@ -428,7 +444,7 @@ export class PuppeteerAutomation extends BaseAutomation {
       if (this.selectors.rapport_link) {
         try {
           console.log("[Puppeteer] Recherche du bouton de téléchargement")
-          await this.page.waitForSelector(this.selectors.rapport_link, { timeout: 10000 })
+          await this.page.waitForSelector(this.selectors.rapport_link, { timeout: 20000 }) // TIMEOUT AUGMENTÉ à 20s
           
           // Récupérer le path du PDF depuis l'attribut path du bouton
           const pdfPath = await this.page.evaluate((selector) => {
