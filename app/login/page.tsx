@@ -67,8 +67,8 @@ export default function LoginPage() {
 
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 relative overflow-hidden">
-      <Card className="w-full max-w-md bg-white shadow-lg border border-bordeaux-200 relative z-10 pointer-events-auto">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 relative" style={{ zIndex: 1000 }}>
+      <Card className="w-full max-w-md bg-white shadow-lg border border-bordeaux-200 relative" style={{ zIndex: 1001 }}>
         <CardHeader className="space-y-4 pb-6">
           <div className="flex justify-center">
             <div className="bg-bordeaux-600 p-4 rounded-2xl shadow-md">
@@ -87,9 +87,9 @@ export default function LoginPage() {
             </CardDescription>
           </div>
         </CardHeader>
-        <CardContent className="relative z-10">
-          <form onSubmit={handleSubmit} className="space-y-5 relative z-10">
-            <div className="space-y-2 relative z-10">
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-5" style={{ position: 'relative', zIndex: 1002 }}>
+            <div className="space-y-2">
               <Label htmlFor="email" className="text-sm font-semibold text-gray-900">
                 Email
               </Label>
@@ -101,10 +101,12 @@ export default function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 disabled={loading}
-                className="h-12 border-2 focus:border-bordeaux-500 focus:ring-2 focus:ring-bordeaux-200 relative z-10 pointer-events-auto"
+                className="h-12 border-2 focus:border-bordeaux-500 focus:ring-2 focus:ring-bordeaux-200"
+                style={{ position: 'relative', zIndex: 1003 }}
+                autoComplete="email"
               />
             </div>
-            <div className="space-y-2 relative z-10">
+            <div className="space-y-2">
               <Label htmlFor="password" className="text-sm font-semibold text-gray-900">
                 Mot de passe
               </Label>
@@ -115,7 +117,9 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 disabled={loading}
-                className="h-12 border-2 focus:border-bordeaux-500 focus:ring-2 focus:ring-bordeaux-200 relative z-10 pointer-events-auto"
+                className="h-12 border-2 focus:border-bordeaux-500 focus:ring-2 focus:ring-bordeaux-200"
+                style={{ position: 'relative', zIndex: 1003 }}
+                autoComplete="current-password"
               />
             </div>
             {error && (
@@ -127,6 +131,7 @@ export default function LoginPage() {
               type="submit"
               className="w-full h-12 btn-primary text-base font-semibold flex items-center justify-center rounded-lg"
               disabled={loading}
+              style={{ position: 'relative', zIndex: 1003 }}
             >
               {loading ? (
                 <>

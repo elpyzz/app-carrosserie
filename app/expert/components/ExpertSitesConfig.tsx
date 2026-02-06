@@ -319,8 +319,21 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
   }
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <Card className="w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+    <div 
+      className="fixed inset-0 bg-black/50 flex items-center justify-center p-4" 
+      style={{ zIndex: 9999 }}
+      onClick={(e) => {
+        // Fermer si on clique sur l'overlay (pas sur le contenu)
+        if (e.target === e.currentTarget) {
+          onClose()
+        }
+      }}
+    >
+      <Card 
+        className="w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-white" 
+        style={{ zIndex: 10000, position: 'relative' }}
+        onClick={(e) => e.stopPropagation()}
+      >
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>
             {site ? "Modifier le site expert" : "Ajouter un site expert"}
@@ -330,7 +343,7 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
           </Button>
         </CardHeader>
 
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-4" style={{ position: 'relative', zIndex: 10001 }}>
           {/* Message d'erreur */}
           {error && (
             <div className="flex items-start gap-2 p-3 bg-red-50 border border-red-200 rounded-lg">
@@ -358,6 +371,8 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
               onChange={(e) => setNom(e.target.value)}
               placeholder="Ex: Experts Groupe"
               disabled={loading}
+              style={{ position: 'relative', zIndex: 10002 }}
+              autoComplete="off"
             />
           </div>
 
@@ -372,6 +387,8 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
               onChange={(e) => setUrl(e.target.value)}
               placeholder="https://www.experts-groupe.com/recherche"
               disabled={loading}
+              style={{ position: 'relative', zIndex: 10002 }}
+              autoComplete="off"
             />
           </div>
 
@@ -384,6 +401,7 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
               onChange={(e) => setTypeAuth(e.target.value as ExpertSiteAuthType)}
               className="w-full h-10 px-3 rounded-md border border-gray-300 bg-white"
               disabled={loading}
+              style={{ position: 'relative', zIndex: 10002 }}
             >
               <option value="none">Aucune authentification</option>
               <option value="form">Formulaire de connexion</option>
@@ -409,6 +427,7 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
                 className="font-mono text-sm"
                 rows={4}
                 disabled={loading}
+                style={{ position: 'relative', zIndex: 10002 }}
               />
               <p className="text-xs text-gray-500 mt-1">
                 Format JSON valide requis. Ces données sont stockées de manière sécurisée.
@@ -438,6 +457,7 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
               className="font-mono text-sm"
               rows={8}
               disabled={loading}
+              style={{ position: 'relative', zIndex: 10002 }}
             />
             <p className="text-xs text-gray-500 mt-1">
               Sélecteurs CSS utilisés par le scraper pour interagir avec le site.
@@ -453,6 +473,7 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
               onChange={(e) => setActif(e.target.checked)}
               className="h-4 w-4 rounded border-gray-300"
               disabled={loading}
+              style={{ position: 'relative', zIndex: 10002 }}
             />
             <Label htmlFor="actif" className="cursor-pointer">
               Site actif (les relances automatiques utiliseront ce site)
@@ -461,13 +482,19 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
 
           {/* Boutons */}
           <div className="flex justify-end gap-3 pt-4 border-t">
-            <Button variant="outline" onClick={onClose} disabled={loading}>
+            <Button 
+              variant="outline" 
+              onClick={onClose} 
+              disabled={loading}
+              style={{ position: 'relative', zIndex: 10002 }}
+            >
               Annuler
             </Button>
             <Button 
               className="btn-primary" 
               onClick={handleSave} 
               disabled={loading}
+              style={{ position: 'relative', zIndex: 10002 }}
             >
               {loading ? (
                 <>
