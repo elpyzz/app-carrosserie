@@ -353,6 +353,33 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
     }
 
     try {
+      // Si c'est une modification ET que les credentials ont changé, utiliser l'endpoint dédié
+      if (site && parsedCredentials) {
+        // Vérifier si les credentials ont vraiment changé
+        const emailChanged = email.trim() !== (site.credentials?.email || site.credentials?.login || "")
+        const passwordChanged = password !== "" // Si password n'est pas vide, il a été modifié
+        
+        if (emailChanged || passwordChanged) {
+          // D'abord mettre à jour les credentials via l'endpoint dédié
+          const credentialsResponse = await fetch(`/api/expert/sites/${site.id}/credentials`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              credentials: parsedCredentials,
+              merge: false // Remplacer complètement
+            }),
+          })
+
+          const credentialsData = await credentialsResponse.json()
+          if (!credentialsData.success) {
+            setError(credentialsData.error || "Erreur lors de la mise à jour des credentials")
+            setLoading(false)
+            return
+          }
+        }
+      }
+
+      // Mettre à jour le reste (nom, URL, selectors, etc.) sans credentials
       const apiUrl = site 
         ? `/api/expert/sites/${site.id}`
         : "/api/expert/sites"
@@ -366,7 +393,8 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
           nom: nom.trim(),
           url_recherche: url.trim(),
           type_auth: typeAuth,
-          credentials: parsedCredentials,
+          // Ne pas envoyer credentials si c'est une modification (déjà fait via endpoint dédié)
+          credentials: site ? undefined : parsedCredentials,
           selectors: parsedSelectors,
           actif,
         }),
