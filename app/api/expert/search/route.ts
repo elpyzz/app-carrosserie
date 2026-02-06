@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { createClient } from "@/lib/supabase/server"
-import { ExpertSearchCriteria, ExpertSearchResult } from "@/lib/expert/types"
+import { ExpertSearchCriteria, ExpertSearchResult, ExpertSite } from "@/lib/expert/types"
+import { createAutomationHandler, isAutomationAvailable } from "@/lib/expert/automation/site-handlers"
 
 export async function POST(request: Request) {
   try {
@@ -190,53 +191,178 @@ export async function POST(request: Request) {
       return result
     }
 
-    // Simuler la recherche sur chaque site (mock pour l'instant)
-    console.log('[DEBUG API] Début simulation recherche sur', sites.length, 'site(s)')
+    // Recherche réelle sur chaque site avec Puppeteer
+    console.log('[DEBUG API] Début recherche réelle sur', sites.length, 'site(s)')
     const results: ExpertSearchResult[] = await Promise.all(
       sites.map(async (site: any) => {
         console.log('[DEBUG API] Traitement site:', site.nom, site.id)
+        let automation = null
+        
         try {
-          // Simuler un délai de recherche
-          await new Promise((resolve) => setTimeout(resolve, 1000 + Math.random() * 2000))
-
-          // Simuler différents résultats
-          const random = Math.random()
-          let result: ExpertSearchResult
-
-          if (random > 0.6) {
-            // Rapport trouvé
-            result = {
+          // Vérifier si l'automation est disponible
+          if (!isAutomationAvailable(site as ExpertSite)) {
+            console.log('[DEBUG API] Automation non disponible pour', site.nom)
+            return {
               site_id: site.id,
               site_nom: site.nom,
-              statut: "trouve",
-              message: "Rapport trouvé avec succès",
-              pdf_url: `/api/expert/download/mock-${site.id}.pdf`,
-              pdf_nom: `rapport_${criteria.numero_dossier || "expert"}_${site.id}.pdf`,
-              pdf_taille: 250000 + Math.random() * 500000,
-              pdf_date: new Date().toISOString(),
-            } as ExpertSearchResult
-
-            // Télécharger automatiquement le PDF
-            result = await downloadAndStorePDF(result, site)
-          } else if (random > 0.3) {
-            // Non trouvé
-            result = {
-              site_id: site.id,
-              site_nom: site.nom,
-              statut: "non_trouve",
-              message: "Aucun rapport trouvé pour ces critères",
+              statut: "erreur",
+              message: "Configuration d'automation incomplète",
+              erreur: "Le site n'a pas les informations nécessaires pour l'automation",
               pdf_stored: false,
             } as ExpertSearchResult
-          } else {
-            // Erreur
-            result = {
+          }
+
+          // Créer le handler d'automation
+          automation = createAutomationHandler(site as ExpertSite)
+
+          // 1. Connexion
+          console.log('[DEBUG API] Connexion au site', site.nom)
+          const connectResult = await automation.connect()
+          if (!connectResult.success) {
+            return {
+              site_id: site.id,
+              site_nom: site.nom,
+              statut: "erreur",
+              message: "Erreur de connexion",
+              erreur: connectResult.erreur || "Impossible de se connecter au portail",
+              pdf_stored: false,
+            } as ExpertSearchResult
+          }
+
+          // 2. Recherche du dossier
+          console.log('[DEBUG API] Recherche du dossier sur', site.nom)
+          const numeroSinistre = criteria.numero_dossier || ""
+          const immatriculation = criteria.immatriculation || ""
+          
+          if (!numeroSinistre && !immatriculation) {
+            return {
+              site_id: site.id,
+              site_nom: site.nom,
+              statut: "erreur",
+              message: "Aucun critère de recherche fourni",
+              erreur: "Numéro de sinistre ou immatriculation requis",
+              pdf_stored: false,
+            } as ExpertSearchResult
+          }
+
+          const searchResult = await automation.searchDossier(numeroSinistre, immatriculation)
+          if (!searchResult.success) {
+            return {
               site_id: site.id,
               site_nom: site.nom,
               statut: "erreur",
               message: "Erreur lors de la recherche",
-              erreur: "Site temporairement indisponible",
+              erreur: searchResult.erreur || "Erreur inconnue lors de la recherche",
               pdf_stored: false,
             } as ExpertSearchResult
+          }
+
+          // Si le dossier n'a pas été trouvé
+          if (searchResult.dossier_trouve === false) {
+            return {
+              site_id: site.id,
+              site_nom: site.nom,
+              statut: "non_trouve",
+              message: "Aucun dossier trouvé pour ces critères",
+              pdf_stored: false,
+            } as ExpertSearchResult
+          }
+
+          // 3. Vérifier et télécharger le rapport
+          console.log('[DEBUG API] Vérification du rapport sur', site.nom)
+          const rapportResult = await automation.checkAndDownloadRapport()
+          
+          if (!rapportResult.success) {
+            return {
+              site_id: site.id,
+              site_nom: site.nom,
+              statut: "erreur",
+              message: "Erreur lors de la vérification du rapport",
+              erreur: rapportResult.erreur || "Erreur inconnue",
+              pdf_stored: false,
+            } as ExpertSearchResult
+          }
+
+          if (!rapportResult.rapport_trouve) {
+            return {
+              site_id: site.id,
+              site_nom: site.nom,
+              statut: "non_trouve",
+              message: "Aucun rapport trouvé pour ce dossier",
+              pdf_stored: false,
+            } as ExpertSearchResult
+          }
+
+          // Rapport trouvé !
+          let result: ExpertSearchResult = {
+            site_id: site.id,
+            site_nom: site.nom,
+            statut: "trouve",
+            message: "Rapport trouvé avec succès",
+            pdf_url: rapportResult.rapport_url,
+            pdf_nom: `rapport_${numeroSinistre || immatriculation}_${site.id}.pdf`,
+            pdf_taille: rapportResult.pdf_buffer?.length,
+            pdf_date: new Date().toISOString(),
+            pdf_stored: false,
+          } as ExpertSearchResult
+
+          // Si on a un buffer PDF, le stocker directement
+          if (rapportResult.pdf_buffer) {
+            try {
+              const pdfBlob = new Blob([rapportResult.pdf_buffer], { type: "application/pdf" })
+              const fileName = result.pdf_nom || `rapport_${Date.now()}.pdf`
+              const sanitizedFileName = fileName.replace(/[^a-zA-Z0-9._-]/g, "_")
+              const filePath = `expert-reports/${criteria.dossier_id || "general"}/${Date.now()}-${sanitizedFileName}`
+
+              // Upload vers Supabase Storage
+              const { data: uploadData, error: uploadError } = await supabase.storage
+                .from("documents")
+                .upload(filePath, pdfBlob, {
+                  contentType: "application/pdf",
+                  upsert: false,
+                })
+
+              if (!uploadError && uploadData) {
+                // Récupérer l'utilisateur pour uploaded_by
+                const {
+                  data: { user },
+                } = await supabase.auth.getUser()
+
+                // Créer l'enregistrement dans la table documents
+                const { data: docData, error: docError } = await supabase
+                  .from("documents")
+                  .insert({
+                    dossier_id: criteria.dossier_id || null,
+                    type: "rapport_expert",
+                    nom_fichier: result.pdf_nom || sanitizedFileName,
+                    chemin_storage: filePath,
+                    taille_bytes: pdfBlob.size,
+                    mime_type: "application/pdf",
+                    uploaded_by: user?.id || null,
+                  })
+                  .select()
+                  .single()
+
+                if (!docError && docData) {
+                  result.pdf_stored_id = docData.id
+                  result.pdf_download_url = `/api/documents/${docData.id}/download`
+                  result.pdf_stored = true
+                  result.message = "Rapport téléchargé et stocké automatiquement"
+                } else {
+                  console.error("Erreur création document:", docError)
+                  result.pdf_stored = false
+                }
+              } else {
+                console.error("Erreur upload storage:", uploadError)
+                result.pdf_stored = false
+              }
+            } catch (storageError: any) {
+              console.error("Erreur stockage PDF:", storageError)
+              result.pdf_stored = false
+            }
+          } else if (rapportResult.rapport_url) {
+            // Si on a juste une URL, utiliser la fonction downloadAndStorePDF existante
+            result = await downloadAndStorePDF(result, site)
           }
 
           console.log('[DEBUG API] Résultat pour', site.nom, ':', result.statut)
@@ -251,6 +377,15 @@ export async function POST(request: Request) {
             erreur: siteError.message || "Erreur inconnue",
             pdf_stored: false,
           } as ExpertSearchResult
+        } finally {
+          // Nettoyer les ressources Puppeteer
+          if (automation) {
+            try {
+              await automation.cleanup()
+            } catch (cleanupError) {
+              console.error('[DEBUG API] Erreur cleanup pour', site.nom, ':', cleanupError)
+            }
+          }
         }
       })
     )

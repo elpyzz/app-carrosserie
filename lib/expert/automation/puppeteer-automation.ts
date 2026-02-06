@@ -98,16 +98,31 @@ export class PuppeteerAutomation extends BaseAutomation {
       // Attendre que le formulaire soit visible
       if (this.selectors.login_username) {
         await this.page.waitForSelector(this.selectors.login_username, { timeout: 10000 })
-        await this.page.type(this.selectors.login_username, this.credentials.login || "")
+        await this.page.type(this.selectors.login_username, this.credentials.login || "", { delay: 100 })
       }
       
       if (this.selectors.login_password) {
-        await this.page.type(this.selectors.login_password, this.credentials.password || "")
+        await this.page.type(this.selectors.login_password, this.credentials.password || "", { delay: 100 })
       }
       
       if (this.selectors.login_submit) {
+        // Attendre que le bouton soit activé (certains sites désactivent le bouton au chargement)
+        await this.page.waitForFunction(
+          (selector) => {
+            const button = document.querySelector(selector) as HTMLButtonElement
+            return button && !button.disabled
+          },
+          { timeout: 10000 },
+          this.selectors.login_submit
+        )
+        
+        // Simuler un mouvement de souris pour activer le bouton si nécessaire
+        await this.page.mouse.move(100, 100)
+        await this.wait(500)
+        
         await this.page.click(this.selectors.login_submit)
-        await this.page.waitForNavigation({ waitUntil: "networkidle2", timeout: 15000 })
+        await this.page.waitForNavigation({ waitUntil: "networkidle2", timeout: 20000 })
+        await this.wait(2000) // Attendre le chargement complet après connexion
       }
     } catch (error) {
       console.error("[Puppeteer] Login error:", sanitizeErrorMessage(error))
@@ -128,23 +143,125 @@ export class PuppeteerAutomation extends BaseAutomation {
     }
 
     try {
-      // Remplir le formulaire de recherche
-      if (this.selectors.search_input) {
-        await this.page.waitForSelector(this.selectors.search_input, { timeout: 10000 })
+      // Naviguer vers le dashboard si navigation_path est défini
+      if (this.selectors.navigation_path) {
+        const currentUrl = this.page.url()
+        const baseUrl = new URL(currentUrl).origin
+        const dashboardUrl = `${baseUrl}${this.selectors.navigation_path}`
         
-        // Effacer le champ avant de taper
-        await this.page.click(this.selectors.search_input, { clickCount: 3 })
-        await this.page.type(this.selectors.search_input, numeroSinistre)
+        console.log(`[Puppeteer] Navigation vers dashboard: ${dashboardUrl}`)
+        await this.page.goto(dashboardUrl, {
+          waitUntil: "networkidle2",
+          timeout: 30000,
+        })
+        await this.wait(2000) // Attendre le chargement complet
       }
+
+      // Déterminer quel champ de recherche utiliser
+      let searchSelector: string | undefined
+      let searchValue: string
+
+      if (numeroSinistre && this.selectors.search_input_numero_sinistre) {
+        // Recherche par numéro de sinistre
+        searchSelector = this.selectors.search_input_numero_sinistre
+        searchValue = numeroSinistre
+      } else if (immatriculation && this.selectors.search_input_immatriculation) {
+        // Recherche par immatriculation
+        searchSelector = this.selectors.search_input_immatriculation
+        searchValue = immatriculation.replace(/\s/g, "").toUpperCase() // Nettoyer l'immatriculation
+      } else if (this.selectors.search_input) {
+        // Fallback sur search_input générique
+        searchSelector = this.selectors.search_input
+        searchValue = numeroSinistre || immatriculation || ""
+      } else {
+        return {
+          success: false,
+          action: "recherche",
+          erreur: "Aucun sélecteur de recherche disponible",
+        }
+      }
+
+      if (!searchSelector) {
+        return {
+          success: false,
+          action: "recherche",
+          erreur: "Aucun sélecteur de recherche configuré",
+        }
+      }
+
+      // Attendre que le champ de recherche soit visible
+      console.log(`[Puppeteer] Recherche avec selector: ${searchSelector}, valeur: ${searchValue}`)
+      await this.page.waitForSelector(searchSelector, { timeout: 15000 })
       
-      if (this.selectors.search_submit) {
-        await this.page.click(this.selectors.search_submit)
-        await this.wait(3000) // Attendre les résultats
+      // Effacer le champ avant de taper
+      await this.page.click(searchSelector, { clickCount: 3 })
+      await this.wait(500)
+      await this.page.type(searchSelector, searchValue, { delay: 100 })
+      await this.wait(500)
+
+      // Appuyer sur Entrée pour valider la recherche (data-search-on-enter-key="true")
+      await this.page.keyboard.press("Enter")
+      
+      // Attendre que la recherche se termine (le tableau se met à jour)
+      // On attend soit qu'une ligne apparaisse, soit qu'un message "aucun résultat" apparaisse
+      try {
+        // Attendre que le tableau soit mis à jour (disparition du loader ou apparition de résultats)
+        await this.page.waitForFunction(
+          () => {
+            // Vérifier si le loader a disparu
+            const loader = document.querySelector('.fixed-table-loading')
+            if (loader && (loader as HTMLElement).style.display !== 'none') {
+              return false
+            }
+            // Vérifier si des lignes sont présentes
+            const rows = document.querySelectorAll('#table_dossiers tbody tr')
+            return rows.length > 0 || document.body.textContent?.includes('Aucun')
+          },
+          { timeout: 10000 }
+        )
+        await this.wait(1000) // Attendre un peu plus pour être sûr
+      } catch {
+        // Si le timeout est atteint, continuer quand même
+        console.log("[Puppeteer] Timeout lors de l'attente des résultats, continuation...")
+        await this.wait(2000)
+      }
+
+      // Vérifier si des résultats sont présents
+      if (this.selectors.dossier_row) {
+        try {
+          const rows = await this.page.$$(this.selectors.dossier_row)
+          if (rows.length > 0) {
+            console.log(`[Puppeteer] ${rows.length} dossier(s) trouvé(s) dans les résultats`)
+          } else {
+            console.log("[Puppeteer] Aucun dossier trouvé dans les résultats")
+            return {
+              success: true,
+              action: "recherche",
+              dossier_trouve: false,
+              details: {
+                numero_sinistre: numeroSinistre,
+                immatriculation,
+              },
+            }
+          }
+        } catch {
+          console.log("[Puppeteer] Aucun dossier trouvé dans les résultats")
+          return {
+            success: true,
+            action: "recherche",
+            dossier_trouve: false,
+            details: {
+              numero_sinistre: numeroSinistre,
+              immatriculation,
+            },
+          }
+        }
       }
 
       return {
         success: true,
         action: "recherche",
+        dossier_trouve: true,
         details: {
           numero_sinistre: numeroSinistre,
           immatriculation,
@@ -218,25 +335,141 @@ export class PuppeteerAutomation extends BaseAutomation {
     }
 
     try {
-      // Chercher le lien de téléchargement du rapport
-      if (this.selectors.rapport_link) {
-        const rapportLink = await this.page.$(this.selectors.rapport_link)
-        
-        if (rapportLink) {
-          const href = await this.page.evaluate(
-            (el) => el.getAttribute("href"),
-            rapportLink
-          )
+      // Si on est sur la page de recherche, cliquer sur la première ligne de résultat
+      if (this.selectors.dossier_row) {
+        try {
+          console.log("[Puppeteer] Clic sur la ligne du dossier")
+          await this.page.waitForSelector(this.selectors.dossier_row, { timeout: 5000 })
           
+          // Cliquer sur la première ligne trouvée
+          await this.page.click(this.selectors.dossier_row)
+          
+          // Attendre la navigation vers la page de dossier
+          await this.page.waitForNavigation({ waitUntil: "networkidle2", timeout: 15000 })
+          await this.wait(2000) // Attendre le chargement complet
+        } catch (error) {
+          console.error("[Puppeteer] Erreur lors du clic sur le dossier:", sanitizeErrorMessage(error))
           return {
-            success: true,
+            success: false,
             action: "rapport_telecharge",
-            rapport_trouve: true,
-            rapport_url: href || undefined,
-            details: {
-              link_found: true,
-              link_href: href,
-            },
+            erreur: "Impossible de cliquer sur le dossier",
+          }
+        }
+      }
+
+      // Aller dans l'onglet Documents si nécessaire
+      if (this.selectors.documents_tab) {
+        try {
+          console.log("[Puppeteer] Ouverture de l'onglet Documents")
+          await this.page.waitForSelector(this.selectors.documents_tab, { timeout: 10000 })
+          await this.page.click(this.selectors.documents_tab)
+          await this.wait(2000) // Attendre le chargement de l'onglet
+        } catch (error) {
+          console.error("[Puppeteer] Erreur lors de l'ouverture de l'onglet Documents:", sanitizeErrorMessage(error))
+          // Continuer quand même, peut-être que l'onglet est déjà ouvert
+        }
+      }
+
+      // Chercher le bouton de téléchargement du rapport
+      if (this.selectors.rapport_link) {
+        try {
+          console.log("[Puppeteer] Recherche du bouton de téléchargement")
+          await this.page.waitForSelector(this.selectors.rapport_link, { timeout: 10000 })
+          
+          // Récupérer le path du PDF depuis l'attribut path du bouton
+          const pdfPath = await this.page.evaluate((selector) => {
+            const button = document.querySelector(selector) as HTMLElement
+            return button?.getAttribute("path") || null
+          }, this.selectors.rapport_link)
+
+          if (pdfPath) {
+            console.log(`[Puppeteer] PDF trouvé avec path: ${pdfPath}`)
+            
+            // Cliquer sur le bouton pour déclencher le téléchargement
+            // Le site fait un appel AJAX pour récupérer le PDF, on doit intercepter la réponse
+            try {
+              const [response] = await Promise.all([
+                this.page.waitForResponse(
+                  (response) => {
+                    const url = response.url()
+                    return (url.includes("/reparateurs/get_document") || url.includes("get_document")) && response.status() === 200
+                  },
+                  { timeout: 20000 }
+                ).catch(() => null),
+                this.page.click(this.selectors.rapport_link),
+              ])
+
+              if (response) {
+                console.log("[Puppeteer] Réponse AJAX interceptée")
+                // Récupérer le PDF depuis la réponse
+                const pdfData = await response.json()
+                
+                // Le PDF est retourné en base64 dans la réponse JSON
+                if (pdfData && typeof pdfData === "string") {
+                  // Convertir base64 en Buffer
+                  const pdfBuffer = Buffer.from(pdfData, "base64")
+                  
+                  console.log(`[Puppeteer] PDF téléchargé, taille: ${pdfBuffer.length} bytes`)
+                  
+                  return {
+                    success: true,
+                    action: "rapport_telecharge",
+                    rapport_trouve: true,
+                    rapport_url: pdfPath,
+                    pdf_buffer: pdfBuffer,
+                    details: {
+                      link_found: true,
+                      pdf_path: pdfPath,
+                      pdf_size: pdfBuffer.length,
+                    },
+                  }
+                } else {
+                  console.warn("[Puppeteer] Format de réponse PDF inattendu:", typeof pdfData)
+                }
+              } else {
+                console.warn("[Puppeteer] Aucune réponse AJAX interceptée, le PDF pourrait s'ouvrir dans un nouvel onglet")
+              }
+            } catch (error) {
+              console.error("[Puppeteer] Erreur lors du téléchargement du PDF:", sanitizeErrorMessage(error))
+            }
+
+            // Si on n'a pas pu intercepter la réponse, retourner au moins l'URL
+            return {
+              success: true,
+              action: "rapport_telecharge",
+              rapport_trouve: true,
+              rapport_url: pdfPath,
+              details: {
+                link_found: true,
+                pdf_path: pdfPath,
+              },
+            }
+          } else {
+            // Essayer de récupérer l'URL href si pas d'attribut path
+            const href = await this.page.evaluate((selector) => {
+              const button = document.querySelector(selector) as HTMLAnchorElement
+              return button?.href || null
+            }, this.selectors.rapport_link)
+
+            if (href) {
+              return {
+                success: true,
+                action: "rapport_telecharge",
+                rapport_trouve: true,
+                rapport_url: href,
+                details: {
+                  link_found: true,
+                  link_href: href,
+                },
+              }
+            }
+          }
+        } catch (error) {
+          console.error("[Puppeteer] Erreur lors de la recherche du rapport:", sanitizeErrorMessage(error))
+          return {
+            success: false,
+            action: "rapport_telecharge",
+            erreur: sanitizeErrorMessage(error) || "Erreur lors de la recherche du rapport",
           }
         }
       }

@@ -71,6 +71,8 @@ export interface PortailRelanceResult {
   erreur?: string
   rapport_trouve?: boolean
   rapport_url?: string
+  dossier_trouve?: boolean
+  pdf_buffer?: Buffer
   details?: Record<string, any>
 }
 

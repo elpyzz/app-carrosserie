@@ -16,11 +16,17 @@ export interface AutomationSelectors {
   login_submit?: string
   search_form?: string
   search_input?: string
+  search_input_numero_sinistre?: string
+  search_input_immatriculation?: string
+  search_input_numero_dossier?: string
   search_submit?: string
+  dossier_row?: string
+  documents_tab?: string
+  rapport_link?: string
   message_form?: string
   message_textarea?: string
   message_submit?: string
-  rapport_link?: string
+  navigation_path?: string
   [key: string]: string | undefined
 }
 
