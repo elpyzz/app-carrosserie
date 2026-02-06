@@ -17,6 +17,8 @@ export class PuppeteerAutomation extends BaseAutomation {
 
   async connect(): Promise<PortailRelanceResult> {
     try {
+      console.log(`[Puppeteer] Début de la connexion à ${this.site.url_recherche}`)
+      
       // Configuration pour Vercel (serverless)
       const isVercel = 
         process.env.VERCEL === "1" || 
@@ -103,28 +105,42 @@ export class PuppeteerAutomation extends BaseAutomation {
       }
 
       this.page = await this.browser.newPage()
+      console.log(`[Puppeteer] Page créée`)
 
       // Configuration timeout plus court pour serverless
       const timeout = isVercel ? 30000 : 60000
       await this.page.setDefaultTimeout(timeout)
       await this.page.setDefaultNavigationTimeout(timeout)
+      console.log(`[Puppeteer] Timeouts configurés: ${timeout}ms`)
 
       // User agent pour éviter la détection
       await this.page.setUserAgent(
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
       )
 
-      await this.page.goto(this.site.url_recherche, {
-        waitUntil: "networkidle2",
-        timeout: timeout,
-      })
+      console.log(`[Puppeteer] Navigation vers ${this.site.url_recherche}...`)
+      try {
+        // Utiliser domcontentloaded au lieu de networkidle2 (moins strict, plus rapide)
+        await this.page.goto(this.site.url_recherche, {
+          waitUntil: "domcontentloaded", // CHANGÉ: moins strict que networkidle2
+          timeout: timeout,
+        })
+        console.log(`[Puppeteer] Page chargée (DOM), attente supplémentaire pour les scripts...`)
+        await this.wait(3000) // Attendre 3 secondes pour que les scripts se chargent
+        console.log(`[Puppeteer] Attente terminée, page prête`)
+      } catch (navError: any) {
+        console.error(`[Puppeteer] Erreur lors de la navigation:`, sanitizeErrorMessage(navError))
+        throw new Error(`Erreur lors de la navigation: ${sanitizeErrorMessage(navError)}`)
+      }
 
       // Si authentification par formulaire requise
       if (this.site.type_auth === "form" && this.credentials.login && this.credentials.password) {
+        console.log(`[Puppeteer] Authentification requise, début du login...`)
         await this.performLogin()
+        console.log(`[Puppeteer] Login terminé avec succès`)
       }
 
-      console.log(`[Puppeteer] Connecté (${isVercel ? "Vercel" : "local"})`)
+      console.log(`[Puppeteer] Connecté avec succès (${isVercel ? "Vercel" : "local"})`)
 
       return {
         success: true,
@@ -181,8 +197,9 @@ export class PuppeteerAutomation extends BaseAutomation {
         
         await this.page.click(this.selectors.login_submit)
         console.log(`[Puppeteer] Attente de la navigation après connexion...`)
-        await this.page.waitForNavigation({ waitUntil: "networkidle2", timeout: 30000 }) // TIMEOUT AUGMENTÉ à 30s
-        await this.wait(2000) // Attendre le chargement complet après connexion
+        await this.page.waitForNavigation({ waitUntil: "domcontentloaded", timeout: 30000 }) // CHANGÉ: domcontentloaded au lieu de networkidle2
+        console.log(`[Puppeteer] Navigation après connexion terminée, attente supplémentaire...`)
+        await this.wait(3000) // Attendre le chargement complet après connexion (augmenté à 3s)
         console.log(`[Puppeteer] Connexion réussie`)
       }
     } catch (error) {
@@ -221,10 +238,11 @@ export class PuppeteerAutomation extends BaseAutomation {
         
         console.log(`[Puppeteer] Navigation vers dashboard: ${dashboardUrl}`)
         await this.page.goto(dashboardUrl, {
-          waitUntil: "networkidle2",
+          waitUntil: "domcontentloaded", // CHANGÉ: moins strict que networkidle2
           timeout: 30000,
         })
-        await this.wait(2000) // Attendre le chargement complet
+        console.log(`[Puppeteer] Dashboard chargé, attente supplémentaire...`)
+        await this.wait(3000) // Attendre le chargement complet (augmenté à 3s)
       }
 
       // Déterminer quel champ de recherche utiliser
@@ -415,8 +433,9 @@ export class PuppeteerAutomation extends BaseAutomation {
           await this.page.click(this.selectors.dossier_row)
           
           // Attendre la navigation vers la page de dossier
-          await this.page.waitForNavigation({ waitUntil: "networkidle2", timeout: 20000 }) // TIMEOUT AUGMENTÉ à 20s
-          await this.wait(2000) // Attendre le chargement complet
+          await this.page.waitForNavigation({ waitUntil: "domcontentloaded", timeout: 20000 }) // CHANGÉ: domcontentloaded
+          console.log(`[Puppeteer] Page de dossier chargée, attente supplémentaire...`)
+          await this.wait(3000) // Attendre le chargement complet (augmenté à 3s)
         } catch (error) {
           console.error("[Puppeteer] Erreur lors du clic sur le dossier:", sanitizeErrorMessage(error))
           return {
