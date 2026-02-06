@@ -20,6 +20,8 @@ const nextConfig = {
         net: false,
         tls: false,
         child_process: false,
+        'playwright-core': false,
+        'playwright': false,
       }
     }
     
@@ -31,8 +33,22 @@ const nextConfig = {
         '@sparticuz/chromium': 'commonjs @sparticuz/chromium',
         'puppeteer-core': 'commonjs puppeteer-core',
         'playwright': 'commonjs playwright',
+        'playwright-core': 'commonjs playwright-core',
       })
     }
+    
+    // Ignorer les fichiers non-JS de playwright-core (fonts, etc.)
+    config.module = config.module || {}
+    config.module.rules = config.module.rules || []
+    config.module.rules.push({
+      test: /\.(ttf|woff|woff2|eot|svg)$/,
+      type: 'asset/resource',
+      exclude: /node_modules\/playwright-core/,
+    })
+    
+    // Ignorer complètement les modules electron et autres modules optionnels de playwright-core
+    config.resolve.alias = config.resolve.alias || {}
+    config.resolve.alias['electron'] = false
     
     // #region agent log
     console.log('[Next.js Config] Webpack config final');
