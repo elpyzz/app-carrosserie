@@ -294,17 +294,67 @@ export class PuppeteerAutomation extends BaseAutomation {
         await this.page.click(this.selectors.login_submit)
         console.log(`[Puppeteer] Attente de la navigation après connexion...`)
         
+        // Au lieu d'attendre la navigation directement, attendre un changement d'URL ou un élément
         try {
-          await this.page.waitForNavigation({ waitUntil: "load", timeout: 60000 })
-        } catch (error: any) {
-          if (error.message?.includes("Target closed") || error.message?.includes("connection lost")) {
-            throw new Error("Browser connection lost during navigation. Please retry.")
+          // Option 1: Attendre que l'URL change (plus robuste que waitForNavigation)
+          const currentUrl = this.page.url()
+          console.log(`[Puppeteer] URL actuelle: ${currentUrl}`)
+          
+          // Attendre jusqu'à 60 secondes que l'URL change
+          try {
+            await this.page.waitForFunction(
+              (oldUrl) => window.location.href !== oldUrl,
+              { timeout: 60000 },
+              currentUrl
+            )
+          } catch (waitError: any) {
+            // Si le waitForFunction échoue, attendre simplement quelques secondes
+            console.log(`[Puppeteer] waitForFunction timeout, attente fixe...`)
+            await this.wait(5000)
           }
-          throw error
+          
+          // Attendre un peu plus pour que la page se charge
+          await this.wait(2000)
+          
+          try {
+            const newUrl = this.page.url()
+            console.log(`[Puppeteer] Nouvelle URL après connexion: ${newUrl}`)
+          } catch (urlError: any) {
+            // Si on ne peut pas obtenir l'URL, la page a peut-être changé
+            console.log(`[Puppeteer] Impossible d'obtenir l'URL, page peut-être changée`)
+          }
+          
+        } catch (error: any) {
+          // Si l'erreur est "frame detached", c'est normal - la page a changé
+          if (error.message?.includes("frame was detached") || error.message?.includes("Target closed")) {
+            console.log(`[Puppeteer] Frame détaché (normal lors de la navigation), attente...`)
+            await this.wait(3000)
+            // Vérifier que la page est toujours accessible
+            try {
+              const url = this.page.url()
+              console.log(`[Puppeteer] URL après frame détaché: ${url}`)
+            } catch {
+              // Si la page n'est plus accessible, récupérer une nouvelle page
+              console.log(`[Puppeteer] Récupération d'une nouvelle page...`)
+              if (this.browser) {
+                const pages = await this.browser.pages()
+                if (pages.length > 0) {
+                  this.page = pages[pages.length - 1]
+                  await this.wait(3000) // Attendre que la nouvelle page se charge
+                }
+              }
+            }
+          } else if (error.message?.includes("connection lost")) {
+            throw new Error("Browser connection lost during navigation. Please retry.")
+          } else {
+            // Autre erreur, continuer quand même
+            console.log(`[Puppeteer] Erreur navigation (non bloquante):`, sanitizeErrorMessage(error))
+            await this.wait(3000)
+          }
         }
         
         console.log(`[Puppeteer] Navigation après connexion terminée, attente supplémentaire...`)
-        await this.wait(3000)
+        await this.wait(2000)
         console.log(`[Puppeteer] Connexion réussie`)
       }
     } catch (error) {
