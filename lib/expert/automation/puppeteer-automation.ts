@@ -28,107 +28,32 @@ export class PuppeteerAutomation extends BaseAutomation {
       let launchOptions: any
 
       if (isVercel) {
-        // Configuration Vercel/Serverless avec options avancées
+        // Configuration Vercel/Serverless - Utiliser UNIQUEMENT les arguments de @sparticuz/chromium
+        // Ne pas ajouter d'arguments supplémentaires pour éviter les conflits et libnss3.so
         try {
-          // Configuration Chromium pour Vercel
-          // Essayer de charger les fonts si disponible
-          if (typeof chromium.font === 'function') {
-            await chromium.font('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap')
-          }
-          
           // Obtenir le chemin exécutable
           const chromiumPath = await chromium.executablePath()
           
-          // Configuration avancée pour éviter les dépendances système manquantes
+          // Configuration MINIMALE - utiliser uniquement ce que @sparticuz/chromium fournit
+          // C'est la clé : ne pas ajouter d'arguments qui nécessitent libnss3.so
           launchOptions = {
-            args: [
-              ...chromium.args,
-              // Arguments critiques pour serverless
-              "--disable-gpu",
-              "--disable-dev-shm-usage",
-              "--disable-setuid-sandbox",
-              "--no-first-run",
-              "--no-sandbox",
-              "--no-zygote",
-              "--single-process",
-              "--disable-software-rasterizer",
-              // Arguments pour éviter libnss3.so
-              "--disable-web-security",
-              "--disable-features=VizDisplayCompositor",
-              "--disable-ipc-flooding-protection",
-              "--disable-renderer-backgrounding",
-              "--disable-background-networking",
-              "--disable-background-timer-throttling",
-              "--disable-backgrounding-occluded-windows",
-              "--disable-breakpad",
-              "--disable-client-side-phishing-detection",
-              "--disable-component-update",
-              "--disable-default-apps",
-              "--disable-features=TranslateUI,BlinkGenPropertyTrees",
-              "--disable-hang-monitor",
-              "--disable-popup-blocking",
-              "--disable-prompt-on-repost",
-              "--disable-sync",
-              "--disable-translate",
-              "--metrics-recording-only",
-              "--no-crash-upload",
-              "--no-default-browser-check",
-              "--no-pings",
-              "--password-store=basic",
-              "--use-mock-keychain",
-              // Arguments supplémentaires pour Vercel
-              "--disable-extensions",
-              "--disable-plugins",
-              "--disable-plugins-discovery",
-              "--disable-preconnect",
-              "--disable-remote-fonts",
-              "--disable-shared-workers",
-              "--disable-site-isolation-trials",
-              "--disable-speech-api",
-              "--disable-threaded-animation",
-              "--disable-threaded-scrolling",
-              "--disable-webgl",
-              "--disable-webgl2",
-              "--js-flags=--max-old-space-size=256",
-              "--memory-pressure-off",
-            ],
+            args: chromium.args, // Utiliser UNIQUEMENT les args de @sparticuz/chromium
             defaultViewport: chromium.defaultViewport,
             executablePath: chromiumPath,
-            headless: chromium.headless || true,
+            headless: chromium.headless,
             ignoreHTTPSErrors: true,
-            // Timeout plus court pour serverless
             timeout: 30000,
           }
           
           console.log(`[Puppeteer] Configuration Vercel - executablePath: ${chromiumPath}`)
           console.log(`[Puppeteer] Args count: ${launchOptions.args.length}`)
+          console.log(`[Puppeteer] Args: ${launchOptions.args.slice(0, 5).join(', ')}...`)
         } catch (chromiumError: any) {
           console.error("[Puppeteer] Erreur configuration Chromium:", chromiumError)
-          // Essayer une configuration de fallback sans chromium.executablePath()
-          try {
-            console.log("[Puppeteer] Tentative avec configuration de fallback...")
-            launchOptions = {
-              args: [
-                "--no-sandbox",
-                "--disable-setuid-sandbox",
-                "--disable-dev-shm-usage",
-                "--disable-gpu",
-                "--single-process",
-                "--disable-web-security",
-                "--disable-features=VizDisplayCompositor",
-              ],
-              headless: true,
-              ignoreHTTPSErrors: true,
-              timeout: 30000,
-            }
-            console.log("[Puppeteer] Configuration de fallback appliquée")
-          } catch (fallbackError: any) {
-            console.error("[Puppeteer] Erreur configuration fallback:", fallbackError)
-            return {
-              success: false,
-              action: "connexion",
-              erreur: `Erreur configuration Chromium sur Vercel. Le scraping automatique n'est pas disponible sur cette plateforme. Veuillez utiliser le mode local ou contacter le support.`,
-            }
+          return {
+            success: false,
+            action: "connexion",
+            erreur: `Erreur configuration Chromium sur Vercel. Le scraping automatique n'est pas disponible sur cette plateforme. Veuillez utiliser le mode local ou contacter le support.`,
           }
         }
       } else {
