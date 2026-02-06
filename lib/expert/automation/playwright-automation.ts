@@ -83,8 +83,12 @@ export class PlaywrightAutomation extends BaseAutomation {
             "--use-mock-keychain",
           ]
           
-          launchOptions.headless = chromiumBrowser.headless
-          launchOptions.defaultViewport = chromiumBrowser.defaultViewport
+          // Forcer headless à true (booléen) pour Vercel
+          launchOptions.headless = true
+          // Utiliser defaultViewport seulement s'il existe et est valide
+          if (chromiumBrowser.defaultViewport) {
+            launchOptions.defaultViewport = chromiumBrowser.defaultViewport
+          }
           
           console.log(`[Playwright] Configuration Vercel - executablePath: ${chromiumPath}`)
         } catch (chromiumError: any) {
