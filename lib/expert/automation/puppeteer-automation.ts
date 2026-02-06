@@ -30,9 +30,6 @@ export class PuppeteerAutomation extends BaseAutomation {
       if (isVercel) {
         // Configuration Vercel/Serverless
         try {
-          // Configurer Chromium pour l'environnement serverless
-          chromium.setGraphicsMode(false)
-          
           // S'assurer que chromium est bien importé et configuré
           const chromiumPath = await chromium.executablePath()
           
