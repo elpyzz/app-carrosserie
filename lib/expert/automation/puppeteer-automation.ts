@@ -51,6 +51,54 @@ export class PuppeteerAutomation extends BaseAutomation {
     }
   }
 
+  /**
+   * Helper pour s'assurer que la page est attachée avant utilisation
+   * Récupère automatiquement une nouvelle page si elle est détachée
+   */
+  private async ensurePageAttached(): Promise<void> {
+    if (!this.page) {
+      if (this.browser) {
+        const pages = await this.browser.pages()
+        if (pages.length > 0) {
+          this.page = pages[pages.length - 1]
+          await this.wait(1000)
+          console.log(`[Puppeteer] Page récupérée depuis le navigateur`)
+          return
+        } else {
+          this.page = await this.browser.newPage()
+          await this.wait(1000)
+          console.log(`[Puppeteer] Nouvelle page créée`)
+          return
+        }
+      }
+      throw new Error("Browser and page not initialized")
+    }
+
+    // Vérifier que la page est toujours attachée
+    try {
+      await this.page.evaluate(() => document.readyState)
+    } catch (error: any) {
+      // Si la page est détachée, récupérer une nouvelle page
+      if (error.message?.includes("detached") || error.message?.includes("Target closed") || error.message?.includes("Session closed")) {
+        console.log(`[Puppeteer] Page détachée détectée, récupération...`)
+        if (this.browser) {
+          const pages = await this.browser.pages()
+          if (pages.length > 0) {
+            this.page = pages[pages.length - 1]
+            await this.wait(2000)
+            console.log(`[Puppeteer] Nouvelle page récupérée`)
+          } else {
+            this.page = await this.browser.newPage()
+            await this.wait(2000)
+            console.log(`[Puppeteer] Nouvelle page créée`)
+          }
+        }
+      } else {
+        throw error
+      }
+    }
+  }
+
   async connect(): Promise<PortailRelanceResult> {
     try {
       console.log(`[Puppeteer] Début de la connexion à ${this.site.url_recherche}`)
@@ -483,20 +531,25 @@ export class PuppeteerAutomation extends BaseAutomation {
 
       // Attendre que le champ de recherche soit visible
       console.log(`[Puppeteer] Recherche avec selector: ${searchSelector}, valeur: ${searchValue}`)
+      await this.ensurePageAttached() // Vérifier avant utilisation
       await this.page.waitForSelector(searchSelector, { timeout: 15000 })
       
       // Effacer le champ avant de taper
+      await this.ensurePageAttached() // Vérifier avant utilisation
       await this.page.click(searchSelector, { clickCount: 3 })
       await this.wait(500)
+      await this.ensurePageAttached() // Vérifier avant utilisation
       await this.page.type(searchSelector, searchValue, { delay: 100 })
       await this.wait(500)
 
       // Appuyer sur Entrée pour valider la recherche (data-search-on-enter-key="true")
+      await this.ensurePageAttached() // Vérifier avant utilisation
       await this.page.keyboard.press("Enter")
       
       // Attendre que la recherche se termine (le tableau se met à jour)
       // On attend soit qu'une ligne apparaisse, soit qu'un message "aucun résultat" apparaisse
       try {
+        await this.ensurePageAttached() // Vérifier avant utilisation
         // Attendre que le tableau soit mis à jour (disparition du loader ou apparition de résultats)
         await this.page.waitForFunction(
           () => {
@@ -521,6 +574,7 @@ export class PuppeteerAutomation extends BaseAutomation {
       // Vérifier si des résultats sont présents
       if (this.selectors.dossier_row) {
         try {
+          await this.ensurePageAttached() // Vérifier avant utilisation
           const rows = await this.page.$$(this.selectors.dossier_row)
           if (rows.length > 0) {
             console.log(`[Puppeteer] ${rows.length} dossier(s) trouvé(s) dans les résultats`)
@@ -579,9 +633,14 @@ export class PuppeteerAutomation extends BaseAutomation {
     }
 
     try {
+      // Vérifier que la page est attachée au début
+      await this.ensurePageAttached()
+      
       // Chercher et remplir le formulaire de message
       if (this.selectors.message_textarea) {
+        await this.ensurePageAttached() // Vérifier avant utilisation
         await this.page.waitForSelector(this.selectors.message_textarea, { timeout: 20000 }) // TIMEOUT AUGMENTÉ à 20s
+        await this.ensurePageAttached() // Vérifier avant utilisation
         await this.page.type(this.selectors.message_textarea, message)
       } else {
         // Si pas de sélecteur de message, on considère que c'est OK (certains portails n'ont pas cette fonctionnalité)
@@ -596,6 +655,7 @@ export class PuppeteerAutomation extends BaseAutomation {
       }
       
       if (this.selectors.message_submit) {
+        await this.ensurePageAttached() // Vérifier avant utilisation
         await this.page.click(this.selectors.message_submit)
         await this.wait(2000) // Attendre l'envoi
       }
@@ -627,19 +687,35 @@ export class PuppeteerAutomation extends BaseAutomation {
     }
 
     try {
+      // Vérifier que la page est attachée au début
+      await this.ensurePageAttached()
+      
       // Si on est sur la page de recherche, cliquer sur la première ligne de résultat
       if (this.selectors.dossier_row) {
         try {
           console.log("[Puppeteer] Clic sur la ligne du dossier")
+          await this.ensurePageAttached() // Vérifier avant utilisation
           await this.page.waitForSelector(this.selectors.dossier_row, { timeout: 15000 }) // TIMEOUT AUGMENTÉ à 15s
           
           // Cliquer sur la première ligne trouvée
+          await this.ensurePageAttached() // Vérifier avant utilisation
           await this.page.click(this.selectors.dossier_row)
           
           // Attendre la navigation vers la page de dossier
-          await this.page.waitForNavigation({ waitUntil: "domcontentloaded", timeout: 20000 }) // CHANGÉ: domcontentloaded
-          console.log(`[Puppeteer] Page de dossier chargée, attente supplémentaire...`)
-          await this.wait(3000) // Attendre le chargement complet (augmenté à 3s)
+          try {
+            await this.page.waitForNavigation({ waitUntil: "load", timeout: 20000 }) // CHANGÉ: load
+            console.log(`[Puppeteer] Page de dossier chargée, attente supplémentaire...`)
+            await this.wait(3000) // Attendre le chargement complet (augmenté à 3s)
+          } catch (navError: any) {
+            // Si frame détaché, récupérer la page
+            if (navError.message?.includes("frame was detached") || navError.message?.includes("detached Frame")) {
+              console.log(`[Puppeteer] Frame détaché lors de la navigation, récupération...`)
+              await this.ensurePageAttached()
+              await this.wait(3000)
+            } else {
+              throw navError
+            }
+          }
         } catch (error) {
           console.error("[Puppeteer] Erreur lors du clic sur le dossier:", sanitizeErrorMessage(error))
           return {
@@ -654,7 +730,9 @@ export class PuppeteerAutomation extends BaseAutomation {
       if (this.selectors.documents_tab) {
         try {
           console.log("[Puppeteer] Ouverture de l'onglet Documents")
+          await this.ensurePageAttached() // Vérifier avant utilisation
           await this.page.waitForSelector(this.selectors.documents_tab, { timeout: 20000 }) // TIMEOUT AUGMENTÉ à 20s
+          await this.ensurePageAttached() // Vérifier avant utilisation
           await this.page.click(this.selectors.documents_tab)
           await this.wait(2000) // Attendre le chargement de l'onglet
         } catch (error) {
@@ -667,9 +745,11 @@ export class PuppeteerAutomation extends BaseAutomation {
       if (this.selectors.rapport_link) {
         try {
           console.log("[Puppeteer] Recherche du bouton de téléchargement")
+          await this.ensurePageAttached() // Vérifier avant utilisation
           await this.page.waitForSelector(this.selectors.rapport_link, { timeout: 20000 }) // TIMEOUT AUGMENTÉ à 20s
           
           // Récupérer le path du PDF depuis l'attribut path du bouton
+          await this.ensurePageAttached() // Vérifier avant utilisation
           const pdfPath = await this.page.evaluate((selector) => {
             const button = document.querySelector(selector) as HTMLElement
             return button?.getAttribute("path") || null
@@ -681,6 +761,7 @@ export class PuppeteerAutomation extends BaseAutomation {
             // Cliquer sur le bouton pour déclencher le téléchargement
             // Le site fait un appel AJAX pour récupérer le PDF, on doit intercepter la réponse
             try {
+              await this.ensurePageAttached() // Vérifier avant utilisation
               const [response] = await Promise.all([
                 this.page.waitForResponse(
                   (response) => {
