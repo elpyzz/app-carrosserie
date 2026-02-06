@@ -18,18 +18,46 @@ export class PuppeteerAutomation extends BaseAutomation {
   async connect(): Promise<PortailRelanceResult> {
     try {
       // Configuration pour Vercel (serverless)
-      const isVercel = process.env.VERCEL === "1" || process.env.AWS_LAMBDA_FUNCTION_VERSION
+      // Amélioration de la détection de l'environnement Vercel
+      const isVercel = 
+        process.env.VERCEL === "1" || 
+        process.env.VERCEL_ENV !== undefined ||
+        process.env.AWS_LAMBDA_FUNCTION_VERSION !== undefined ||
+        process.env.NEXT_RUNTIME === "nodejs"
 
       let launchOptions: any
 
       if (isVercel) {
         // Configuration Vercel/Serverless
-        launchOptions = {
-          args: chromium.args,
-          defaultViewport: chromium.defaultViewport,
-          executablePath: await chromium.executablePath(),
-          headless: chromium.headless,
-          ignoreHTTPSErrors: true,
+        try {
+          // S'assurer que chromium est bien importé et configuré
+          const chromiumPath = await chromium.executablePath()
+          
+          launchOptions = {
+            args: [
+              ...chromium.args,
+              "--disable-gpu",
+              "--disable-dev-shm-usage",
+              "--disable-setuid-sandbox",
+              "--no-first-run",
+              "--no-sandbox",
+              "--no-zygote",
+              "--single-process",
+            ],
+            defaultViewport: chromium.defaultViewport,
+            executablePath: chromiumPath,
+            headless: chromium.headless,
+            ignoreHTTPSErrors: true,
+          }
+          
+          console.log(`[Puppeteer] Configuration Vercel - executablePath: ${chromiumPath}`)
+        } catch (chromiumError: any) {
+          console.error("[Puppeteer] Erreur configuration Chromium:", chromiumError)
+          return {
+            success: false,
+            action: "connexion",
+            erreur: `Erreur configuration Chromium: ${chromiumError.message}`,
+          }
         }
       } else {
         // Configuration locale (développement)
@@ -45,13 +73,14 @@ export class PuppeteerAutomation extends BaseAutomation {
           ],
           executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || undefined,
         }
+        console.log("[Puppeteer] Configuration locale")
       }
 
       this.browser = await puppeteer.launch(launchOptions)
       this.page = await this.browser.newPage()
 
       // Configuration timeout plus court pour serverless
-      const timeout = isVercel ? 25000 : 60000
+      const timeout = isVercel ? 30000 : 60000
       await this.page.setDefaultTimeout(timeout)
       await this.page.setDefaultNavigationTimeout(timeout)
 
