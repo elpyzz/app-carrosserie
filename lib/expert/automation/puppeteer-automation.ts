@@ -127,8 +127,8 @@ export class PuppeteerAutomation extends BaseAutomation {
       this.page = await this.browser.newPage()
       console.log(`[Puppeteer] Page créée`)
 
-      // Configuration timeout plus court pour serverless
-      const timeout = isVercel ? 30000 : 60000
+      // Configuration timeout - AUGMENTÉ pour Browserless qui peut être plus lent
+      const timeout = isVercel ? 60000 : 60000 // 60 secondes même sur Vercel avec Browserless
       await this.page.setDefaultTimeout(timeout)
       await this.page.setDefaultNavigationTimeout(timeout)
       console.log(`[Puppeteer] Timeouts configurés: ${timeout}ms`)
@@ -140,17 +140,20 @@ export class PuppeteerAutomation extends BaseAutomation {
 
       console.log(`[Puppeteer] Navigation vers ${this.site.url_recherche}...`)
       try {
-        // Utiliser domcontentloaded au lieu de networkidle2 (moins strict, plus rapide)
+        // Utiliser "load" au lieu de "domcontentloaded" pour être plus permissif
+        // "load" attend que la page soit chargée mais ne bloque pas sur les ressources lentes
         await this.page.goto(this.site.url_recherche, {
-          waitUntil: "domcontentloaded", // CHANGÉ: moins strict que networkidle2
+          waitUntil: "load", // CHANGÉ: plus permissif que domcontentloaded
           timeout: timeout,
         })
-        console.log(`[Puppeteer] Page chargée (DOM), attente supplémentaire pour les scripts...`)
-        await this.wait(3000) // Attendre 3 secondes pour que les scripts se chargent
+        console.log(`[Puppeteer] Page chargée (load), attente supplémentaire pour les scripts...`)
+        await this.wait(5000) // Attendre 5 secondes pour que les scripts se chargent (augmenté)
         console.log(`[Puppeteer] Attente terminée, page prête`)
       } catch (navError: any) {
         console.error(`[Puppeteer] Erreur lors de la navigation:`, sanitizeErrorMessage(navError))
-        throw new Error(`Erreur lors de la navigation: ${sanitizeErrorMessage(navError)}`)
+        // Si la navigation échoue, essayer quand même de continuer
+        console.log(`[Puppeteer] Tentative de continuation malgré l'erreur de navigation...`)
+        await this.wait(5000)
       }
 
       // Si authentification par formulaire requise
@@ -185,10 +188,10 @@ export class PuppeteerAutomation extends BaseAutomation {
     if (!this.page) return
 
     try {
-      // Attendre que le formulaire soit visible - TIMEOUT AUGMENTÉ à 30s
+      // Attendre que le formulaire soit visible - TIMEOUT AUGMENTÉ à 60s
       if (this.selectors.login_username) {
         console.log(`[Puppeteer] Attente du sélecteur login: ${this.selectors.login_username}`)
-        await this.page.waitForSelector(this.selectors.login_username, { timeout: 30000 })
+        await this.page.waitForSelector(this.selectors.login_username, { timeout: 60000 })
         console.log(`[Puppeteer] Sélecteur login trouvé, saisie de l'email...`)
         await this.page.type(this.selectors.login_username, this.credentials.login || "", { delay: 100 })
       }
@@ -200,13 +203,13 @@ export class PuppeteerAutomation extends BaseAutomation {
       
       if (this.selectors.login_submit) {
         console.log(`[Puppeteer] Attente du bouton de connexion: ${this.selectors.login_submit}`)
-        // Attendre que le bouton soit activé (certains sites désactivent le bouton au chargement) - TIMEOUT AUGMENTÉ à 30s
+        // Attendre que le bouton soit activé (certains sites désactivent le bouton au chargement) - TIMEOUT AUGMENTÉ à 60s
         await this.page.waitForFunction(
           (selector) => {
             const button = document.querySelector(selector) as HTMLButtonElement
             return button && !button.disabled
           },
-          { timeout: 30000 },
+          { timeout: 60000 },
           this.selectors.login_submit
         )
         
@@ -217,7 +220,7 @@ export class PuppeteerAutomation extends BaseAutomation {
         
         await this.page.click(this.selectors.login_submit)
         console.log(`[Puppeteer] Attente de la navigation après connexion...`)
-        await this.page.waitForNavigation({ waitUntil: "domcontentloaded", timeout: 30000 }) // CHANGÉ: domcontentloaded au lieu de networkidle2
+        await this.page.waitForNavigation({ waitUntil: "load", timeout: 60000 }) // TIMEOUT AUGMENTÉ à 60s, waitUntil changé à "load"
         console.log(`[Puppeteer] Navigation après connexion terminée, attente supplémentaire...`)
         await this.wait(3000) // Attendre le chargement complet après connexion (augmenté à 3s)
         console.log(`[Puppeteer] Connexion réussie`)
