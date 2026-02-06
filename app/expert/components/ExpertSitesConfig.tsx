@@ -354,29 +354,43 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
 
     try {
       // Si c'est une modification ET que les credentials ont changé, utiliser l'endpoint dédié
-      if (site && parsedCredentials) {
+      // IMPORTANT: Ne construire parsedCredentials et appeler l'endpoint QUE si vraiment nécessaire
+      if (site && parsedCredentials && typeAuth !== "none") {
         // Vérifier si les credentials ont vraiment changé
-        const emailChanged = email.trim() !== (site.credentials?.email || site.credentials?.login || "")
+        const currentEmail = site.credentials?.email || site.credentials?.login || ""
+        const emailChanged = email.trim() !== currentEmail
         const passwordChanged = password !== "" // Si password n'est pas vide, il a été modifié
         
+        // Ne mettre à jour les credentials QUE si vraiment changés
         if (emailChanged || passwordChanged) {
           // D'abord mettre à jour les credentials via l'endpoint dédié
-          const credentialsResponse = await fetch(`/api/expert/sites/${site.id}/credentials`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              credentials: parsedCredentials,
-              merge: false // Remplacer complètement
-            }),
-          })
+          try {
+            const credentialsResponse = await fetch(`/api/expert/sites/${site.id}/credentials`, {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                credentials: parsedCredentials,
+                merge: false // Remplacer complètement
+              }),
+            })
 
-          const credentialsData = await credentialsResponse.json()
-          if (!credentialsData.success) {
-            setError(credentialsData.error || "Erreur lors de la mise à jour des credentials")
+            const credentialsData = await credentialsResponse.json()
+            if (!credentialsData.success) {
+              // Si l'endpoint credentials échoue, on ne peut pas continuer car le PUT principal
+              // ne permet pas de modifier les credentials. On affiche l'erreur.
+              setError(credentialsData.error || "Erreur lors de la mise à jour des credentials")
+              setLoading(false)
+              return
+            }
+          } catch (err: any) {
+            // En cas d'erreur réseau, afficher l'erreur
+            setError(`Erreur réseau lors de la mise à jour des credentials: ${err.message}`)
             setLoading(false)
             return
           }
         }
+        // Si on ne modifie pas les credentials (seulement nom/URL), on ne fait rien ici
+        // et on continue avec le PUT principal qui mettra à jour le nom/URL
       }
 
       // Mettre à jour le reste (nom, URL, selectors, etc.) sans credentials
