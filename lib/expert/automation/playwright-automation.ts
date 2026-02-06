@@ -1,4 +1,4 @@
-import { chromium, Browser, Page } from "playwright"
+import { chromium, Browser, Page } from "playwright-core"
 import { BaseAutomation } from "./base-automation"
 import { PortailRelanceResult } from "@/lib/relance/types"
 import { sanitizeErrorMessage } from "@/lib/security/credentials-masker"
@@ -39,6 +39,18 @@ export class PlaywrightAutomation extends BaseAutomation {
 
       // Pour Vercel, utiliser chromium.launch avec les options optimisées
       if (isVercel) {
+        // Sur Vercel, les navigateurs Playwright doivent être installés via postinstall
+        // Le chemin sera automatiquement détecté par playwright-core
+        // Si un chemin personnalisé est fourni via variable d'environnement, l'utiliser
+        const browserPath = process.env.PLAYWRIGHT_BROWSERS_PATH || process.env.CHROMIUM_PATH
+        
+        if (browserPath) {
+          launchOptions.executablePath = browserPath
+          console.log(`[Playwright] Configuration Vercel - executablePath: ${browserPath}`)
+        } else {
+          console.log("[Playwright] Configuration Vercel - utilisation du navigateur Playwright installé")
+        }
+        
         // Playwright inclut automatiquement les dépendances nécessaires pour serverless
         launchOptions.args.push(
           "--single-process",
