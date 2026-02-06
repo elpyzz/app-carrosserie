@@ -391,19 +391,62 @@ export class PuppeteerAutomation extends BaseAutomation {
     }
 
     try {
+      // Vérifier que la page est toujours attachée (peut être détachée après le login)
+      try {
+        await this.ensureBrowserConnected()
+      } catch (error: any) {
+        // Si la page est détachée, récupérer une nouvelle page
+        if (error.message?.includes("detached") || error.message?.includes("Target closed")) {
+          console.log(`[Puppeteer] Page détachée, récupération d'une nouvelle page...`)
+          if (this.browser) {
+            const pages = await this.browser.pages()
+            if (pages.length > 0) {
+              this.page = pages[pages.length - 1]
+              await this.wait(2000) // Attendre que la nouvelle page se charge
+              console.log(`[Puppeteer] Nouvelle page récupérée`)
+            } else {
+              // Créer une nouvelle page si aucune n'existe
+              this.page = await this.browser.newPage()
+              await this.wait(2000)
+              console.log(`[Puppeteer] Nouvelle page créée`)
+            }
+          }
+        } else {
+          throw error
+        }
+      }
+
       // Naviguer vers le dashboard si navigation_path est défini
       if (this.selectors.navigation_path) {
-        const currentUrl = this.page.url()
-        const baseUrl = new URL(currentUrl).origin
-        const dashboardUrl = `${baseUrl}${this.selectors.navigation_path}`
-        
-        console.log(`[Puppeteer] Navigation vers dashboard: ${dashboardUrl}`)
-        await this.page.goto(dashboardUrl, {
-          waitUntil: "domcontentloaded", // CHANGÉ: moins strict que networkidle2
-          timeout: 30000,
-        })
-        console.log(`[Puppeteer] Dashboard chargé, attente supplémentaire...`)
-        await this.wait(3000) // Attendre le chargement complet (augmenté à 3s)
+        try {
+          const currentUrl = this.page.url()
+          const baseUrl = new URL(currentUrl).origin
+          const dashboardUrl = `${baseUrl}${this.selectors.navigation_path}`
+          
+          console.log(`[Puppeteer] Navigation vers dashboard: ${dashboardUrl}`)
+          await this.page.goto(dashboardUrl, {
+            waitUntil: "load", // CHANGÉ: load au lieu de domcontentloaded
+            timeout: 30000,
+          })
+          console.log(`[Puppeteer] Dashboard chargé, attente supplémentaire...`)
+          await this.wait(3000) // Attendre le chargement complet (augmenté à 3s)
+        } catch (navError: any) {
+          // Si l'erreur est "frame detached", continuer quand même
+          if (navError.message?.includes("frame was detached") || navError.message?.includes("detached Frame")) {
+            console.log(`[Puppeteer] Frame détaché lors de la navigation vers dashboard, continuation...`)
+            await this.wait(3000)
+            // Récupérer la page actuelle
+            if (this.browser) {
+              const pages = await this.browser.pages()
+              if (pages.length > 0) {
+                this.page = pages[pages.length - 1]
+                await this.wait(2000)
+              }
+            }
+          } else {
+            throw navError
+          }
+        }
       }
 
       // Déterminer quel champ de recherche utiliser
