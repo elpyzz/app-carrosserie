@@ -1,4 +1,5 @@
 import { chromium, Browser, Page } from "playwright-core"
+import chromiumBrowser from "@sparticuz/chromium"
 import { BaseAutomation } from "./base-automation"
 import { PortailRelanceResult } from "@/lib/relance/types"
 import { sanitizeErrorMessage } from "@/lib/security/credentials-masker"
@@ -39,45 +40,61 @@ export class PlaywrightAutomation extends BaseAutomation {
 
       // Pour Vercel, utiliser chromium.launch avec les options optimisées
       if (isVercel) {
-        // Sur Vercel, les navigateurs Playwright doivent être installés via postinstall
-        // Le chemin sera automatiquement détecté par playwright-core
-        // Si un chemin personnalisé est fourni via variable d'environnement, l'utiliser
-        const browserPath = process.env.PLAYWRIGHT_BROWSERS_PATH || process.env.CHROMIUM_PATH
-        
-        if (browserPath) {
-          launchOptions.executablePath = browserPath
-          console.log(`[Playwright] Configuration Vercel - executablePath: ${browserPath}`)
-        } else {
-          console.log("[Playwright] Configuration Vercel - utilisation du navigateur Playwright installé")
+        // Sur Vercel, utiliser @sparticuz/chromium comme exécutable
+        // C'est conçu pour les environnements serverless
+        try {
+          const chromiumPath = await chromiumBrowser.executablePath()
+          launchOptions.executablePath = chromiumPath
+          
+          // Utiliser les arguments de @sparticuz/chromium
+          launchOptions.args = [
+            ...chromiumBrowser.args,
+            "--disable-gpu",
+            "--disable-dev-shm-usage",
+            "--disable-setuid-sandbox",
+            "--no-first-run",
+            "--no-sandbox",
+            "--no-zygote",
+            "--single-process",
+            "--disable-software-rasterizer",
+            "--disable-web-security",
+            "--disable-features=VizDisplayCompositor",
+            "--disable-extensions",
+            "--disable-background-networking",
+            "--disable-background-timer-throttling",
+            "--disable-backgrounding-occluded-windows",
+            "--disable-breakpad",
+            "--disable-client-side-phishing-detection",
+            "--disable-component-update",
+            "--disable-default-apps",
+            "--disable-features=TranslateUI",
+            "--disable-hang-monitor",
+            "--disable-ipc-flooding-protection",
+            "--disable-popup-blocking",
+            "--disable-prompt-on-repost",
+            "--disable-renderer-backgrounding",
+            "--disable-sync",
+            "--disable-translate",
+            "--metrics-recording-only",
+            "--no-crash-upload",
+            "--no-default-browser-check",
+            "--no-pings",
+            "--password-store=basic",
+            "--use-mock-keychain",
+          ]
+          
+          launchOptions.headless = chromiumBrowser.headless
+          launchOptions.defaultViewport = chromiumBrowser.defaultViewport
+          
+          console.log(`[Playwright] Configuration Vercel - executablePath: ${chromiumPath}`)
+        } catch (chromiumError: any) {
+          console.error("[Playwright] Erreur configuration Chromium:", chromiumError)
+          return {
+            success: false,
+            action: "connexion",
+            erreur: `Le scraping automatique n'est pas disponible sur Vercel. Veuillez utiliser le mode local ou contacter le support.`,
+          }
         }
-        
-        // Playwright inclut automatiquement les dépendances nécessaires pour serverless
-        launchOptions.args.push(
-          "--single-process",
-          "--disable-software-rasterizer",
-          "--disable-extensions",
-          "--disable-background-networking",
-          "--disable-background-timer-throttling",
-          "--disable-backgrounding-occluded-windows",
-          "--disable-breakpad",
-          "--disable-client-side-phishing-detection",
-          "--disable-component-update",
-          "--disable-default-apps",
-          "--disable-features=TranslateUI",
-          "--disable-hang-monitor",
-          "--disable-ipc-flooding-protection",
-          "--disable-popup-blocking",
-          "--disable-prompt-on-repost",
-          "--disable-renderer-backgrounding",
-          "--disable-sync",
-          "--disable-translate",
-          "--metrics-recording-only",
-          "--no-crash-upload",
-          "--no-default-browser-check",
-          "--no-pings",
-          "--password-store=basic",
-          "--use-mock-keychain"
-        )
         console.log("[Playwright] Configuration Vercel")
       } else {
         // Configuration locale (développement)
