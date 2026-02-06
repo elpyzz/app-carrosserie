@@ -18,26 +18,55 @@ export class PuppeteerAutomation extends BaseAutomation {
   async connect(): Promise<PortailRelanceResult> {
     try {
       // Configuration pour Vercel (serverless)
-      // Amélioration de la détection de l'environnement Vercel
       const isVercel = 
         process.env.VERCEL === "1" || 
         process.env.VERCEL_ENV !== undefined ||
         process.env.AWS_LAMBDA_FUNCTION_VERSION !== undefined ||
         process.env.NEXT_RUNTIME === "nodejs"
 
-      let launchOptions: any
+      // Vérifier si Browserless est configuré (solution pour Vercel)
+      const browserlessUrl = process.env.BROWSERLESS_URL || process.env.BROWSERLESS_WS_ENDPOINT
 
-      if (isVercel) {
-        // Configuration Vercel/Serverless - Utiliser UNIQUEMENT les arguments de @sparticuz/chromium
-        // Ne pas ajouter d'arguments supplémentaires pour éviter les conflits et libnss3.so
+      if (isVercel && browserlessUrl) {
+        // Utiliser Browserless (service externe) pour Vercel
         try {
-          // Obtenir le chemin exécutable
-          const chromiumPath = await chromium.executablePath()
+          console.log(`[Puppeteer] Connexion à Browserless: ${browserlessUrl.replace(/\/[^\/]*$/, '')}...`)
           
-          // Configuration MINIMALE - utiliser uniquement ce que @sparticuz/chromium fournit
-          // C'est la clé : ne pas ajouter d'arguments qui nécessitent libnss3.so
-          launchOptions = {
-            args: chromium.args, // Utiliser UNIQUEMENT les args de @sparticuz/chromium
+          // Browserless utilise WebSocket pour la connexion
+          // Format: wss://api.browserless.io?token=YOUR_TOKEN
+          // ou: https://chrome.browserless.io?token=YOUR_TOKEN (converti en ws://)
+          let wsEndpoint = browserlessUrl
+          if (browserlessUrl.startsWith('http://')) {
+            wsEndpoint = browserlessUrl.replace('http://', 'ws://')
+          } else if (browserlessUrl.startsWith('https://')) {
+            wsEndpoint = browserlessUrl.replace('https://', 'wss://')
+          } else if (!browserlessUrl.startsWith('ws://') && !browserlessUrl.startsWith('wss://')) {
+            // Si c'est juste une URL, ajouter le protocole WebSocket
+            wsEndpoint = browserlessUrl.startsWith('chrome.browserless.io') 
+              ? `wss://${browserlessUrl}` 
+              : `wss://${browserlessUrl}`
+          }
+
+          // Se connecter au navigateur Browserless
+          this.browser = await puppeteer.connect({
+            browserWSEndpoint: wsEndpoint,
+          })
+          
+          console.log("[Puppeteer] Connecté à Browserless avec succès")
+        } catch (browserlessError: any) {
+          console.error("[Puppeteer] Erreur connexion Browserless:", sanitizeErrorMessage(browserlessError))
+          return {
+            success: false,
+            action: "connexion",
+            erreur: `Erreur de connexion à Browserless. Vérifiez la configuration de BROWSERLESS_URL.`,
+          }
+        }
+      } else if (isVercel) {
+        // Sur Vercel sans Browserless, essayer @sparticuz/chromium (peut ne pas fonctionner)
+        try {
+          const chromiumPath = await chromium.executablePath()
+          const launchOptions = {
+            args: chromium.args,
             defaultViewport: chromium.defaultViewport,
             executablePath: chromiumPath,
             headless: chromium.headless,
@@ -46,19 +75,18 @@ export class PuppeteerAutomation extends BaseAutomation {
           }
           
           console.log(`[Puppeteer] Configuration Vercel - executablePath: ${chromiumPath}`)
-          console.log(`[Puppeteer] Args count: ${launchOptions.args.length}`)
-          console.log(`[Puppeteer] Args: ${launchOptions.args.slice(0, 5).join(', ')}...`)
+          this.browser = await puppeteer.launch(launchOptions)
         } catch (chromiumError: any) {
           console.error("[Puppeteer] Erreur configuration Chromium:", chromiumError)
           return {
             success: false,
             action: "connexion",
-            erreur: `Erreur configuration Chromium sur Vercel. Le scraping automatique n'est pas disponible sur cette plateforme. Veuillez utiliser le mode local ou contacter le support.`,
+            erreur: `Le scraping automatique nécessite Browserless sur Vercel. Configurez BROWSERLESS_URL dans les variables d'environnement Vercel.`,
           }
         }
       } else {
         // Configuration locale (développement)
-        launchOptions = {
+        const launchOptions = {
           headless: true,
           args: [
             "--no-sandbox",
@@ -71,9 +99,9 @@ export class PuppeteerAutomation extends BaseAutomation {
           executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || undefined,
         }
         console.log("[Puppeteer] Configuration locale")
+        this.browser = await puppeteer.launch(launchOptions)
       }
 
-      this.browser = await puppeteer.launch(launchOptions)
       this.page = await this.browser.newPage()
 
       // Configuration timeout plus court pour serverless
