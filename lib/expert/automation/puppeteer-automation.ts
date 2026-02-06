@@ -57,20 +57,19 @@ export class PuppeteerAutomation extends BaseAutomation {
    */
   private async ensurePageAttached(operation: string = "opération"): Promise<void> {
     if (!this.page) {
-      console.log(`[Puppeteer] ensurePageAttached(${operation}): Page null, récupération...`)
+      console.log(`[Puppeteer] ensurePageAttached(${operation}): Page null, création...`)
       if (this.browser) {
-        const pages = await this.browser.pages()
-        if (pages.length > 0) {
-          this.page = pages[pages.length - 1]
-          await this.wait(1000)
-          console.log(`[Puppeteer] ensurePageAttached(${operation}): Page récupérée depuis le navigateur`)
-          return
-        } else {
-          this.page = await this.browser.newPage()
-          await this.wait(1000)
-          console.log(`[Puppeteer] ensurePageAttached(${operation}): Nouvelle page créée`)
-          return
-        }
+        this.page = await this.browser.newPage()
+        await this.wait(1000)
+        // Configuration timeout
+        await this.page.setDefaultTimeout(60000)
+        await this.page.setDefaultNavigationTimeout(60000)
+        // User agent
+        await this.page.setUserAgent(
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+        )
+        console.log(`[Puppeteer] ensurePageAttached(${operation}): Nouvelle page créée et configurée`)
+        return
       }
       throw new Error("Browser and page not initialized")
     }
@@ -79,20 +78,29 @@ export class PuppeteerAutomation extends BaseAutomation {
     try {
       await this.page.evaluate(() => document.readyState)
     } catch (error: any) {
-      // Si la page est détachée, récupérer une nouvelle page
+      // Si la page est détachée, créer une nouvelle page propre au lieu de récupérer une existante
       if (error.message?.includes("detached") || error.message?.includes("Target closed") || error.message?.includes("Session closed")) {
-        console.log(`[Puppeteer] ensurePageAttached(${operation}): Page détachée détectée (${error.message}), récupération...`)
+        console.log(`[Puppeteer] ensurePageAttached(${operation}): Page détachée détectée (${error.message}), création d'une nouvelle page...`)
         if (this.browser) {
-          const pages = await this.browser.pages()
-          if (pages.length > 0) {
-            this.page = pages[pages.length - 1]
-            await this.wait(2000)
-            console.log(`[Puppeteer] ensurePageAttached(${operation}): Nouvelle page récupérée`)
-          } else {
-            this.page = await this.browser.newPage()
-            await this.wait(2000)
-            console.log(`[Puppeteer] ensurePageAttached(${operation}): Nouvelle page créée`)
-          }
+          // Fermer l'ancienne page si possible
+          try {
+            await this.page.close()
+          } catch {}
+          
+          // Créer une nouvelle page propre
+          this.page = await this.browser.newPage()
+          await this.wait(2000)
+          
+          // Configuration timeout
+          await this.page.setDefaultTimeout(60000)
+          await this.page.setDefaultNavigationTimeout(60000)
+          
+          // User agent
+          await this.page.setUserAgent(
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          )
+          
+          console.log(`[Puppeteer] ensurePageAttached(${operation}): Nouvelle page créée et configurée`)
         }
       } else {
         console.error(`[Puppeteer] ensurePageAttached(${operation}): Erreur inattendue:`, error.message)
@@ -507,70 +515,70 @@ export class PuppeteerAutomation extends BaseAutomation {
     }
 
     try {
-      // Vérifier que la page est toujours attachée (peut être détachée après le login)
+      // Après le login, la page peut être détachée
+      // Créer une nouvelle page propre pour la recherche (plus fiable que de récupérer une page détachée)
+      console.log(`[Puppeteer] searchDossier: Vérification de la connexion du navigateur...`)
+      
+      if (!this.browser) {
+        throw new Error("Browser not initialized")
+      }
+      
+      // Vérifier si le navigateur est toujours connecté
       try {
-        console.log(`[Puppeteer] searchDossier: Vérification de la connexion du navigateur...`)
-        await this.ensureBrowserConnected()
-        console.log(`[Puppeteer] searchDossier: Navigateur connecté`)
+        const pages = await this.browser.pages()
+        if (pages.length === 0) {
+          throw new Error("Browser has no pages")
+        }
       } catch (error: any) {
-        console.error(`[Puppeteer] searchDossier: Erreur connexion navigateur (${error.message})`)
-        // Si la page est détachée, récupérer une nouvelle page
-        if (error.message?.includes("detached") || error.message?.includes("Target closed")) {
-          console.log(`[Puppeteer] searchDossier: Page détachée, récupération d'une nouvelle page...`)
-          if (this.browser) {
-            const pages = await this.browser.pages()
-            if (pages.length > 0) {
-              this.page = pages[pages.length - 1]
-              await this.wait(2000) // Attendre que la nouvelle page se charge
-              console.log(`[Puppeteer] searchDossier: Nouvelle page récupérée`)
-            } else {
-              // Créer une nouvelle page si aucune n'existe
-              this.page = await this.browser.newPage()
-              await this.wait(2000)
-              console.log(`[Puppeteer] searchDossier: Nouvelle page créée`)
-            }
-          }
-        } else {
-          throw error
+        if (error.message?.includes("Target closed") || error.message?.includes("Session closed")) {
+          throw new Error("Browser connection lost. Please retry the operation.")
+        }
+        throw error
+      }
+      
+      // Fermer l'ancienne page si elle existe (elle est probablement détachée)
+      if (this.page) {
+        try {
+          await this.page.close()
+        } catch (error: any) {
+          // Ignorer les erreurs de fermeture (page déjà fermée ou détachée)
+          console.log(`[Puppeteer] searchDossier: Ancienne page fermée ou déjà détachée`)
         }
       }
+      
+      // Créer une nouvelle page propre pour la recherche
+      console.log(`[Puppeteer] searchDossier: Création d'une nouvelle page pour la recherche...`)
+      this.page = await this.browser.newPage()
+      await this.wait(1000)
+      
+      // Configuration timeout
+      await this.page.setDefaultTimeout(60000)
+      await this.page.setDefaultNavigationTimeout(60000)
+      
+      // User agent
+      await this.page.setUserAgent(
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+      )
+      
+      console.log(`[Puppeteer] searchDossier: Nouvelle page créée et configurée`)
 
       // Naviguer vers le dashboard si navigation_path est défini
       if (this.selectors.navigation_path) {
         try {
-          await this.ensurePageAttached("get currentUrl for dashboard")
-          const currentUrl = this.page.url()
-          const baseUrl = new URL(currentUrl).origin
+          // Construire l'URL du dashboard depuis l'URL du site
+          const baseUrl = new URL(this.site.url_recherche).origin
           const dashboardUrl = `${baseUrl}${this.selectors.navigation_path}`
           
           console.log(`[Puppeteer] searchDossier: Navigation vers dashboard: ${dashboardUrl}`)
-          await this.ensurePageAttached("goto dashboard")
           await this.page.goto(dashboardUrl, {
-            waitUntil: "load", // CHANGÉ: load au lieu de domcontentloaded
-            timeout: 30000,
+            waitUntil: "load",
+            timeout: 60000,
           })
           console.log(`[Puppeteer] searchDossier: Dashboard chargé, attente supplémentaire...`)
-          await this.wait(3000) // Attendre le chargement complet (augmenté à 3s)
+          await this.wait(5000) // Attendre que le tableau se charge complètement
         } catch (navError: any) {
           console.error(`[Puppeteer] searchDossier: Erreur navigation dashboard (${navError.message})`)
-          // Si l'erreur est "frame detached", continuer quand même
-          if (navError.message?.includes("frame was detached") || navError.message?.includes("detached Frame") || navError.message?.includes("Target closed")) {
-            console.log(`[Puppeteer] searchDossier: Frame détaché lors de la navigation vers dashboard, récupération...`)
-            await this.wait(3000)
-            // Récupérer la page actuelle
-            if (this.browser) {
-              const pages = await this.browser.pages()
-              if (pages.length > 0) {
-                this.page = pages[pages.length - 1]
-                await this.wait(2000)
-                console.log(`[Puppeteer] searchDossier: Page récupérée après frame détaché`)
-              }
-            }
-          } else {
-            // Autre erreur, continuer quand même
-            console.log(`[Puppeteer] searchDossier: Erreur navigation non bloquante, continuation...`)
-            await this.wait(3000)
-          }
+          throw new Error(`Erreur lors de la navigation vers le dashboard: ${navError.message}`)
         }
       }
 

@@ -948,3 +948,10 @@
 {"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770394380289,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
 {"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770394385482,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
 {"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770394463008,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import ClientAuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770395034554,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770395034559,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770395034560,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770395034561,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770395034567,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770395038926,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770395124841,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
