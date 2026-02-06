@@ -255,16 +255,10 @@ export class PuppeteerAutomation extends BaseAutomation {
         console.log(`[Puppeteer] Attente du bouton de connexion: ${this.selectors.login_submit}`)
         await this.ensureBrowserConnected()
         
-        // Attendre que le bouton soit activé (certains sites désactivent le bouton au chargement) - TIMEOUT AUGMENTÉ à 60s
+        // Attendre que le bouton existe (plus rapide que waitForFunction qui attend l'activation)
         try {
-          await this.page.waitForFunction(
-            (selector) => {
-              const button = document.querySelector(selector) as HTMLButtonElement
-              return button && !button.disabled
-            },
-            { timeout: 60000 },
-            this.selectors.login_submit
-          )
+          await this.page.waitForSelector(this.selectors.login_submit, { timeout: 10000 })
+          console.log(`[Puppeteer] Bouton de connexion trouvé`)
         } catch (error: any) {
           if (error.message?.includes("Target closed") || error.message?.includes("connection lost")) {
             throw new Error("Browser connection lost while waiting for login button. Please retry.")
@@ -272,7 +266,25 @@ export class PuppeteerAutomation extends BaseAutomation {
           throw error
         }
         
-        console.log(`[Puppeteer] Bouton de connexion activé, clic...`)
+        // Vérifier si le bouton est désactivé et essayer de l'activer
+        const isDisabled = await this.page.evaluate((selector) => {
+          const button = document.querySelector(selector) as HTMLButtonElement
+          return button?.disabled || false
+        }, this.selectors.login_submit)
+        
+        if (isDisabled) {
+          console.log(`[Puppeteer] Bouton désactivé, tentative d'activation...`)
+          // Simuler un mouvement de souris pour activer le bouton
+          await this.page.mouse.move(100, 100)
+          await this.wait(500)
+          // Essayer de cliquer sur le champ pour déclencher les événements
+          if (this.selectors.login_username) {
+            await this.page.click(this.selectors.login_username)
+            await this.wait(200)
+          }
+        }
+        
+        console.log(`[Puppeteer] Clic sur le bouton de connexion...`)
         await this.ensureBrowserConnected()
         
         // Simuler un mouvement de souris pour activer le bouton si nécessaire
