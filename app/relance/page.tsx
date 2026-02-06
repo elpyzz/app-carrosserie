@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import AuthenticatedLayout from "@/components/layout/authenticated-layout"
+import AuthenticatedLayout from "@/components/layout/client-authenticated-layout"
 import { RelanceAssurances } from "./components/RelanceAssurances"
 import { RelanceExpertsHistory } from "./components/RelanceExpertsHistory"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"

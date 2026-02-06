@@ -1,7 +1,10 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import AuthenticatedLayout from "@/components/layout/authenticated-layout"
+// #region agent log
+fetch('http://127.0.0.1:7242/ingest/dd01c13f-3adb-44dd-ab15-9d28649f71ca',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'app/expert/page.tsx:4',message:'Import ClientAuthenticatedLayout',data:{isClient:'true'},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+// #endregion
+import AuthenticatedLayout from "@/components/layout/client-authenticated-layout"
 import { ExpertSearchForm } from "./components/ExpertSearchForm"
 import { ExpertResults } from "./components/ExpertResults"
 import { ExpertSitesConfig } from "./components/ExpertSitesConfig"
@@ -14,6 +17,9 @@ import { Search, Settings, FileText, FilePlus } from "lucide-react"
 export const dynamic = 'force-dynamic'
 
 export default function ExpertPage() {
+  // #region agent log
+  fetch('http://127.0.0.1:7242/ingest/dd01c13f-3adb-44dd-ab15-9d28649f71ca',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'app/expert/page.tsx:16',message:'ExpertPage component entry',data:{isClient:'true'},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+  // #endregion
   const [mounted, setMounted] = useState(false)
   const [results, setResults] = useState<ExpertSearchResult[]>([])
   const [loading, setLoading] = useState(false)
@@ -21,11 +27,17 @@ export default function ExpertPage() {
 
   // Attendre que le composant soit monté côté client
   useEffect(() => {
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/dd01c13f-3adb-44dd-ab15-9d28649f71ca',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'app/expert/page.tsx:25',message:'useEffect mounted set',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+    // #endregion
     setMounted(true)
   }, [])
 
   // Afficher un loader pendant le montage
   if (!mounted) {
+    // #region agent log
+    fetch('http://127.0.0.1:7242/ingest/dd01c13f-3adb-44dd-ab15-9d28649f71ca',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'app/expert/page.tsx:28',message:'Rendering AuthenticatedLayout (not mounted)',data:{mounted:false},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+    // #endregion
     return (
       <AuthenticatedLayout>
         <div className="flex items-center justify-center min-h-[400px]">

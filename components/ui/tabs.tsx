@@ -114,7 +114,16 @@ export function TabsContent({
   className?: string
 }) {
   const { value: selectedValue } = useTabsContext()
-  if (selectedValue !== value) return null
-
-  return <div className={cn("mt-2", className)}>{children}</div>
+  const isActive = selectedValue === value
+  
+  // Toujours rendre le contenu mais le masquer avec display: none
+  // Cela évite les problèmes de montage/démontage et les écrans blancs
+  return (
+    <div 
+      className={cn("mt-2", className)} 
+      style={{ display: isActive ? 'block' : 'none' }}
+    >
+      {children}
+    </div>
+  )
 }

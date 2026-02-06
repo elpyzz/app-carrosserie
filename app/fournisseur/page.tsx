@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import AuthenticatedLayout from "@/components/layout/authenticated-layout"
+import AuthenticatedLayout from "@/components/layout/client-authenticated-layout"
 import { PieceSearchForm } from "./components/PieceSearchForm"
 import { PieceResults } from "./components/PieceResults"
 import { PieceComparisonTable } from "./components/PieceComparisonTable"
