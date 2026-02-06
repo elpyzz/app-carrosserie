@@ -309,7 +309,8 @@ export async function POST(request: Request) {
           // Si on a un buffer PDF, le stocker directement
           if (rapportResult.pdf_buffer) {
             try {
-              const pdfBlob = new Blob([rapportResult.pdf_buffer], { type: "application/pdf" })
+              // Convertir Buffer en Uint8Array pour créer le Blob
+              const pdfBlob = new Blob([new Uint8Array(rapportResult.pdf_buffer)], { type: "application/pdf" })
               const fileName = result.pdf_nom || `rapport_${Date.now()}.pdf`
               const sanitizedFileName = fileName.replace(/[^a-zA-Z0-9._-]/g, "_")
               const filePath = `expert-reports/${criteria.dossier_id || "general"}/${Date.now()}-${sanitizedFileName}`
