@@ -35,9 +35,7 @@ const rechercheSchema = z.object({
 type RechercheFormData = z.infer<typeof rechercheSchema>
 
 function RecherchePiecePageContent() {
-  // Empêcher le pré-rendu côté serveur
-  if (typeof window === 'undefined') return null
-
+  const [mounted, setMounted] = useState(false)
   const router = useRouter()
   const searchParams = useSearchParams()
   const supabase = useSupabaseClient()
@@ -45,6 +43,25 @@ function RecherchePiecePageContent() {
   const [error, setError] = useState("")
   const [suppliers, setSuppliers] = useState<any[]>([])
   const [historique, setHistorique] = useState<any[]>([])
+
+  // Attendre que le composant soit monté côté client
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  // Afficher un loader pendant le montage
+  if (!mounted) {
+    return (
+      <AuthenticatedLayout>
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-bordeaux-600 mx-auto mb-4"></div>
+            <p className="text-gray-600">Chargement...</p>
+          </div>
+        </div>
+      </AuthenticatedLayout>
+    )
+  }
 
   const {
     register,

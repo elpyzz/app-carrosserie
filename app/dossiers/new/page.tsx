@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -49,13 +49,30 @@ const dossierSchema = z.object({
 type DossierFormData = z.infer<typeof dossierSchema>
 
 export default function NewDossierPage() {
-  // Empêcher le pré-rendu côté serveur
-  if (typeof window === 'undefined') return null
-
+  const [mounted, setMounted] = useState(false)
   const router = useRouter()
   const supabase = useSupabaseClient()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
+
+  // Attendre que le composant soit monté côté client
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  // Afficher un loader pendant le montage
+  if (!mounted) {
+    return (
+      <AuthenticatedLayout>
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-bordeaux-600 mx-auto mb-4"></div>
+            <p className="text-gray-600">Chargement...</p>
+          </div>
+        </div>
+      </AuthenticatedLayout>
+    )
+  }
 
   const {
     register,

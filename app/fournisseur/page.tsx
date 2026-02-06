@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import AuthenticatedLayout from "@/components/layout/authenticated-layout"
 import { PieceSearchForm } from "./components/PieceSearchForm"
 import { PieceResults } from "./components/PieceResults"
@@ -15,12 +15,29 @@ import { SupplierSitesConfig } from "./components/SupplierSitesConfig"
 export const dynamic = 'force-dynamic'
 
 export default function FournisseurPage() {
-  // Empêcher le pré-rendu côté serveur
-  if (typeof window === 'undefined') return null
-
+  const [mounted, setMounted] = useState(false)
   const [results, setResults] = useState<PieceResult[]>([])
   const [loading, setLoading] = useState(false)
   const [searchCriteria, setSearchCriteria] = useState<PieceSearchCriteria | null>(null)
+
+  // Attendre que le composant soit monté côté client
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  // Afficher un loader pendant le montage
+  if (!mounted) {
+    return (
+      <AuthenticatedLayout>
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-bordeaux-600 mx-auto mb-4"></div>
+            <p className="text-gray-600">Chargement...</p>
+          </div>
+        </div>
+      </AuthenticatedLayout>
+    )
+  }
 
   const handleSearch = async (criteria: PieceSearchCriteria) => {
     setLoading(true)

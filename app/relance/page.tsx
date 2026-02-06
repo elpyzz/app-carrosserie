@@ -1,5 +1,6 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import AuthenticatedLayout from "@/components/layout/authenticated-layout"
 import { RelanceAssurances } from "./components/RelanceAssurances"
 import { RelanceExpertsHistory } from "./components/RelanceExpertsHistory"
@@ -9,8 +10,26 @@ import { Building2, UserCheck } from "lucide-react"
 export const dynamic = 'force-dynamic'
 
 export default function RelancePage() {
-  // Empêcher le pré-rendu côté serveur
-  if (typeof window === 'undefined') return null
+  const [mounted, setMounted] = useState(false)
+
+  // Attendre que le composant soit monté côté client
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  // Afficher un loader pendant le montage
+  if (!mounted) {
+    return (
+      <AuthenticatedLayout>
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-bordeaux-600 mx-auto mb-4"></div>
+            <p className="text-gray-600">Chargement...</p>
+          </div>
+        </div>
+      </AuthenticatedLayout>
+    )
+  }
 
   return (
     <AuthenticatedLayout>
