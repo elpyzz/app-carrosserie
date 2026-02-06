@@ -275,6 +275,29 @@
     z-index: 9999 !important;
     cursor: pointer !important;
   }
+
+  /* Fix pour les modals - forcer les pointer-events sur tous les éléments interactifs */
+  div[style*="zIndex: 9999"] input,
+  div[style*="zIndex: 9999"] textarea,
+  div[style*="zIndex: 9999"] select {
+    pointer-events: auto !important;
+    cursor: text !important;
+    position: relative !important;
+  }
+
+  div[style*="zIndex: 9999"] input[type="checkbox"] {
+    cursor: pointer !important;
+  }
+
+  div[style*="zIndex: 9999"] button {
+    pointer-events: auto !important;
+    cursor: pointer !important;
+    position: relative !important;
+  }
+
+  div[style*="zIndex: 9999"] button:disabled {
+    cursor: not-allowed !important;
+  }
   
   /* Amélioration de la lisibilité des tableaux */
   table th {

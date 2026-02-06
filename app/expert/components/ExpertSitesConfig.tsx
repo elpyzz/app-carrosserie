@@ -321,7 +321,7 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
   return (
     <div 
       className="fixed inset-0 bg-black/50 flex items-center justify-center p-4" 
-      style={{ zIndex: 9999 }}
+      style={{ zIndex: 9999, pointerEvents: 'auto' }}
       onClick={(e) => {
         // Fermer si on clique sur l'overlay (pas sur le contenu)
         if (e.target === e.currentTarget) {
@@ -331,19 +331,35 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
     >
       <Card 
         className="w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-white" 
-        style={{ zIndex: 10000, position: 'relative' }}
+        style={{ 
+          zIndex: 10000, 
+          position: 'relative',
+          pointerEvents: 'auto',
+          isolation: 'isolate'
+        }}
         onClick={(e) => e.stopPropagation()}
       >
-        <CardHeader className="flex flex-row items-center justify-between">
+        <CardHeader 
+          className="flex flex-row items-center justify-between"
+          style={{ pointerEvents: 'auto' }}
+        >
           <CardTitle>
             {site ? "Modifier le site expert" : "Ajouter un site expert"}
           </CardTitle>
-          <Button variant="ghost" size="sm" onClick={onClose}>
+          <Button variant="ghost" size="sm" onClick={onClose} style={{ pointerEvents: 'auto', zIndex: 10003 }}>
             <X className="h-5 w-5" />
           </Button>
         </CardHeader>
 
-        <CardContent className="space-y-4" style={{ position: 'relative', zIndex: 10001 }}>
+        <CardContent 
+          className="space-y-4" 
+          style={{ 
+            position: 'relative', 
+            zIndex: 10001,
+            pointerEvents: 'auto',
+            isolation: 'isolate'
+          }}
+        >
           {/* Message d'erreur */}
           {error && (
             <div className="flex items-start gap-2 p-3 bg-red-50 border border-red-200 rounded-lg">
@@ -361,7 +377,7 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
           )}
 
           {/* Nom du site */}
-          <div>
+          <div style={{ pointerEvents: 'auto', position: 'relative', zIndex: 10002 }}>
             <Label htmlFor="nom">
               Nom du site <span className="text-red-500">*</span>
             </Label>
@@ -371,13 +387,19 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
               onChange={(e) => setNom(e.target.value)}
               placeholder="Ex: Experts Groupe"
               disabled={loading}
-              style={{ position: 'relative', zIndex: 10002 }}
+              style={{ 
+                position: 'relative', 
+                zIndex: 10003,
+                pointerEvents: 'auto',
+                cursor: 'text'
+              }}
               autoComplete="off"
+              onFocus={(e) => e.target.select()}
             />
           </div>
 
           {/* URL de recherche */}
-          <div>
+          <div style={{ pointerEvents: 'auto', position: 'relative', zIndex: 10002 }}>
             <Label htmlFor="url">
               URL de recherche <span className="text-red-500">*</span>
             </Label>
@@ -387,13 +409,19 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
               onChange={(e) => setUrl(e.target.value)}
               placeholder="https://www.experts-groupe.com/recherche"
               disabled={loading}
-              style={{ position: 'relative', zIndex: 10002 }}
+              style={{ 
+                position: 'relative', 
+                zIndex: 10003,
+                pointerEvents: 'auto',
+                cursor: 'text'
+              }}
               autoComplete="off"
+              onFocus={(e) => e.target.select()}
             />
           </div>
 
           {/* Type d'authentification */}
-          <div>
+          <div style={{ pointerEvents: 'auto', position: 'relative', zIndex: 10002 }}>
             <Label htmlFor="type_auth">Type d'authentification</Label>
             <select
               id="type_auth"
@@ -401,7 +429,12 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
               onChange={(e) => setTypeAuth(e.target.value as ExpertSiteAuthType)}
               className="w-full h-10 px-3 rounded-md border border-gray-300 bg-white"
               disabled={loading}
-              style={{ position: 'relative', zIndex: 10002 }}
+              style={{ 
+                position: 'relative', 
+                zIndex: 10003,
+                pointerEvents: 'auto',
+                cursor: 'pointer'
+              }}
             >
               <option value="none">Aucune authentification</option>
               <option value="form">Formulaire de connexion</option>
@@ -411,7 +444,7 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
 
           {/* Identifiants (si auth requise) */}
           {typeAuth !== "none" && (
-            <div>
+            <div style={{ pointerEvents: 'auto', position: 'relative', zIndex: 10002 }}>
               <Label htmlFor="credentials">
                 Identifiants (JSON)
               </Label>
@@ -427,7 +460,13 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
                 className="font-mono text-sm"
                 rows={4}
                 disabled={loading}
-                style={{ position: 'relative', zIndex: 10002 }}
+                style={{ 
+                  position: 'relative', 
+                  zIndex: 10003,
+                  pointerEvents: 'auto',
+                  cursor: 'text'
+                }}
+                onFocus={(e) => e.target.select()}
               />
               <p className="text-xs text-gray-500 mt-1">
                 Format JSON valide requis. Ces données sont stockées de manière sécurisée.
@@ -436,7 +475,7 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
           )}
 
           {/* Sélecteurs CSS */}
-          <div>
+          <div style={{ pointerEvents: 'auto', position: 'relative', zIndex: 10002 }}>
             <Label htmlFor="selectors">
               Sélecteurs CSS (JSON) - Pour l'automation
             </Label>
@@ -457,7 +496,13 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
               className="font-mono text-sm"
               rows={8}
               disabled={loading}
-              style={{ position: 'relative', zIndex: 10002 }}
+              style={{ 
+                position: 'relative', 
+                zIndex: 10003,
+                pointerEvents: 'auto',
+                cursor: 'text'
+              }}
+              onFocus={(e) => e.target.select()}
             />
             <p className="text-xs text-gray-500 mt-1">
               Sélecteurs CSS utilisés par le scraper pour interagir avec le site.
@@ -465,7 +510,7 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
           </div>
 
           {/* Site actif */}
-          <div className="flex items-center space-x-2 pt-2">
+          <div className="flex items-center space-x-2 pt-2" style={{ pointerEvents: 'auto', position: 'relative', zIndex: 10002 }}>
             <input
               type="checkbox"
               id="actif"
@@ -473,20 +518,30 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
               onChange={(e) => setActif(e.target.checked)}
               className="h-4 w-4 rounded border-gray-300"
               disabled={loading}
-              style={{ position: 'relative', zIndex: 10002 }}
+              style={{ 
+                position: 'relative', 
+                zIndex: 10003,
+                pointerEvents: 'auto',
+                cursor: 'pointer'
+              }}
             />
-            <Label htmlFor="actif" className="cursor-pointer">
+            <Label htmlFor="actif" className="cursor-pointer" style={{ pointerEvents: 'auto' }}>
               Site actif (les relances automatiques utiliseront ce site)
             </Label>
           </div>
 
           {/* Boutons */}
-          <div className="flex justify-end gap-3 pt-4 border-t">
+          <div className="flex justify-end gap-3 pt-4 border-t" style={{ pointerEvents: 'auto', position: 'relative', zIndex: 10002 }}>
             <Button 
               variant="outline" 
               onClick={onClose} 
               disabled={loading}
-              style={{ position: 'relative', zIndex: 10002 }}
+              style={{ 
+                position: 'relative', 
+                zIndex: 10003,
+                pointerEvents: 'auto',
+                cursor: loading ? 'not-allowed' : 'pointer'
+              }}
             >
               Annuler
             </Button>
@@ -494,7 +549,12 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
               className="btn-primary" 
               onClick={handleSave} 
               disabled={loading}
-              style={{ position: 'relative', zIndex: 10002 }}
+              style={{ 
+                position: 'relative', 
+                zIndex: 10003,
+                pointerEvents: 'auto',
+                cursor: loading ? 'not-allowed' : 'pointer'
+              }}
             >
               {loading ? (
                 <>
