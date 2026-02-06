@@ -1,10 +1,10 @@
 import { ExpertSite } from "@/lib/expert/types"
 import { BaseAutomation } from "../base-automation"
-import { PuppeteerAutomation } from "../puppeteer-automation"
+import { PlaywrightAutomation } from "../playwright-automation"
 
 /**
  * Factory pour créer le bon handler d'automation selon le site
- * Pour l'instant, utilise PuppeteerAutomation par défaut
+ * Utilise PlaywrightAutomation par défaut (meilleure compatibilité Vercel)
  * Plus tard, on pourra créer des handlers spécifiques par site
  */
 export function createAutomationHandler(site: ExpertSite): BaseAutomation {
@@ -15,10 +15,10 @@ export function createAutomationHandler(site: ExpertSite): BaseAutomation {
   //   case "bca-expertise":
   //     return new BCAExpertiseHandler(site)
   //   default:
-  //     return new PuppeteerAutomation(site)
+  //     return new PlaywrightAutomation(site)
   // }
 
-  return new PuppeteerAutomation(site)
+  return new PlaywrightAutomation(site)
 }
 
 /**

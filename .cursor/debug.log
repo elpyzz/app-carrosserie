@@ -1,0 +1,810 @@
+{"location":"app/expert/page.tsx:4","message":"Import AuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770372321116,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import AuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770372321376,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import AuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770372325908,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372325926,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import AuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770372326169,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326199,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326200,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326202,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770372326222,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770372326224,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326226,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326227,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326229,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326229,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326230,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326230,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326232,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326232,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326233,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326234,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326234,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326235,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326236,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326236,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326237,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326238,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326238,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326238,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326239,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326239,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326241,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326241,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326244,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326244,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326246,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326246,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326247,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326247,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326248,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326248,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326249,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326250,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326250,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326250,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326251,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326251,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326251,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326252,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326253,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326253,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326254,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326254,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326254,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326255,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326255,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326255,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326256,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326256,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326257,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326258,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326258,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326259,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326259,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326259,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326260,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326260,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326261,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326261,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326262,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326262,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326263,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326263,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326263,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326264,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326264,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326264,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326266,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326266,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326267,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326267,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326268,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326268,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326268,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326268,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326270,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326270,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326271,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326271,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326272,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326272,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326272,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326273,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326274,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326274,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326275,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326275,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326276,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326276,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326276,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326277,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326277,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326277,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326279,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326279,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326280,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326280,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326281,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326281,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326283,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326283,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326284,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326284,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326284,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326285,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326286,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326287,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326287,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326287,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326288,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326288,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326289,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326289,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326290,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326290,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326291,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326291,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326292,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326292,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326293,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326293,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326293,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326293,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326295,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326295,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326296,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326296,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326296,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326297,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326297,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326298,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326299,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326300,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326301,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326301,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326301,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326302,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326304,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326305,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326305,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326306,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326307,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326307,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326309,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326309,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326310,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326310,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326311,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326312,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326312,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326313,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326313,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326313,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326314,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326314,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326316,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326316,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326317,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326317,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326318,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326318,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326319,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326319,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326320,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326321,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326321,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326322,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326322,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326322,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326323,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326323,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326324,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326325,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326325,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326325,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326326,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326326,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326327,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326327,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326328,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326328,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326329,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326329,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326330,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326330,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326331,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326332,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326334,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326335,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326337,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326337,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326338,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326338,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326339,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326339,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326340,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326340,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326341,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326342,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326342,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326342,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326343,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326343,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326345,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326345,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326349,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372326350,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import AuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770372329583,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770372329586,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329586,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import AuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770372329807,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329833,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770372329833,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329834,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770372329834,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329835,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770372329851,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770372329852,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329857,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329858,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329860,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329860,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329863,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329863,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329864,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329864,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329866,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329866,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329867,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329867,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329868,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329868,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329869,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329869,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329870,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329871,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329871,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329872,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329872,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329872,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329873,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329873,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329875,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329875,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329876,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329876,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329876,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329876,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329877,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329877,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329877,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329878,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329879,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329879,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329880,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329880,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329881,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329881,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329883,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329883,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329884,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329884,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329884,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329885,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329885,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329885,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329887,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329887,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329887,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329887,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329888,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329888,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329889,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329889,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329889,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329889,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329891,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329891,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329891,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329892,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329892,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329892,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329893,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329893,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329893,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329893,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329895,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329895,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329895,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329895,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329896,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329896,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329897,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329897,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329897,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329898,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329900,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329900,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329901,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329901,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329901,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329902,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329903,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329903,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329904,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329904,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329905,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329905,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329906,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329906,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329908,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329908,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329909,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329909,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329910,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329910,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329912,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329912,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329913,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329913,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329913,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329914,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329914,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329914,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329916,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329916,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329917,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329917,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329917,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329918,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329918,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329919,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329920,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329920,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329921,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329921,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329921,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329922,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329922,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329922,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329923,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329923,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329924,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329925,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329925,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329925,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329926,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329926,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329927,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329927,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329929,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329929,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329930,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329930,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329930,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329931,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329931,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329931,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329933,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329933,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329934,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329934,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329935,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329935,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329936,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329937,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329937,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329937,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329938,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329938,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329939,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329939,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329939,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329940,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329941,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329941,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329942,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329942,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329943,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329943,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329944,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329944,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329945,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329945,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329946,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329946,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329947,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329947,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329947,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329947,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329949,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329949,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329950,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329950,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329951,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329951,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329951,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329951,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329952,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329952,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329953,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329953,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329956,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329956,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329958,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329958,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329959,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329959,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329960,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329960,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329960,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329960,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329962,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329962,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329962,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329963,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329963,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329963,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329964,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329964,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329965,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329965,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329969,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372329969,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import ClientAuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770372338838,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372338843,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770372338843,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import ClientAuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770372339069,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372339096,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770372339097,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372339097,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770372339097,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770372339104,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770372339105,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372339107,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372339108,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372347999,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372347999,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372351189,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372351189,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372354864,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372354864,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372358257,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372358258,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372361582,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372361582,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372370678,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372370678,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372380042,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372380042,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372382463,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770372382463,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372382463,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770372382464,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770372382465,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770372382466,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372382466,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372382467,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import ClientAuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770372389120,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372389123,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770372389123,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372389124,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770372389124,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372389128,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770372389135,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770372389135,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372389136,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372389137,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372390775,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770372390776,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372390776,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770372390776,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770372390779,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770372390779,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372390781,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372390782,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import ClientAuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770372507829,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770372507908,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372507908,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770372507901,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372507900,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372953395,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770372953398,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770372953398,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770372953395,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372953399,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372953399,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372953395,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770372953395,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import ClientAuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770372964131,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372964136,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770372964136,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372964136,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770372964136,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372964140,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770372964145,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770372964146,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372964146,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372964147,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import ClientAuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770372964597,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372964602,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770372964602,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import ClientAuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770372964810,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372964832,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770372964833,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372964833,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770372964833,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770372964843,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770372964844,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372964847,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770372964848,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import ClientAuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770373073931,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770373073936,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373073939,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770373073934,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373073934,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import ClientAuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770373202293,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373202295,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770373202295,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373202295,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770373202295,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770373202298,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770373202298,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373202299,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373202300,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373208046,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373208047,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373218853,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373218853,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import ClientAuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770373231048,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373231068,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770373231069,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import ClientAuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770373231311,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373231345,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770373231345,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373231346,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770373231346,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770373231355,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770373231357,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373231362,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373231362,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373232043,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373232043,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373232051,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373232052,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373411615,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373411615,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373419287,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373419288,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import ClientAuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770373619816,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373619822,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770373619822,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770373619824,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373619832,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373758053,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373758053,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373766158,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373766158,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373783953,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373783953,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373792653,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373792653,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373819345,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373819345,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373819570,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373819570,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373934863,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373934863,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373946803,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373946803,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import ClientAuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770373950331,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373950363,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770373950363,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import ClientAuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770373950667,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770373950697,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373950697,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373950698,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770373950698,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770373950703,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770373950704,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373950706,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373950707,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373953240,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373953241,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770373953240,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770373953241,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770373953244,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770373953244,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373953245,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770373953245,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import ClientAuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770374211653,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770374211658,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770374211658,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770374211659,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770374211669,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770374464897,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770374465792,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770374492428,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770374493295,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770374516119,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770374516593,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770374738097,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770374738097,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770374743229,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770374743229,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770374753819,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770374753819,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770374759174,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770374759175,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770374771730,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770374771730,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import ClientAuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770374879314,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770374879325,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770374879325,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770374879327,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770374879330,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770374884746,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770374887253,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import ClientAuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770375268216,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770375268239,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770375268239,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import ClientAuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770375268481,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770375268511,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770375268512,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770375268512,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770375268512,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770375268518,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770375268519,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770375268522,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770375268522,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770383684040,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770383684040,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import ClientAuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770383684253,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770383684280,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770383684280,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770383684280,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770383684281,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770383684286,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770383684287,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770383684289,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770383684290,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770383753796,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770383753796,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770383781177,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770383781178,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770383839333,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770383839333,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import ClientAuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770383839534,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770383839565,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770383839565,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770383839565,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770383839565,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770383839571,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770383839572,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770383839575,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770383839576,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770383843013,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770383843013,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770383995207,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770383995208,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import ClientAuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770384009009,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770384009020,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770384009020,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770384009022,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770384009039,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770384028470,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770384028471,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import ClientAuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770384085073,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770384085082,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770384085082,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770384085083,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770384085087,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770384139166,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770384141399,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770384161191,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770384161192,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import ClientAuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770384161437,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770384161477,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770384161477,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770384161477,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770384161477,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770384161487,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770384161488,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770384161492,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770384161492,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770384301807,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770384301807,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import ClientAuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770384302004,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770384302032,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770384302033,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770384302033,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770384302032,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770384302038,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770384302039,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770384302041,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770384302042,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import ClientAuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770384369955,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770384369971,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770384369971,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770384369972,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770384369978,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770384378861,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770384381133,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770384575937,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770384575937,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import ClientAuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770384576152,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770384576184,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770384576184,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770384576184,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770384576184,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770384576190,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770384576192,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770384576196,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770384576196,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import ClientAuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770384874270,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770384874282,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770384874282,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770384874284,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770384874288,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770384878848,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770384880266,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import ClientAuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770385028195,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770385028229,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770385028229,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import ClientAuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770385028739,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770385028771,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770385028772,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770385028772,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770385028772,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770385028780,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770385028778,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770385028782,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770385028783,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770385035030,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770385035033,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770385035034,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770385035033,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770385035034,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770385035030,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770385035030,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770385035030,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import ClientAuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770385169342,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770385169356,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770385169356,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770385169358,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770385169362,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770385174772,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770385178359,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import ClientAuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770385436027,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770385436031,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770385436032,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770385436032,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770385436032,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770385436036,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770385436042,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770385436043,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770385436044,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770385436045,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import ClientAuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770385547806,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770385547821,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770385547821,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770385547822,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770385547834,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770385551794,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770385555578,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import ClientAuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770385932837,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770385932841,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770385932841,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770385932841,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770385932841,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770385932847,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770385932853,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770385932854,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770385932854,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770385932855,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import ClientAuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770386032076,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770386032086,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770386032086,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770386032087,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770386032094,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770386035519,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770386038943,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import ClientAuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770386292873,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770386292882,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770386292882,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import ClientAuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770386293104,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770386293132,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770386293132,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770386293133,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770386293133,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770386293139,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770386293140,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770386293143,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770386293144,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:4","message":"Import ClientAuthenticatedLayout","data":{"isClient":"true"},"timestamp":1770386362881,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770386362894,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:28","message":"Rendering AuthenticatedLayout (not mounted)","data":{"mounted":false},"timestamp":1770386362895,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:25","message":"useEffect mounted set","data":{},"timestamp":1770386362896,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770386362906,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770386366174,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}
+{"location":"app/expert/page.tsx:16","message":"ExpertPage component entry","data":{"isClient":"true"},"timestamp":1770386369344,"sessionId":"debug-session","runId":"run1","hypothesisId":"A"}

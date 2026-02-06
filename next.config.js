@@ -12,7 +12,7 @@ const nextConfig = {
     console.log('[Next.js Config] Webpack config - isServer:', isServer);
     // #endregion
     
-    // Exclure puppeteer-core et chromium du bundle client
+    // Exclure playwright et puppeteer du bundle client
     if (!isServer) {
       config.resolve.fallback = {
         ...config.resolve.fallback,
@@ -26,9 +26,11 @@ const nextConfig = {
     // Configuration pour serverless (Vercel)
     if (isServer) {
       config.externals = config.externals || []
+      // Garder puppeteer pour compatibilité si nécessaire
       config.externals.push({
         '@sparticuz/chromium': 'commonjs @sparticuz/chromium',
         'puppeteer-core': 'commonjs puppeteer-core',
+        'playwright': 'commonjs playwright',
       })
     }
     
