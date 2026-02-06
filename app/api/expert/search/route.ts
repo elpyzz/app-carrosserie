@@ -4,11 +4,14 @@ import { ExpertSearchCriteria, ExpertSearchResult } from "@/lib/expert/types"
 
 export async function POST(request: Request) {
   try {
+    console.log('[DEBUG API] POST /api/expert/search - Début')
     const supabase = await createClient()
     const criteria: ExpertSearchCriteria = await request.json()
+    console.log('[DEBUG API] Critères reçus:', criteria)
 
     // Validation
     if (!criteria.sites_ids || criteria.sites_ids.length === 0) {
+      console.log('[DEBUG API] Erreur: Aucun site sélectionné')
       return NextResponse.json(
         { error: "Aucun site sélectionné" },
         { status: 400 }
@@ -20,6 +23,7 @@ export async function POST(request: Request) {
       !criteria.immatriculation &&
       !criteria.date_sinistre
     ) {
+      console.log('[DEBUG API] Erreur: Aucun critère de recherche')
       return NextResponse.json(
         { error: "Au moins un critère de recherche est requis" },
         { status: 400 }
@@ -29,14 +33,27 @@ export async function POST(request: Request) {
     // Récupérer les sites configurés
     let sites
     if (process.env.NEXT_PUBLIC_SUPABASE_URL) {
+      console.log('[DEBUG API] Récupération des sites depuis Supabase, IDs:', criteria.sites_ids)
       const { data, error } = await supabase
         .from("expert_sites")
         .select("*")
         .in("id", criteria.sites_ids)
         .eq("actif", true)
 
-      if (error) throw error
+      if (error) {
+        console.error('[DEBUG API] Erreur récupération sites:', error)
+        throw error
+      }
       sites = data || []
+      console.log('[DEBUG API] Sites récupérés:', sites.length, sites.map((s: any) => ({ id: s.id, nom: s.nom })))
+      
+      if (sites.length === 0) {
+        console.log('[DEBUG API] Aucun site actif trouvé pour les IDs:', criteria.sites_ids)
+        return NextResponse.json(
+          { error: "Aucun site actif trouvé" },
+          { status: 400 }
+        )
+      }
     } else {
       // Mode mock : sites de démonstration
       sites = [
@@ -60,22 +77,33 @@ export async function POST(request: Request) {
     // Créer l'enregistrement de recherche
     let searchId: string | null = null
     if (process.env.NEXT_PUBLIC_SUPABASE_URL) {
-      const { data: search, error } = await supabase
-        .from("expert_searches")
-        .insert({
-          dossier_id: criteria.dossier_id || null,
-          numero_dossier: criteria.numero_dossier || null,
-          immatriculation: criteria.immatriculation || null,
-          date_sinistre: criteria.date_sinistre || null,
-          sites_interroges: criteria.sites_ids,
-          statut: "en_cours",
-          resultats: [],
-        })
-        .select()
-        .single()
+      console.log('[DEBUG API] Création enregistrement de recherche')
+      try {
+        const { data: search, error } = await supabase
+          .from("expert_searches")
+          .insert({
+            dossier_id: criteria.dossier_id || null,
+            numero_dossier: criteria.numero_dossier || null,
+            immatriculation: criteria.immatriculation || null,
+            date_sinistre: criteria.date_sinistre || null,
+            sites_interroges: criteria.sites_ids,
+            statut: "en_cours",
+            resultats: [],
+          })
+          .select()
+          .single()
 
-      if (error) throw error
-      searchId = search.id
+        if (error) {
+          console.error('[DEBUG API] Erreur création recherche:', error)
+          throw error
+        }
+        searchId = search.id
+        console.log('[DEBUG API] Recherche créée avec ID:', searchId)
+      } catch (insertError: any) {
+        console.error('[DEBUG API] Erreur lors de la création de la recherche:', insertError)
+        // Continuer même si la création échoue (pour le débogage)
+        console.warn('[DEBUG API] Continuation sans enregistrement de recherche')
+      }
     }
 
     // Fonction pour télécharger automatiquement un PDF
@@ -163,74 +191,100 @@ export async function POST(request: Request) {
     }
 
     // Simuler la recherche sur chaque site (mock pour l'instant)
+    console.log('[DEBUG API] Début simulation recherche sur', sites.length, 'site(s)')
     const results: ExpertSearchResult[] = await Promise.all(
       sites.map(async (site: any) => {
-        // Simuler un délai de recherche
-        await new Promise((resolve) => setTimeout(resolve, 1000 + Math.random() * 2000))
+        console.log('[DEBUG API] Traitement site:', site.nom, site.id)
+        try {
+          // Simuler un délai de recherche
+          await new Promise((resolve) => setTimeout(resolve, 1000 + Math.random() * 2000))
 
-        // Simuler différents résultats
-        const random = Math.random()
-        let result: ExpertSearchResult
+          // Simuler différents résultats
+          const random = Math.random()
+          let result: ExpertSearchResult
 
-        if (random > 0.6) {
-          // Rapport trouvé
-          result = {
-            site_id: site.id,
-            site_nom: site.nom,
-            statut: "trouve",
-            message: "Rapport trouvé avec succès",
-            pdf_url: `/api/expert/download/mock-${site.id}.pdf`,
-            pdf_nom: `rapport_${criteria.numero_dossier || "expert"}_${site.id}.pdf`,
-            pdf_taille: 250000 + Math.random() * 500000,
-            pdf_date: new Date().toISOString(),
-          } as ExpertSearchResult
+          if (random > 0.6) {
+            // Rapport trouvé
+            result = {
+              site_id: site.id,
+              site_nom: site.nom,
+              statut: "trouve",
+              message: "Rapport trouvé avec succès",
+              pdf_url: `/api/expert/download/mock-${site.id}.pdf`,
+              pdf_nom: `rapport_${criteria.numero_dossier || "expert"}_${site.id}.pdf`,
+              pdf_taille: 250000 + Math.random() * 500000,
+              pdf_date: new Date().toISOString(),
+            } as ExpertSearchResult
 
-          // Télécharger automatiquement le PDF
-          result = await downloadAndStorePDF(result, site)
-        } else if (random > 0.3) {
-          // Non trouvé
-          result = {
-            site_id: site.id,
-            site_nom: site.nom,
-            statut: "non_trouve",
-            message: "Aucun rapport trouvé pour ces critères",
-            pdf_stored: false,
-          } as ExpertSearchResult
-        } else {
-          // Erreur
-          result = {
+            // Télécharger automatiquement le PDF
+            result = await downloadAndStorePDF(result, site)
+          } else if (random > 0.3) {
+            // Non trouvé
+            result = {
+              site_id: site.id,
+              site_nom: site.nom,
+              statut: "non_trouve",
+              message: "Aucun rapport trouvé pour ces critères",
+              pdf_stored: false,
+            } as ExpertSearchResult
+          } else {
+            // Erreur
+            result = {
+              site_id: site.id,
+              site_nom: site.nom,
+              statut: "erreur",
+              message: "Erreur lors de la recherche",
+              erreur: "Site temporairement indisponible",
+              pdf_stored: false,
+            } as ExpertSearchResult
+          }
+
+          console.log('[DEBUG API] Résultat pour', site.nom, ':', result.statut)
+          return result
+        } catch (siteError: any) {
+          console.error('[DEBUG API] Erreur traitement site', site.nom, ':', siteError)
+          return {
             site_id: site.id,
             site_nom: site.nom,
             statut: "erreur",
             message: "Erreur lors de la recherche",
-            erreur: "Site temporairement indisponible",
+            erreur: siteError.message || "Erreur inconnue",
             pdf_stored: false,
           } as ExpertSearchResult
         }
-
-        return result
       })
     )
+
+    console.log('[DEBUG API] Résultats générés:', results.length)
 
     // Mettre à jour l'enregistrement de recherche
     const hasFound = results.some((r) => r.statut === "trouve")
     if (searchId && process.env.NEXT_PUBLIC_SUPABASE_URL) {
-      await supabase
-        .from("expert_searches")
-        .update({
-          statut: hasFound ? "trouve" : "non_trouve",
-          resultats: results,
-        })
-        .eq("id", searchId)
+      console.log('[DEBUG API] Mise à jour enregistrement de recherche:', searchId)
+      try {
+        await supabase
+          .from("expert_searches")
+          .update({
+            statut: hasFound ? "trouve" : "non_trouve",
+            resultats: results,
+          })
+          .eq("id", searchId)
+        console.log('[DEBUG API] Enregistrement mis à jour avec succès')
+      } catch (updateError: any) {
+        console.error('[DEBUG API] Erreur mise à jour recherche:', updateError)
+        // Ne pas bloquer la réponse même si la mise à jour échoue
+      }
     }
 
+    console.log('[DEBUG API] Retour des résultats')
     return NextResponse.json({
       success: true,
       search_id: searchId,
       results,
     })
   } catch (error: any) {
-    console.error("Error in expert search:", error)
+    console.error('[DEBUG API] Erreur générale dans expert search:', error)
+    console.error('[DEBUG API] Stack:', error.stack)
     return NextResponse.json(
       { error: error.message || "Erreur lors de la recherche" },
       { status: 500 }
