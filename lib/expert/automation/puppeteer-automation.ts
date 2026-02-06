@@ -15,6 +15,42 @@ export class PuppeteerAutomation extends BaseAutomation {
     return new Promise((resolve) => setTimeout(resolve, ms))
   }
 
+  /**
+   * Helper pour vérifier que le navigateur et la page sont toujours connectés
+   */
+  private async ensureBrowserConnected(): Promise<void> {
+    if (!this.browser) {
+      throw new Error("Browser not initialized")
+    }
+    
+    // Vérifier que le navigateur est toujours connecté
+    try {
+      const pages = await this.browser.pages()
+      if (pages.length === 0) {
+        throw new Error("Browser has no pages")
+      }
+    } catch (error: any) {
+      if (error.message?.includes("Target closed") || error.message?.includes("Session closed")) {
+        throw new Error("Browser connection lost. Please retry the operation.")
+      }
+      throw error
+    }
+    
+    if (!this.page) {
+      throw new Error("Page not initialized")
+    }
+    
+    // Vérifier que la page est toujours connectée
+    try {
+      await this.page.evaluate(() => document.readyState)
+    } catch (error: any) {
+      if (error.message?.includes("Target closed") || error.message?.includes("Session closed")) {
+        throw new Error("Page connection lost. Please retry the operation.")
+      }
+      throw error
+    }
+  }
+
   async connect(): Promise<PortailRelanceResult> {
     try {
       console.log(`[Puppeteer] Début de la connexion à ${this.site.url_recherche}`)
@@ -188,45 +224,85 @@ export class PuppeteerAutomation extends BaseAutomation {
     if (!this.page) return
 
     try {
+      // Vérifier que le navigateur est toujours connecté
+      await this.ensureBrowserConnected()
+      
       // Attendre que le formulaire soit visible - TIMEOUT AUGMENTÉ à 60s
       if (this.selectors.login_username) {
         console.log(`[Puppeteer] Attente du sélecteur login: ${this.selectors.login_username}`)
-        await this.page.waitForSelector(this.selectors.login_username, { timeout: 60000 })
-        console.log(`[Puppeteer] Sélecteur login trouvé, saisie de l'email...`)
-        await this.page.type(this.selectors.login_username, this.credentials.login || "", { delay: 100 })
+        try {
+          await this.page.waitForSelector(this.selectors.login_username, { timeout: 60000 })
+          console.log(`[Puppeteer] Sélecteur login trouvé, saisie de l'email...`)
+          
+          // Vérifier à nouveau avant de taper
+          await this.ensureBrowserConnected()
+          await this.page.type(this.selectors.login_username, this.credentials.login || "", { delay: 100 })
+        } catch (error: any) {
+          if (error.message?.includes("Target closed") || error.message?.includes("connection lost")) {
+            throw new Error("Browser connection lost during login. Please retry.")
+          }
+          throw error
+        }
       }
       
       if (this.selectors.login_password) {
         console.log(`[Puppeteer] Saisie du mot de passe...`)
+        await this.ensureBrowserConnected()
         await this.page.type(this.selectors.login_password, this.credentials.password || "", { delay: 100 })
       }
       
       if (this.selectors.login_submit) {
         console.log(`[Puppeteer] Attente du bouton de connexion: ${this.selectors.login_submit}`)
+        await this.ensureBrowserConnected()
+        
         // Attendre que le bouton soit activé (certains sites désactivent le bouton au chargement) - TIMEOUT AUGMENTÉ à 60s
-        await this.page.waitForFunction(
-          (selector) => {
-            const button = document.querySelector(selector) as HTMLButtonElement
-            return button && !button.disabled
-          },
-          { timeout: 60000 },
-          this.selectors.login_submit
-        )
+        try {
+          await this.page.waitForFunction(
+            (selector) => {
+              const button = document.querySelector(selector) as HTMLButtonElement
+              return button && !button.disabled
+            },
+            { timeout: 60000 },
+            this.selectors.login_submit
+          )
+        } catch (error: any) {
+          if (error.message?.includes("Target closed") || error.message?.includes("connection lost")) {
+            throw new Error("Browser connection lost while waiting for login button. Please retry.")
+          }
+          throw error
+        }
         
         console.log(`[Puppeteer] Bouton de connexion activé, clic...`)
+        await this.ensureBrowserConnected()
+        
         // Simuler un mouvement de souris pour activer le bouton si nécessaire
         await this.page.mouse.move(100, 100)
         await this.wait(500)
         
         await this.page.click(this.selectors.login_submit)
         console.log(`[Puppeteer] Attente de la navigation après connexion...`)
-        await this.page.waitForNavigation({ waitUntil: "load", timeout: 60000 }) // TIMEOUT AUGMENTÉ à 60s, waitUntil changé à "load"
+        
+        try {
+          await this.page.waitForNavigation({ waitUntil: "load", timeout: 60000 })
+        } catch (error: any) {
+          if (error.message?.includes("Target closed") || error.message?.includes("connection lost")) {
+            throw new Error("Browser connection lost during navigation. Please retry.")
+          }
+          throw error
+        }
+        
         console.log(`[Puppeteer] Navigation après connexion terminée, attente supplémentaire...`)
-        await this.wait(3000) // Attendre le chargement complet après connexion (augmenté à 3s)
+        await this.wait(3000)
         console.log(`[Puppeteer] Connexion réussie`)
       }
     } catch (error) {
       console.error("[Puppeteer] Login error:", sanitizeErrorMessage(error))
+      
+      // Vérifier si c'est une erreur de connexion perdue
+      if (error instanceof Error && (error.message.includes("Target closed") || error.message.includes("connection lost"))) {
+        throw new Error("La connexion au navigateur a été perdue. Cela peut arriver si Browserless se déconnecte. Veuillez réessayer.")
+      }
+      
       // Prendre une capture d'écran pour debug si possible
       if (this.page) {
         try {
