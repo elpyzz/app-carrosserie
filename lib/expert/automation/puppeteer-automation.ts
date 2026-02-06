@@ -56,7 +56,7 @@ export class PuppeteerAutomation extends BaseAutomation {
           return {
             success: false,
             action: "connexion",
-            erreur: `Erreur configuration Chromium: ${chromiumError.message}`,
+            erreur: `Erreur configuration Chromium sur Vercel. Le scraping automatique n'est pas disponible sur cette plateforme. Veuillez utiliser le mode local ou contacter le support.`,
           }
         }
       } else {

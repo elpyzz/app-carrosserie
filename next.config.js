@@ -23,6 +23,15 @@ const nextConfig = {
       }
     }
     
+    // Configuration pour serverless (Vercel)
+    if (isServer) {
+      config.externals = config.externals || []
+      config.externals.push({
+        '@sparticuz/chromium': 'commonjs @sparticuz/chromium',
+        'puppeteer-core': 'commonjs puppeteer-core',
+      })
+    }
+    
     // #region agent log
     console.log('[Next.js Config] Webpack config final');
     // #endregion
