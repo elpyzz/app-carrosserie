@@ -219,12 +219,28 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
   const [nom, setNom] = useState(site?.nom || "")
   const [url, setUrl] = useState(site?.url_recherche || "")
   const [typeAuth, setTypeAuth] = useState<ExpertSiteAuthType>(site?.type_auth || "none")
+  
+  // Champs séparés pour email et mot de passe (mode simple)
+  const [email, setEmail] = useState(
+    site?.credentials?.email || site?.credentials?.login || ""
+  )
+  const [password, setPassword] = useState("")
+  const [showPassword, setShowPassword] = useState(false)
+  
+  // Champ pour le chemin de navigation
+  const [navigationPath, setNavigationPath] = useState(
+    site?.selectors?.navigation_path || ""
+  )
+  
+  // Mode avancé (JSON) - optionnel
+  const [useAdvancedMode, setUseAdvancedMode] = useState(false)
   const [credentials, setCredentials] = useState(
     site?.credentials ? JSON.stringify(site.credentials, null, 2) : ""
   )
   const [selectors, setSelectors] = useState(
     site?.selectors ? JSON.stringify(site.selectors, null, 2) : ""
   )
+  
   const [actif, setActif] = useState(site?.actif !== false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -257,27 +273,82 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
       return
     }
 
-    // Valider le JSON des credentials si fourni
+    // Construire les credentials selon le mode
     let parsedCredentials = null
-    if (credentials.trim()) {
-      try {
-        parsedCredentials = JSON.parse(credentials)
-      } catch {
-        setError("Format JSON invalide pour les identifiants")
-        setLoading(false)
-        return
+    if (typeAuth !== "none") {
+      if (useAdvancedMode) {
+        // Mode avancé : utiliser le JSON fourni
+        if (credentials.trim()) {
+          try {
+            parsedCredentials = JSON.parse(credentials)
+          } catch {
+            setError("Format JSON invalide pour les identifiants")
+            setLoading(false)
+            return
+          }
+        }
+      } else {
+        // Mode simple : construire depuis les champs email/password
+        if (typeAuth === "form") {
+          if (!email.trim()) {
+            setError("L'email est requis")
+            setLoading(false)
+            return
+          }
+          // Si c'est une modification et que le mot de passe n'a pas été changé, utiliser l'ancien
+          if (site && !password && site.credentials?.password) {
+            parsedCredentials = {
+              email: email.trim(),
+              login: email.trim(),
+              password: site.credentials.password
+            }
+          } else {
+            if (!password && !site) {
+              setError("Le mot de passe est requis")
+              setLoading(false)
+              return
+            }
+            parsedCredentials = {
+              email: email.trim(),
+              login: email.trim(),
+              password: password
+            }
+          }
+        } else if (typeAuth === "api") {
+          if (!email.trim()) {
+            setError("La clé API est requise")
+            setLoading(false)
+            return
+          }
+          parsedCredentials = {
+            api_key: email.trim()
+          }
+        }
       }
     }
 
-    // Valider le JSON des selectors si fourni
+    // Construire les selectors
     let parsedSelectors = null
-    if (selectors.trim()) {
-      try {
-        parsedSelectors = JSON.parse(selectors)
-      } catch {
-        setError("Format JSON invalide pour les sélecteurs CSS")
-        setLoading(false)
-        return
+    if (useAdvancedMode) {
+      // Mode avancé : utiliser le JSON fourni
+      if (selectors.trim()) {
+        try {
+          parsedSelectors = JSON.parse(selectors)
+        } catch {
+          setError("Format JSON invalide pour les sélecteurs CSS")
+          setLoading(false)
+          return
+        }
+      }
+    } else {
+      // Mode simple : construire depuis le champ navigation
+      if (navigationPath.trim()) {
+        parsedSelectors = {
+          navigation_path: navigationPath.trim(),
+          ...(site?.selectors || {}) // Conserver les autres selectors existants
+        }
+      } else if (site?.selectors) {
+        parsedSelectors = site.selectors
       }
     }
 
@@ -329,8 +400,9 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
         }
       }}
     >
-      <Card 
-        className="w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-white" 
+      {/* Remplacer Card par un div simple pour éviter les problèmes de backdrop-blur */}
+      <div 
+        className="w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-white rounded-xl border border-bordeaux-500/40 shadow-2xl"
         style={{ 
           zIndex: 10000, 
           position: 'relative',
@@ -339,20 +411,20 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        <CardHeader 
-          className="flex flex-row items-center justify-between"
+        <div 
+          className="flex flex-row items-center justify-between p-8 pb-4"
           style={{ pointerEvents: 'auto' }}
         >
-          <CardTitle>
+          <h3 className="text-2xl font-semibold leading-none tracking-tight">
             {site ? "Modifier le site expert" : "Ajouter un site expert"}
-          </CardTitle>
+          </h3>
           <Button variant="ghost" size="sm" onClick={onClose} style={{ pointerEvents: 'auto', zIndex: 10003 }}>
             <X className="h-5 w-5" />
           </Button>
-        </CardHeader>
+        </div>
 
-        <CardContent 
-          className="space-y-4" 
+        <div 
+          className="p-8 pt-0 space-y-4" 
           style={{ 
             position: 'relative', 
             zIndex: 10001,
@@ -391,7 +463,8 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
                 position: 'relative', 
                 zIndex: 10003,
                 pointerEvents: 'auto',
-                cursor: 'text'
+                cursor: 'text',
+                backgroundColor: 'white'
               }}
               autoComplete="off"
               onFocus={(e) => e.target.select()}
@@ -413,7 +486,8 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
                 position: 'relative', 
                 zIndex: 10003,
                 pointerEvents: 'auto',
-                cursor: 'text'
+                cursor: 'text',
+                backgroundColor: 'white'
               }}
               autoComplete="off"
               onFocus={(e) => e.target.select()}
@@ -433,7 +507,8 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
                 position: 'relative', 
                 zIndex: 10003,
                 pointerEvents: 'auto',
-                cursor: 'pointer'
+                cursor: 'pointer',
+                backgroundColor: 'white'
               }}
             >
               <option value="none">Aucune authentification</option>
@@ -442,48 +517,159 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
             </select>
           </div>
 
-          {/* Identifiants (si auth requise) */}
-          {typeAuth !== "none" && (
-            <div style={{ pointerEvents: 'auto', position: 'relative', zIndex: 10002 }}>
-              <Label htmlFor="credentials">
-                Identifiants (JSON)
-              </Label>
-              <Textarea
-                id="credentials"
-                value={credentials}
-                onChange={(e) => setCredentials(e.target.value)}
-                placeholder={
-                  typeAuth === "form"
-                    ? '{\n  "login": "votre_login",\n  "password": "votre_password"\n}'
-                    : '{\n  "api_key": "votre_cle_api"\n}'
-                }
-                className="font-mono text-sm"
-                rows={4}
-                disabled={loading}
-                style={{ 
-                  position: 'relative', 
-                  zIndex: 10003,
-                  pointerEvents: 'auto',
-                  cursor: 'text'
-                }}
-                onFocus={(e) => e.target.select()}
-              />
-              <p className="text-xs text-gray-500 mt-1">
-                Format JSON valide requis. Ces données sont stockées de manière sécurisée.
-              </p>
-            </div>
+          {/* Mode simple vs avancé */}
+          <div className="flex items-center space-x-2 pt-2 pb-2" style={{ pointerEvents: 'auto' }}>
+            <input
+              type="checkbox"
+              id="advanced_mode"
+              checked={useAdvancedMode}
+              onChange={(e) => setUseAdvancedMode(e.target.checked)}
+              className="h-4 w-4 rounded border-gray-300"
+              disabled={loading}
+              style={{ pointerEvents: 'auto', cursor: 'pointer' }}
+            />
+            <Label htmlFor="advanced_mode" className="cursor-pointer" style={{ pointerEvents: 'auto' }}>
+              Mode configuration avancée (JSON)
+            </Label>
+          </div>
+
+          {/* Configuration simple */}
+          {!useAdvancedMode && (
+            <>
+              {/* Email / Login */}
+              {typeAuth !== "none" && (
+                <div style={{ pointerEvents: 'auto', position: 'relative', zIndex: 10002 }}>
+                  <Label htmlFor="email">
+                    {typeAuth === "form" ? "Email / Login" : "Clé API"} <span className="text-red-500">*</span>
+                  </Label>
+                  <Input
+                    id="email"
+                    type={typeAuth === "api" ? "password" : "email"}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder={typeAuth === "form" ? "votre@email.com" : "Votre clé API"}
+                    disabled={loading}
+                    style={{ 
+                      position: 'relative', 
+                      zIndex: 10003,
+                      pointerEvents: 'auto',
+                      cursor: 'text',
+                      backgroundColor: 'white'
+                    }}
+                    autoComplete="off"
+                  />
+                </div>
+              )}
+
+              {/* Mot de passe */}
+              {typeAuth === "form" && (
+                <div style={{ pointerEvents: 'auto', position: 'relative', zIndex: 10002 }}>
+                  <Label htmlFor="password">
+                    Mot de passe {site ? "(laisser vide pour ne pas modifier)" : ""} <span className="text-red-500">*</span>
+                  </Label>
+                  <div className="relative">
+                    <Input
+                      id="password"
+                      type={showPassword ? "text" : "password"}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="Votre mot de passe"
+                      disabled={loading}
+                      style={{ 
+                        position: 'relative', 
+                        zIndex: 10003,
+                        pointerEvents: 'auto',
+                        cursor: 'text',
+                        backgroundColor: 'white'
+                      }}
+                      autoComplete="off"
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="absolute right-0 top-0 h-full px-3"
+                      onClick={() => setShowPassword(!showPassword)}
+                      style={{ pointerEvents: 'auto', zIndex: 10004 }}
+                    >
+                      {showPassword ? "👁️" : "👁️‍🗨️"}
+                    </Button>
+                  </div>
+                </div>
+              )}
+
+              {/* Chemin de navigation */}
+              <div style={{ pointerEvents: 'auto', position: 'relative', zIndex: 10002 }}>
+                <Label htmlFor="navigation_path">
+                  Chemin pour accéder aux dossiers
+                </Label>
+                <Input
+                  id="navigation_path"
+                  value={navigationPath}
+                  onChange={(e) => setNavigationPath(e.target.value)}
+                  placeholder="Ex: /dossiers ou /mes-dossiers/recherche"
+                  disabled={loading}
+                  style={{ 
+                    position: 'relative', 
+                    zIndex: 10003,
+                    pointerEvents: 'auto',
+                    cursor: 'text',
+                    backgroundColor: 'white'
+                  }}
+                  autoComplete="off"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  Chemin URL ou sélecteur CSS pour accéder à la page de recherche des dossiers
+                </p>
+              </div>
+            </>
           )}
 
-          {/* Sélecteurs CSS */}
-          <div style={{ pointerEvents: 'auto', position: 'relative', zIndex: 10002 }}>
-            <Label htmlFor="selectors">
-              Sélecteurs CSS (JSON) - Pour l'automation
-            </Label>
-            <Textarea
-              id="selectors"
-              value={selectors}
-              onChange={(e) => setSelectors(e.target.value)}
-              placeholder={`{
+          {/* Configuration avancée (JSON) */}
+          {useAdvancedMode && (
+            <>
+              {/* Identifiants (si auth requise) */}
+              {typeAuth !== "none" && (
+                <div style={{ pointerEvents: 'auto', position: 'relative', zIndex: 10002 }}>
+                  <Label htmlFor="credentials">
+                    Identifiants (JSON)
+                  </Label>
+                  <Textarea
+                    id="credentials"
+                    value={credentials}
+                    onChange={(e) => setCredentials(e.target.value)}
+                    placeholder={
+                      typeAuth === "form"
+                        ? '{\n  "login": "votre_login",\n  "password": "votre_password"\n}'
+                        : '{\n  "api_key": "votre_cle_api"\n}'
+                    }
+                    className="font-mono text-sm"
+                    rows={4}
+                    disabled={loading}
+                    style={{ 
+                      position: 'relative', 
+                      zIndex: 10003,
+                      pointerEvents: 'auto',
+                      cursor: 'text',
+                      backgroundColor: 'white'
+                    }}
+                  />
+                  <p className="text-xs text-gray-500 mt-1">
+                    Format JSON valide requis. Ces données sont stockées de manière sécurisée.
+                  </p>
+                </div>
+              )}
+
+              {/* Sélecteurs CSS */}
+              <div style={{ pointerEvents: 'auto', position: 'relative', zIndex: 10002 }}>
+                <Label htmlFor="selectors">
+                  Sélecteurs CSS (JSON) - Pour l'automation
+                </Label>
+                <Textarea
+                  id="selectors"
+                  value={selectors}
+                  onChange={(e) => setSelectors(e.target.value)}
+                  placeholder={`{
   "login_username": "#username",
   "login_password": "#password",
   "login_submit": "button[type='submit']",
@@ -491,23 +677,26 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
   "search_submit": ".btn-search",
   "message_textarea": "#message",
   "message_submit": ".send-message",
+  "navigation_path": "/dossiers",
   "rapport_link": "a.pdf-download"
 }`}
-              className="font-mono text-sm"
-              rows={8}
-              disabled={loading}
-              style={{ 
-                position: 'relative', 
-                zIndex: 10003,
-                pointerEvents: 'auto',
-                cursor: 'text'
-              }}
-              onFocus={(e) => e.target.select()}
-            />
-            <p className="text-xs text-gray-500 mt-1">
-              Sélecteurs CSS utilisés par le scraper pour interagir avec le site.
-            </p>
-          </div>
+                  className="font-mono text-sm"
+                  rows={8}
+                  disabled={loading}
+                  style={{ 
+                    position: 'relative', 
+                    zIndex: 10003,
+                    pointerEvents: 'auto',
+                    cursor: 'text',
+                    backgroundColor: 'white'
+                  }}
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  Sélecteurs CSS utilisés par le scraper pour interagir avec le site.
+                </p>
+              </div>
+            </>
+          )}
 
           {/* Site actif */}
           <div className="flex items-center space-x-2 pt-2" style={{ pointerEvents: 'auto', position: 'relative', zIndex: 10002 }}>
@@ -566,8 +755,8 @@ function SiteConfigModal({ site, onClose, onSave }: SiteConfigModalProps) {
               )}
             </Button>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   )
 }
