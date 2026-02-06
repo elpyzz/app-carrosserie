@@ -684,16 +684,51 @@ export class PuppeteerAutomation extends BaseAutomation {
 
   async cleanup(): Promise<void> {
     try {
+      // Vérifier si la page existe et est encore connectée avant de la fermer
       if (this.page) {
-        await this.page.close()
+        try {
+          // Vérifier que la page est encore connectée
+          await this.page.evaluate(() => document.readyState).catch(() => {
+            // Si la page est déjà fermée, on ne fait rien
+            this.page = null
+            return
+          })
+          await this.page.close()
+        } catch (error: any) {
+          // Ignorer les erreurs si la page est déjà fermée
+          if (!error.message?.includes("Target closed") && !error.message?.includes("Connection closed")) {
+            console.error("[Puppeteer] Erreur fermeture page:", sanitizeErrorMessage(error))
+          }
+        }
         this.page = null
       }
+      
+      // Vérifier si le navigateur existe et est encore connecté avant de le fermer
       if (this.browser) {
-        await this.browser.close()
+        try {
+          // Vérifier que le navigateur est encore connecté
+          const pages = await this.browser.pages().catch(() => [])
+          if (pages.length > 0) {
+            // Si c'est une connexion Browserless, on ne ferme pas (c'est géré par Browserless)
+            const isConnected = this.browser.isConnected()
+            if (isConnected) {
+              await this.browser.close()
+            }
+          }
+        } catch (error: any) {
+          // Ignorer les erreurs si le navigateur est déjà fermé
+          if (!error.message?.includes("Target closed") && !error.message?.includes("Connection closed")) {
+            console.error("[Puppeteer] Erreur fermeture navigateur:", sanitizeErrorMessage(error))
+          }
+        }
         this.browser = null
       }
     } catch (error) {
-      console.error("[Puppeteer] Cleanup error:", sanitizeErrorMessage(error))
+      // Ne pas logger les erreurs de cleanup si c'est juste une connexion fermée
+      const errorMessage = error instanceof Error ? error.message : String(error)
+      if (!errorMessage.includes("Target closed") && !errorMessage.includes("Connection closed")) {
+        console.error("[Puppeteer] Cleanup error:", sanitizeErrorMessage(error))
+      }
     }
   }
 }
